@@ -329,7 +329,6 @@
                     <li class="nav-item"><a class="nav-link" href="#first-aid">First Aid</a></li>
                     <li class="nav-item"><a class="nav-link" href="#abtc">ABTCs</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contacts">Key Contacts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#resources">Resources</a></li>
                 </ul>
             </div>
         </div>
