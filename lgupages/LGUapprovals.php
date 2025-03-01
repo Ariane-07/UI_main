@@ -3,6 +3,7 @@
     <div class="app-card-container">
         <div class="app-card">
             <div class="app-card-section">
+                <!--place holder-->
                 <h2>Name</h2>
                 <p>Elinor Crimson</p>
             </div>
@@ -39,7 +40,7 @@
         </div>
 
         <div class="app-card-buttons">
-            <button class="btn">ACTIVATE</button>
+            <button class="btn">ACCEPT</button>
             <button class="btn">DECLINE</button>
         </div>
     </div>
