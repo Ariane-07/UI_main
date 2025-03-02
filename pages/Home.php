@@ -10,9 +10,10 @@
                 <div id="spinner" class="spinner" style="display:none;">
                     <div class="loader"></div>
                 </div>
+               
 
                 <!-- Hidden User ID -->
-                <input type="hidden" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
+                <input type="hidden" id="UserID" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
 
                 <!-- Textarea -->
                 <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>
@@ -35,13 +36,15 @@
 
                     <!-- Submit Button -->
                     <button type="submit" id="btnPOSTCONTENT">POST</button>
+                    
                 </div>
             </div>
-        </form>
+      
 
-            <!-- Post Feed -->
             <div id="postFeed" class="post-feed"></div>
-        </div>
+
+            
+            </form>
 
         <!-- Image Modal for Zoom -->
         <div class="image-modal" id="imageModal">
@@ -584,3 +587,6 @@ function deletePost(postId) {
     post.remove();
 }
 </script>
+
+
+<script src="assets/js/FetchPost.js"></script>
