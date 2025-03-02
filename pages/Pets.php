@@ -1,4 +1,6 @@
 <div class="burger-icon" onclick="toggleSidebar()">&#9776;</div>
+
+
 <div class="sidebar">
     <h2>Register Pet</h2>
     <p>Haven't registered your pet? Register them now!</p>
@@ -30,6 +32,12 @@
         <button type="submit" class="regbtn btn">REGISTER PET</button>
     </form>
 </div>
+
+
+
+
+
+
 
 <div class="main-content">
     <h1 class="pet-title heading">Pets Owned</h1>

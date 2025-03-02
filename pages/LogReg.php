@@ -1,16 +1,24 @@
+
+
 <div class="logreg-container">
     <div class="forms-container">
         <div class="signin-signup">
             <!-- Sign In Form -->
-            <form action="" class="sign-in-form">
+            <form id="frmLogin" class="sign-in-form">
+
+            <div id="spinner" class="spinner" style="display:none;">
+                    <div >
+                    </div>
+                </div>
+
                 <h2 class="title">Sign In</h2>
                 <div class="input-field">
                     <i class='bx bxs-user'></i>
-                    <input type="text" placeholder="Username">
+                    <input type="text" placeholder="Username" name="username">
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-lock'></i>
-                    <input type="password" placeholder="Password">
+                    <input type="password" placeholder="Password" name="password">
                 </div>
                 <input type="submit" value="LOGIN" class="btn solid">
                 <p class="alt-text">Are you a Veterinarian or a LGU?</p>
@@ -22,21 +30,27 @@
             </form>
 
             <!-- Sign Up Form -->
-            <form action="" class="sign-up-form">
+            <form id="FrmRegister" class="sign-up-form">
+                 <!-- Spinner -->
+                 <div id="spinner" class="spinner" style="display:none;">
+                    <div >
+                    </div>
+                </div>
                 <h2 class="title">Sign Up</h2>
                 <div class="input-field">
                     <i class='bx bxs-envelope'></i>
-                    <input type="text" placeholder="Email">
+                    <input type="text" placeholder="Email" name="email" required>
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-user'></i>
-                    <input type="text" placeholder="Username">
+                    <input type="text" placeholder="Username" name="username" required>
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-lock'></i>
-                    <input type="password" placeholder="Password">
+                    <input type="password" placeholder="Password" name="password" required>
                 </div>
-                <input type="submit" value="REGISTER" class="btn solid">
+               
+                <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
                 <p class="alt-text">Are you a Veterinarian or a LGU?</p>
                 <div class="vet-admin">
                     <p>Click here to sign up as a <a href="" class="va-btn" id="vet-signup">Vet</a></p>
@@ -47,17 +61,19 @@
             <!-- Sign In Modal -->
             <div id="signin-modal" class="logreg-modal">
                 <div class="logreg-modal-content">
-                    <span class="logreg-close">&times;</span>
-                    <h2 class="title">Sign In</h2>
-                    <div class="input-field">
-                        <i class='bx bxs-user'></i>
-                        <input type="text" placeholder="Username">
-                    </div>
-                    <div class="input-field">
-                        <i class='bx bxs-lock'></i>
-                        <input type="password" placeholder="Password">
-                    </div>
-                    <input type="submit" value="LOGIN" class="btn solid">
+                    <form >
+                        <span class="logreg-close">&times;</span>
+                        <h2 class="title">Sign In</h2>
+                        <div class="input-field">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" placeholder="Username" name="username">
+                        </div>
+                        <div class="input-field">
+                            <i class='bx bxs-lock'></i>
+                            <input type="password" placeholder="Password" name="password">
+                        </div>
+                        <input type="submit" id="btnLogin" value="LOGIN" class="btn solid">
+                    </form>
                 </div>
             </div>
         </div>
