@@ -15,7 +15,6 @@ class global_class extends db_connect
         $query = "
             SELECT * FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
-            WHERE post_content.post_user_id = '$UserID'
             ORDER BY post_content.post_date DESC
         ";
     
