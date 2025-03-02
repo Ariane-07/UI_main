@@ -1,5 +1,51 @@
 $(document).ready(function () {
 
+
+
+    $("#frmPOST_CONTENT").submit(function (e) {
+        e.preventDefault();
+    
+        $('.spinner').show();
+        $('#btnPOSTCONTENT').prop('disabled', true);
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'PostContent');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#btnPOSTCONTENT').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Posted Successfully');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    alertify.error('Sending failed, please try again.');
+                }
+            }
+        });
+    });
+    
+    
+    
+
+
+
+
+
+
+
+
+
     $("#FrmRegister").submit(function (e) {
         e.preventDefault();
     
