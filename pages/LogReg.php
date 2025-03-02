@@ -5,6 +5,17 @@
                 <form id="frmLogin" class="sign-in-form">
                     <div id="spinner" class="spinner" style="display:none;"></div>
                     <h2 class="title">Sign In</h2>
+                    <div class="role-selection">
+                        <label>
+                            <input type="radio" name="role" value="vet" checked>Vet
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="lgu">LGU
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="Pet User">Pet User
+                        </label>
+                    </div>
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
                         <input type="text" placeholder="Username" name="username">
@@ -13,22 +24,26 @@
                         <i class='bx bxs-lock'></i>
                         <input type="password" placeholder="Password" name="password">
                     </div>
-                    <div class="role-selection">
-                        <label>
-                            <input type="radio" name="role" value="vet" checked> Sign in as a Vet
-                        </label>
-                        <label>
-                            <input type="radio" name="role" value="lgu"> Sign in as an LGU
-                        </label>
-                    </div>
+
+                    <p class="forgotText"><a href="#" id="forgot-password">Did you <span style="color: #007bff; font-weight: bold;">forget your password?</span></a></p>
                     <input type="submit" value="LOGIN" class="btn solid">
-                    <p><a href="#" id="forgot-password">Did you <span style="color: #007bff; font-weight: bold;">forget your password?</span></a></p>
                 </form>
 
                 <!-- Sign Up Form -->
                 <form id="FrmRegister" class="sign-up-form">
                     <div id="spinner" class="spinner" style="display:none;"></div>
                     <h2 class="title">Sign Up</h2>
+                    <div class="role-selection">
+                        <label>
+                            <input type="radio" name="role" value="vet" checked>Vet
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="lgu">LGU
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="Pet User">Pet User
+                        </label>
+                    </div>
                     <div class="input-field">
                         <i class='bx bxs-envelope'></i>
                         <input type="text" placeholder="Email" name="email" required>
@@ -41,14 +56,7 @@
                         <i class='bx bxs-lock'></i>
                         <input type="password" placeholder="Password" name="password" required>
                     </div>
-                    <div class="role-selection">
-                        <label>
-                            <input type="radio" name="role" value="vet" checked> Sign up as a Vet
-                        </label>
-                        <label>
-                            <input type="radio" name="role" value="lgu"> Sign up as an LGU
-                        </label>
-                    </div>
+
                     <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
                 </form>
             </div>

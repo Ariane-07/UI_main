@@ -1158,24 +1158,31 @@ form.sign-up-form {
   color: var(--text-color);
 }
 
+.forgotText{
+  margin-bottom: 15px;
+}
+
 /* Role Selection Styling */
 .role-selection {
   display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  gap: 20px; 
+  flex-direction: row; /* Align items horizontally */
+  align-items: center; /* Center items vertically */
+  gap: 20px; /* Add a gap between the radio buttons */
   margin: 10px 0;
   color: var(--text-color);
 }
 
 .role-selection label {
+  display: flex; /* Use flexbox to align radio button and text */
+  align-items: center; /* Center items vertically */
+  gap: 8px; /* Add a small gap between the radio button and text */
   margin: 5px 0;
   font-size: 1rem;
   cursor: pointer;
 }
 
 .role-selection input[type="radio"] {
-  margin-right: 5px; 
+  margin: 0; /* Remove default margin */
   cursor: pointer;
 }
 
