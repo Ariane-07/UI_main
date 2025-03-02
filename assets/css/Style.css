@@ -956,7 +956,6 @@ select.editable-input {
 
 form {
   display: flex;
-  padding: 0 5rem;
   grid-row: 1 / 2;
   overflow: hidden;
   grid-column: 1 / 2;
