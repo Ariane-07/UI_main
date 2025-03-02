@@ -76,6 +76,7 @@
             border-radius: 5px;
             color: var(--text-color);
             font-weight: bold;
+            font-size:20px;
             grid-column: span 2;
         }
 
@@ -94,6 +95,15 @@
         .btn-success:hover {
             background-color: var(--nav-color);
             border-color: #393838;
+        }
+
+        .petForm{
+            display: flex;
+            overflow: hidden;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            transition: 0.2s 0.7sease-in-out;
         }
 
         .form-control {
@@ -116,7 +126,7 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
 
-        .text, .textp, .form-check-label {
+        .text, .textp, .form-check-label, .text-muted {
             color: var(--text-color);
         }
 
@@ -178,7 +188,7 @@
             <span class="text-muted">Photo Preview</span>
         </div>
 
-        <form id="petRegistrationForm" class="needs-validation" novalidate>
+        <form id="petRegistrationForm" class="petForm" novalidate>
             <div class="form-grid">
                 <!-- Application Details -->
                 <div class="section-header">Application Details</div>
