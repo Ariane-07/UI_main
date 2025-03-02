@@ -1,5 +1,18 @@
 <?php
 
+session_start();
+include('api/config/class.php');
+
+$db = new global_class();
+
+
+
+// Redirect to LogReg if no session is set
+if (empty($_SESSION)) {
+    // Ensure 'page' is the first GET parameter
+    $_GET = ['page' => 'LogReg'] + $_GET;
+}
+
 // Autoload components and pages
 function loadComponent($component)
 {
@@ -22,7 +35,7 @@ function loadPage($folder, $page)
 }
 
 // Get 'page', 'vetpage', and 'lgupage' parameters if they exist
-$page = $_GET['page'] ?? 'home';         // Default to 'home' if 'page' is not set
+$page = $_GET['page'] ?? 'LogReg';         // Default to 'home' if 'page' is not set
 $vetpage = $_GET['vetpage'] ?? null;     // Check if 'vetpage' is set
 $lgupage = $_GET['lgupage'] ?? null;     // Check if 'lgupage' is set
 $component = $_GET['component'] ?? null;
@@ -32,14 +45,15 @@ if ($vetpage) {
     loadComponent('VetNavbar');          // Load VetNavbar for vet pages
 } elseif ($lgupage) {
     loadComponent('LGUNavbar');          // Load LGUNavbar for LGU pages
-} elseif ($page !== 'logreg') {
+} elseif ($page !== 'LogReg') {
     loadComponent('Navbar');             // Load default Navbar if it's not the login page
 }
-
 // Always load the Floating component unless it's the login page
-if ($page !== 'logreg') {
+if ($page !== 'LogReg') {
     loadComponent('Floating');
 }
+
+
 
 // Determine which page to load
 if ($component) {
