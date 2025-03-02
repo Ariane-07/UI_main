@@ -84,13 +84,36 @@
 
     <!-- Forgot Password Modal -->
     <div id="forgot-modal" class="logreg-modal">
-        <div class="logreg-modal-content">
-            <span class="logreg-close">&times;</span>
-            <h2 class="title">Forgot Your Password?</h2>
-            <div class="input-field">
-                <i class='bx bxs-envelope'></i>
-                <input type="email" placeholder="Enter Your Mail">
-            </div>
-            <input type="submit" value="SUBMIT" class="btn solid">
+    <div class="logreg-modal-content">
+        <span class="logreg-close">&times;</span>
+        <h2 class="title">Forgot Your Password?</h2>
+        <div class="input-field">
+            <i class='bx bxs-envelope'></i>
+            <input type="email" placeholder="Enter Your Mail">
         </div>
+        <input type="submit" value="SUBMIT" class="btn solid">
     </div>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('forgot-modal');
+            var forgotPasswordLink = document.getElementById('forgot-password');
+            var closeButton = document.querySelector('.logreg-close');
+
+            forgotPasswordLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                modal.style.display = 'block';
+            });
+
+            closeButton.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
