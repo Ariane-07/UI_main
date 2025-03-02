@@ -1,26 +1,43 @@
+
 <section>
     <div class="home-container">
         <!-- Post Box and Post Feed -->
         <div class="post-area">
+        <form id="frmPOST_CONTENT">
             <!-- Post Box -->
             <div class="post-box">
-                <textarea id="postInput" placeholder="What's happening?" rows="3"></textarea>
-                <!-- Media Preview Container -->
+                <!-- Spinner -->
+                <div id="spinner" class="spinner" style="display:none;">
+                    <div class="loader"></div>
+                </div>
+
+                <!-- Hidden User ID -->
+                <input type="hidden" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
+
+                <!-- Textarea -->
+                <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>
+
+                <!-- Media Preview -->
                 <div class="media-preview" id="mediaPreview"></div>
+
                 <div class="media-inputs">
-                    <!-- File input for images -->
-                    <input type="file" id="imageUpload" accept="image/*" class="custom-file-input" multiple>
-                    <label for="imageUpload" class="custom-file-label">
+                    <!-- Image Upload -->
+                    <label class="custom-file-label">
                         <i class="fas fa-image"></i> Photo
+                        <input type="file" id="imageUpload" accept="image/*" class="custom-file-input" name="imageUpload[]" multiple hidden>
                     </label>
-                    <!-- File input for videos -->
-                    <input type="file" id="videoUpload" accept="video/*" class="custom-file-input" multiple>
-                    <label for="videoUpload" class="custom-file-label">
+
+                    <!-- Video Upload -->
+                    <label class="custom-file-label">
                         <i class="fas fa-video"></i> Video
+                        <input type="file" id="videoUpload" accept="video/*" class="custom-file-input" name="videoUpload[]" multiple hidden>
                     </label>
-                    <button id="postButton">POST</button>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="btnPOSTCONTENT">POST</button>
                 </div>
             </div>
+        </form>
 
             <!-- Post Feed -->
             <div id="postFeed" class="post-feed"></div>
@@ -116,6 +133,10 @@ function initializeMediaInputs() {
 }
 
 function handleFileSelection(files, mediaPreview) {
+    // Reset previous media
+    mediaPreview.innerHTML = ''; 
+    selectedFiles = []; 
+
     Array.from(files).forEach(file => {
         selectedFiles.push(file);
         const reader = new FileReader();
@@ -156,10 +177,22 @@ function handleFileSelection(files, mediaPreview) {
     });
 }
 
+
 function removeMedia(file, mediaContainer) {
     selectedFiles = selectedFiles.filter(f => f !== file);
     mediaContainer.remove();
+
+    // Reset file input fields
+    const imageUpload = document.getElementById('imageUpload');
+    const videoUpload = document.getElementById('videoUpload');
+
+    if (file.type.startsWith('image/')) {
+        imageUpload.value = ''; // Clear image input
+    } else if (file.type.startsWith('video/')) {
+        videoUpload.value = ''; // Clear video input
+    }
 }
+
 
 function initializePostButton() {
     document.getElementById('postButton').addEventListener('click', () => {

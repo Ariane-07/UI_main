@@ -10,6 +10,24 @@ class global_class extends db_connect
     }
 
 
+    public function PostContent($post_user_id,$postInput, $postFilesJson)
+    {
+        // Proceed with insertion if email does not exist
+        $stmt = $this->conn->prepare("INSERT INTO `post_content` (`post_user_id`, `post_content`, `post_images`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss",$post_user_id, $postInput,$postFilesJson);
+    
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
+        }
+    }
+
+
+
     public function SignUp($email,$username,$password)
     {
       
@@ -66,7 +84,7 @@ class global_class extends db_connect
              if ($result->num_rows > 0) {
                  $user = $result->fetch_assoc();
                  session_start();
-                 $_SESSION['UserID '] = $user['UserID'];
+                 $_SESSION['UserID'] = $user['UserID'];
      
                  return $user;
              } else {
