@@ -9,17 +9,26 @@ class global_class extends db_connect
         $this->connect();
     }
 
-    public function FetchUserPost($UserID) {
-    
-        // Query to fetch user posts with user details, sorted by latest first
+    public function FetchUserPost($UserID, $offset, $limit) {
+        // Query to fetch user posts with user details, sorted by latest first with pagination
         $query = "
             SELECT * FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
             ORDER BY post_content.post_date DESC
+            LIMIT ? OFFSET ?
         ";
     
-        // Execute the query
-        $result = $this->conn->query($query);
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
+            return;
+        }
+    
+        // Bind parameters and execute
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
     
         if ($result) {
             $rows = [];
@@ -30,7 +39,10 @@ class global_class extends db_connect
         } else {
             echo json_encode(['error' => 'Failed to retrieve posts']);
         }
+    
+        $stmt->close();
     }
+    
     
     
 
