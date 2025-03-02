@@ -13,6 +13,7 @@ if (empty($_SESSION)) {
     $UserID=$_SESSION['UserID'];
     $session_data = $db->check_account($UserID);
     $_SESSION['username']=$session_data[0]['Username'];
+    $_SESSION['Role']=$session_data[0]['Role'];
 }
 
 // Autoload components and pages

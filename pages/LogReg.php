@@ -5,17 +5,7 @@
                 <form id="frmLogin" class="sign-in-form">
                     <div id="spinner" class="spinner" style="display:none;"></div>
                     <h2 class="title">Sign In</h2>
-                    <div class="role-selection">
-                        <label>
-                            <input type="radio" name="role" value="vet" checked>Vet
-                        </label>
-                        <label>
-                            <input type="radio" name="role" value="lgu">LGU
-                        </label>
-                        <label>
-                            <input type="radio" name="role" value="Pet User">Pet User
-                        </label>
-                    </div>
+                   
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
                         <input type="text" placeholder="Username" name="username">
@@ -41,7 +31,7 @@
                             <input type="radio" name="role" value="lgu">LGU
                         </label>
                         <label>
-                            <input type="radio" name="role" value="Pet User">Pet User
+                            <input type="radio" name="role" value="pet_owner">Pet User
                         </label>
                     </div>
                     <div class="input-field">
