@@ -133,7 +133,7 @@ class global_class extends db_connect
 
 
 
-    public function SignUp($email,$username,$password)
+    public function SignUp($email,$username,$password,$role)
     {
       
     
@@ -153,8 +153,8 @@ class global_class extends db_connect
         $hashedPassword = hash('sha256', $password);
     
         // Proceed with insertion if email does not exist
-        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss",$username, $email,$hashedPassword);
+        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`,`Role`) VALUES (?, ?, ?,?)");
+        $stmt->bind_param("ssss",$username, $email,$hashedPassword,$role);
     
         if ($stmt->execute()) {
             session_start();
@@ -178,7 +178,7 @@ class global_class extends db_connect
          // Hash the input password using SHA-256
          $hashedPassword = hash('sha256', $password);
          // Prepare the SQL query
-         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ? AND Role = 'pet_owner'");
+         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
      
          // Bind the email and the hashed password
          $query->bind_param("ss", $username, $hashedPassword);

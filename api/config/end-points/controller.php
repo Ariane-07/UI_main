@@ -83,9 +83,10 @@ $result = $db->PostContent($post_user_id, $postInput, $postFilesJson);
             $email=$_POST['email'];
             $username=$_POST['username'];
             $password=$_POST['password'];
+            $role=$_POST['role'];
           
 
-            echo $db->SignUp($email,$username,$password);
+            echo $db->SignUp($email,$username,$password,$role);
             
         }else if ($_POST['requestType'] == 'Login') {
             $username = $_POST['username'];
