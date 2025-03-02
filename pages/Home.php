@@ -4,47 +4,49 @@
         <!-- Post Box and Post Feed -->
         <div class="post-area">
         <form id="frmPOST_CONTENT">
-            <!-- Post Box -->
-            <div class="post-box">
-                <!-- Spinner -->
-                <div id="spinner" class="spinner" style="display:none;">
-                    <div class="loader"></div>
-                </div>
-               
+    <!-- Post Box -->
+    <div class="post-box">
+        <!-- Spinner -->
+        <div id="spinner" class="spinner" style="display:none;">
+            <div class="loader"></div>
+        </div>
 
-                <!-- Hidden User ID -->
-                <input type="hidden" id="UserID" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
+        <!-- Hidden User ID -->
+        <input type="hidden" id="UserID" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
 
-                <!-- Textarea -->
-                <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>
+        <!-- Textarea -->
+        <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>
 
-                <!-- Media Preview -->
-                <div class="media-preview" id="mediaPreview"></div>
+        <!-- Media Preview -->
+        <div class="media-preview" id="mediaPreview"></div>
 
-                <div class="media-inputs">
-                    <!-- Image Upload -->
-                    <label class="custom-file-label">
-                        <i class="fas fa-image"></i> Photo
-                        <input type="file" id="imageUpload" accept="image/*" class="custom-file-input" name="imageUpload[]" multiple hidden>
-                    </label>
+        <div class="media-inputs">
+            <!-- Image Upload -->
+            <label class="custom-file-label">
+                <i class="fas fa-image"></i> Photo
+                <input type="file" id="imageUpload" accept="image/*" class="custom-file-input" name="imageUpload[]" multiple hidden>
+            </label>
 
-                    <!-- Video Upload -->
-                    <label class="custom-file-label">
-                        <i class="fas fa-video"></i> Video
-                        <input type="file" id="videoUpload" accept="video/*" class="custom-file-input" name="videoUpload[]" multiple hidden>
-                    </label>
+            <!-- Video Upload -->
+            <label class="custom-file-label">
+                <i class="fas fa-video"></i> Video
+                <input type="file" id="videoUpload" accept="video/*" class="custom-file-input" name="videoUpload[]" multiple hidden>
+            </label>
 
-                    <!-- Submit Button -->
-                    <button type="submit" id="btnPOSTCONTENT">POST</button>
-                    
-                </div>
-            </div>
-      
+            <!-- Submit Button -->
+            <button type="submit" id="btnPOSTCONTENT">POST</button>
+        </div>
+    </div>
 
-            <div id="postFeed" class="post-feed"></div>
+    <!-- Posts Feed -->
+    <div id="postFeed" class="post-feed"></div>
 
-            
-            </form>
+    <!-- "See More" Button -->
+    <div class="see-more-container">
+        <button id="seeMoreBtn" style="display:none;">See More</button>
+    </div>
+</form>
+
 
         <!-- Image Modal for Zoom -->
         <div class="image-modal" id="imageModal">
