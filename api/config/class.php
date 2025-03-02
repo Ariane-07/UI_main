@@ -9,6 +9,57 @@ class global_class extends db_connect
         $this->connect();
     }
 
+
+    public function FetchComments($UserID, $postId) {
+        // Query to fetch comments for a specific post, joining user details
+        $query = "
+            SELECT 
+                post_comments.comments_id,
+                post_comments.comments_text,
+                post_comments.comments_date,
+                users.Username,
+                users.ProfilePic
+            FROM post_comments
+            LEFT JOIN users ON post_comments.comments_user_id = users.UserID
+            WHERE post_comments.comments_post_id = ?
+            ORDER BY post_comments.comments_date DESC
+        ";
+    
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
+            return;
+        }
+    
+        // Bind parameter (corrected)
+        $stmt->bind_param("i", $postId);
+        
+        // Execute and fetch results
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result) {
+            $comments = [];
+            while ($row = $result->fetch_assoc()) {
+                $comments[] = [
+                    'comment_id' => $row['comments_id'],
+                    'comment_text' => $row['comments_text'],
+                    'comment_date' => $row['comments_date'],
+                    'username' => $row['Username'] ?? 'Unknown User',
+                    'profilePic' => $row['ProfilePic'] ?? 'https://ui-avatars.com/api/?name=User&background=random'
+                ];
+            }
+            echo json_encode($comments);
+        } else {
+            echo json_encode(['error' => 'Failed to retrieve comments']);
+        }
+    
+        $stmt->close();
+    }
+    
+
+
     public function FetchUserPost($UserID, $offset, $limit) {
         // Query to fetch user posts with user details, sorted by latest first with pagination
         $query = "
@@ -42,9 +93,7 @@ class global_class extends db_connect
     
         $stmt->close();
     }
-    
-    
-    
+
 
     public function PostContent($post_user_id,$postInput, $postFilesJson)
     {
@@ -59,6 +108,26 @@ class global_class extends db_connect
             echo json_encode($response);
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
+        }
+    }
+
+    
+    
+    
+
+    public function AddComment($UserID, $postId, $commentText)
+    {
+        // Proceed with insertion if email does not exist
+        $stmt = $this->conn->prepare("INSERT INTO `post_comments` (`comments_user_id`,`comments_post_id`,`comments_text`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss",$UserID, $postId,$commentText);
+    
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to sent'));
         }
     }
 
