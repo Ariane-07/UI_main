@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Return JSON error response
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Invalid LRN or password'
+                    'message' => 'Invalid Email or password'
                 ]);
             }
         }else if ($_POST['requestType'] == 'LoginAdmin') {
