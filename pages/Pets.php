@@ -1,114 +1,395 @@
-<div class="burger-icon" onclick="toggleSidebar()">&#9776;</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Registration Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--nav-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
+        .certificate-container {
+            background-color: var(--nav-color);
+            border: 2px solid #393838;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-top: 100px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
 
-<div class="sidebar">
-    <h2>Register Pet</h2>
-    <p>Haven't registered your pet? Register them now!</p>
-    <form id="pet-form">
-        <label for="petName">Pet Name</label>
-        <input type="text" id="petName" placeholder="Enter Pet Name" required>
+        .certificate-header {
+            text-align: center;
+            border-bottom: 2px solid #393838;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
 
-        <label for="birthDate">Birth Date</label>
-        <input type="date" id="birthDate" required>
+        .photo-preview {
+            width: 150px;
+            height: 200px;
+            border: 2px solid #393838;
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            background-color: var(--nav-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-        <label for="breed">Breed</label>
-        <input type="text" id="breed" placeholder="Enter Breed" required>
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
 
-        <label for="gender">Gender</label>
-        <select id="gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
+        .signature-preview {
+            max-width: 200px;
+            height: 60px;
+            border: 2px solid #393838;
+            margin-top: 10px;
+            background-color: var(--nav-color);
+        }
 
-        <label for="veterinarian">Veterinarian</label>
-        <input type="text" id="veterinarian" placeholder="Enter Veterinarian" required>
+        .form-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
 
-        <label for="contact">Contact Details</label>
-        <input type="tel" id="contact" placeholder="Enter Contact Details" required>
+        .required::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
 
-        <label for="clinic">Clinic Address</label>
-        <input type="text" id="clinic" placeholder="Enter Clinic Address" required>
+        .section-header {
+            background-color: var(--nav-color);
+            padding: 10px;
+            margin: 20px 0 15px;
+            border-radius: 5px;
+            color: var(--text-color);
+            font-weight: bold;
+            font-size:20px;
+            grid-column: span 2;
+        }
 
-        <button type="submit" class="regbtn btn">REGISTER PET</button>
-    </form>
-</div>
+        .btn-success {
+            background-color: var(--nav-color);
+            border: 2px solid #393838;
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: auto;
+            margin-top: 15px;
+            grid-column: span 2;
+        }
 
+        .btn-success:hover {
+            background-color: var(--nav-color);
+            border-color: #393838;
+        }
 
+        .petForm{
+            display: flex;
+            overflow: hidden;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            transition: 0.2s 0.7sease-in-out;
+        }
 
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--nav-color);
+            background-clip: padding-box;
+            border: 2px solid #393838;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
 
+        .form-control:focus {
+            background-color: var(--nav-color);
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
 
+        .text, .textp, .form-check-label, .text-muted {
+            color: var(--text-color);
+        }
 
+        .form-check {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            grid-column: span 2;
+        }
 
-<div class="main-content">
-    <h1 class="pet-title heading">Pets Owned</h1>
-    <div class="pet-list" id="pet-list">
-    </div>
-</div>
+        .form-select {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--nav-color);
+            border: 2px solid #393838;
+            border-radius: 0.25rem;
+        }
 
-<script>
-    function toggleSidebar() {
-        document.querySelector('.sidebar').classList.toggle('show-sidebar');
-    }
-    document.getElementById('pet-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
 
-        // Gather the pet form values
-        const petName = document.getElementById('petName').value;
-        const birthDate = document.getElementById('birthDate').value;
-        const breed = document.getElementById('breed').value;
-        const gender = document.getElementById('gender').value;
-        const veterinarian = document.getElementById('veterinarian').value;
-        const contact = document.getElementById('contact').value;
-        const clinic = document.getElementById('clinic').value;
+        /* Two-column layout for form fields */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
 
-        // Create a new pet record element
-        const petRecord = document.createElement('div');
-        petRecord.classList.add('pet-record');
+        @media (max-width: 768px) {
+            .photo-preview {
+                position: relative;
+                right: auto;
+                top: auto;
+                margin: 0 auto 20px;
+            }
 
-        petRecord.innerHTML = `
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="pet-record-grid">
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Name</div>
-                    <div class="pet-record-value">${petName}</div>
+            .form-grid {
+                grid-template-columns: 1fr; /* Single column on smaller screens */
+            }
+
+            .section-header, .btn-success, .form-check {
+                grid-column: span 1; /* Reset grid span for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="certificate-header">
+            <h2 class="text">PET REGISTRATION CERTIFICATE</h2>
+            <p class="textp">City Agriculture Office - Veterinary Unit</p>
+        </div>
+
+        <div class="photo-preview" id="photoPreview">
+            <span class="text-muted">Photo Preview</span>
+        </div>
+
+        <form id="petRegistrationForm" class="petForm" novalidate>
+            <div class="form-grid">
+                <!-- Application Details -->
+                <div class="section-header">Application Details</div>
+                <div>
+                    <label for="dateApplication" class="form-label required">Date of Application</label>
+                    <input type="date" class="form-control" id="dateApplication" required>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Birth Date</div>
-                    <div class="pet-record-value">${birthDate}</div>
+                <div>
+                    <label for="userPhoto" class="form-label required">Photo of Owner</label>
+                    <input type="file" class="form-control" id="userPhoto" accept="image/*" required>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Breed</div>
-                    <div class="pet-record-value">${breed}</div>
+
+                <!-- Owner Information -->
+                <div class="section-header">Owner Information</div>
+                <div>
+                    <label for="nameApplicant" class="form-label required">Pet Owner's Name</label>
+                    <input type="text" class="form-control" id="nameApplicant" required>
                 </div>
-                <div class="pet-record-item pet-qr-code">
-                    <img src="https://via.placeholder.com/60" alt="QR Code">
-                    <div class="pet-qr-code-text">Print me</div>
+                <div>
+                    <label for="age" class="form-label required">Age</label>
+                    <input type="number" class="form-control" id="age" min="18" required>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Gender</div>
-                    <div class="pet-record-value">${gender}</div>
+                <div>
+                    <label for="gender" class="form-label required">Gender</label>
+                    <select class="form-select" id="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Veterinarian</div>
-                    <div class="pet-record-value">${veterinarian}</div>
+                <div>
+                    <label for="birthday" class="form-label required">Birthday</label>
+                    <input type="date" class="form-control" id="birthday" required>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Contact Details</div>
-                    <div class="pet-record-value">${contact}</div>
+                <div>
+                    <label for="telephone" class="form-label required">Telephone/Mobile Number</label>
+                    <input type="tel" class="form-control" id="telephone" pattern="[0-9]{10,}" required>
                 </div>
-                <div class="pet-record-item">
-                    <div class="pet-record-label">Clinic Address</div>
-                    <div class="pet-record-value">${clinic}</div>
+                <div>
+                    <label for="emailApplicant" class="form-label required">Email Address</label>
+                    <input type="email" class="form-control" id="emailApplicant" required>
                 </div>
+                <div>
+                    <label for="homeAddress" class="form-label required">Home Address</label>
+                    <input type="text" class="form-control" id="homeAddress" required>
+                </div>
+
+                <!-- Pet Information -->
+                <div class="section-header">Pet Information</div>
+                <div>
+                    <label for="petName" class="form-label required">Pet Name</label>
+                    <input type="text" class="form-control" id="petName" required>
+                </div>
+                <div>
+                    <label for="petAge" class="form-label required">Pet Age</label>
+                    <input type="number" class="form-control" id="petAge" min="0" step="0.1" required>
+                </div>
+                <div>
+                    <label for="petGender" class="form-label required">Pet Gender</label>
+                    <select class="form-select" id="petGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="species" class="form-label required">Species</label>
+                    <input type="text" class="form-control" id="species" required>
+                </div>
+                <div>
+                    <label for="breed" class="form-label required">Breed</label>
+                    <input type="text" class="form-control" id="breed" required>
+                </div>
+                <div>
+                    <label for="petWeight" class="form-label required">Weight (kg)</label>
+                    <input type="number" class="form-control" id="petWeight" step="0.1" required>
+                </div>
+                <div>
+                    <label for="petColor" class="form-label required">Pet Color</label>
+                    <input type="text" class="form-control" id="petColor" required>
+                </div>
+                <div>
+                    <label for="distinguishingMarks" class="form-label">Distinguishing Marks</label>
+                    <input type="text" class="form-control" id="distinguishingMarks">
+                </div>
+                <div>
+                    <label for="petBirthday" class="form-label required">Pet Birthday</label>
+                    <input type="date" class="form-control" id="petBirthday" required>
+                </div>
+
+                <!-- Vaccination Information -->
+                <div class="section-header">Vaccination Information</div>
+                <div>
+                    <label for="vaccinationDate" class="form-label required">Anti-Rabies Vaccination Date</label>
+                    <input type="date" class="form-control" id="vaccinationDate" required>
+                </div>
+                <div>
+                    <label for="vaccinationExpiry" class="form-label required">Vaccination Expiry Date</label>
+                    <input type="date" class="form-control" id="vaccinationExpiry" required>
+                </div>
+
+                <!-- Veterinarian Information -->
+                <div class="section-header">Veterinarian Information</div>
+                <div>
+                    <label for="vetClinic" class="form-label required">Veterinarian Clinic</label>
+                    <input type="text" class="form-control" id="vetClinic" required>
+                </div>
+                <div>
+                    <label for="vetName" class="form-label required">Veterinarian Name</label>
+                    <input type="text" class="form-control" id="vetName" required>
+                </div>
+                <div>
+                    <label for="vetAddress" class="form-label required">Veterinarian Clinic Address</label>
+                    <input type="text" class="form-control" id="vetAddress" required>
+                </div>
+                <div>
+                    <label for="vetContact" class="form-label required">Veterinarian Contact Info</label>
+                    <input type="tel" class="form-control" id="vetContact" pattern="[0-9]{10,}" required>
+                </div>
+
+                <!-- Declaration -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="declaration" required>
+                    <label class="form-check-label" for="declaration">
+                        I declare that I have personally accomplished this registration form and all details are true and correct.
+                    </label>
+                </div>
+
+                <!-- Signature -->
+                <div>
+                    <label for="ownerSignature" class="form-label required">Pet Owner's Signature</label>
+                    <input type="file" class="form-control" id="ownerSignature" accept="image/*" required>
+                    <div class="signature-preview" id="signaturePreview"></div>
+                </div>
+                <div>
+                    <label for="dateSigned" class="form-label required">Date Signed</label>
+                    <input type="date" class="form-control" id="dateSigned" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit Registration</button>
             </div>
-        `;
+        </form>
+    </div>
 
-        // Append the new pet record to the list
-        document.getElementById('pet-list').appendChild(petRecord);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateApplication').value = today;
+            document.getElementById('dateSigned').value = today;
+        });
 
-        // Reset the form after submission
-        document.getElementById('pet-form').reset();
-    });
-</script>
+        document.getElementById('userPhoto').addEventListener('change', function(e) {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = '';
+
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            } else {
+                preview.innerHTML = '<span class="text-muted">Photo Preview</span>';
+            }
+        });
+
+        document.getElementById('ownerSignature').addEventListener('change', function(e) {
+            const preview = document.getElementById('signaturePreview');
+            preview.innerHTML = '';
+
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100%';
+                    img.style.height = '100%';
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        document.getElementById('petRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (this.checkValidity()) {
+                alert('Pet registration submitted successfully!');
+                this.reset();
+                document.getElementById('photoPreview').innerHTML = '<span class="text-muted">Photo Preview</span>';
+                document.getElementById('signaturePreview').innerHTML = '';
+                document.getElementById('dateApplication').value = new Date().toISOString().split('T')[0];
+                document.getElementById('dateSigned').value = new Date().toISOString().split('T')[0];
+            }
+
+            this.classList.add('was-validated');
+        });
+    </script>
+</body>
+</html>

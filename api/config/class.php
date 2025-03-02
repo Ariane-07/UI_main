@@ -9,6 +9,49 @@ class global_class extends db_connect
         $this->connect();
     }
 
+    public function FetchUserPost($UserID) {
+    
+        // Query to fetch user posts with user details, sorted by latest first
+        $query = "
+            SELECT * FROM post_content
+            LEFT JOIN users ON post_content.post_user_id = users.UserID
+            WHERE post_content.post_user_id = '$UserID'
+            ORDER BY post_content.post_date DESC
+        ";
+    
+        // Execute the query
+        $result = $this->conn->query($query);
+    
+        if ($result) {
+            $rows = [];
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            echo json_encode($rows);
+        } else {
+            echo json_encode(['error' => 'Failed to retrieve posts']);
+        }
+    }
+    
+    
+
+    public function PostContent($post_user_id,$postInput, $postFilesJson)
+    {
+        // Proceed with insertion if email does not exist
+        $stmt = $this->conn->prepare("INSERT INTO `post_content` (`post_user_id`, `post_content`, `post_images`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss",$post_user_id, $postInput,$postFilesJson);
+    
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
+        }
+    }
+
+
 
     public function SignUp($email,$username,$password)
     {
@@ -66,7 +109,7 @@ class global_class extends db_connect
              if ($result->num_rows > 0) {
                  $user = $result->fetch_assoc();
                  session_start();
-                 $_SESSION['UserID '] = $user['UserID'];
+                 $_SESSION['UserID'] = $user['UserID'];
      
                  return $user;
              } else {
