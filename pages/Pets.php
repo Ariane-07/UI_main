@@ -63,16 +63,6 @@
             color: var(--text-color);
         }
 
-        .formPet{
-            display: flex;
-            padding: 0 1rem;
-            overflow: hidden;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            transition: 0.2s 0.7sease-in-out;
-        }
-
         .required::after {
             content: "*";
             color: red;
@@ -86,7 +76,6 @@
             border-radius: 5px;
             color: var(--text-color);
             font-weight: bold;
-            font-size: 20px;
             grid-column: span 2;
         }
 
@@ -99,7 +88,6 @@
             cursor: pointer;
             margin: auto;
             margin-top: 15px;
-            margin-bottom: 15px;
             grid-column: span 2;
         }
 
@@ -128,7 +116,7 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
 
-        .text, .textp, .form-check-label, .text-muted {
+        .text, .textp, .form-check-label {
             color: var(--text-color);
         }
 
@@ -190,7 +178,7 @@
             <span class="text-muted">Photo Preview</span>
         </div>
 
-        <form id="petRegistrationForm" class="formPet" novalidate>
+        <form id="petRegistrationForm" class="needs-validation" novalidate>
             <div class="form-grid">
                 <!-- Application Details -->
                 <div class="section-header">Application Details</div>

@@ -1,14 +1,34 @@
 <?php
-    $host = 'localhost';
-    $dbname = 'test';
-    $username = 'root';
-    $password = '';
+
+define("db_host", "localhost");
+define("db_user", "root");
+define("db_pass", "");
+define("db_name", "mypet");
+
+class db_connect
+{
+    public $host = db_host;
+    public $user = db_user;
+    public $pass = db_pass;
+    public $name = db_name;
+    public $conn;
+    public $error;
+    public $mysqli;
 
 
-    $conn = new mysqli($host, $username, $password, $dbname);
+    public function connect()
+    {
+        try {
+            $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->name);
 
-    if ($conn->connect_error) {
-        die('connection failed: ' . $conn->connect_error);
+            if (!$this->conn) {
+                $this->error = "Fatal Error: Can't connect to database" . $this->conn->connect_error;
+                return false;
+            }
+        } catch (\Throwable $th) {
+            header("Location:setup.php");
+        }
     }
+}
 
 ?>

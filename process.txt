@@ -1,0 +1,39 @@
+Admin
+- approves/negates pet registration
+- approves/negates impound release 
+- sends alerts of violations and fees
+- can communicate with pet owners and vets 
+- can post
+- can view overall records of pets, pet owners, and vets
+
+- Incident & Claim Management: Handles incidents, claims, approvals, and reporting through a dashboard.  
+- Communication & Notifications: Messaging for reports, vaccinations, penalties, warrants, and warnings; notifications for reports, approvals, and vaccinations.  
+- Newsfeed & Updates: Post and view updates on the newsfeed.  
+- Impounded Dog Records: View records, manage registration requests from impounds and vet clinics, and process pet owner claims.  
+- QR Code Generation: Create and send QR codes to users.  
+- Profile Management: Edit profile details, location, and availability.  
+- Search Functionality: Locate relevant information efficiently.  
+- Feedback System: LGUs can provide feedback on the system.
+
+pet owner
+- can communicate with vet 
+- can post
+- registering a pet
+(when pet owners uploads files, it goes to veterinarian for fact checking of information, then when verified, goes to lgu for information keeping and checking if the pets are regularly vaccinated)
+- can print approved QR printed records of pet
+- can view pets and the deadlines of vaccinations
+- can report accidents
+
+veterinarians
+- set appointments
+- can communicate with pet owners and admins
+- can view records of pets
+- can report accidents
+
+Search bar
+- can search users
+- view profile
+
+Profile
+- all users have profile they can edit and update 
+- have google map

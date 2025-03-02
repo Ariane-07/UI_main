@@ -2,7 +2,7 @@
     <div class="floating-button">+</div>
     <div class="element-container">
         <span class="float-element">
-            <a href="index.php?component=profile">
+            <a href="index.php?page=profile">
                 <i class='bx bxs-user'></i>
             </a>
         </span>

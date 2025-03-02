@@ -1,3 +1,4 @@
+
 <div class="profile-container">
     <div class="profile-sidebar">
         <div class="profile-image">
@@ -11,7 +12,7 @@
             <p>Role</p>
             <input type="text" id="role" class="editable-input" disabled>
         </div>
-        <a href="#" class="logout-link">LOG OUT</a>
+        <a href="logout.php" class="logout-link">LOG OUT</a>
     </div>
 
     <div class="profile-details">
