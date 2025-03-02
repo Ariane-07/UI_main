@@ -12,7 +12,8 @@
         </div>
 
         <!-- Hidden User ID -->
-        <input type="hidden" id="UserID" name="UserID" value="<?= isset($_SESSION['UserID']) ? htmlspecialchars($_SESSION['UserID']) : ''; ?>">
+        <input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
+        <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
 
         <!-- Textarea -->
         <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>

@@ -6,11 +6,15 @@ include('api/config/class.php');
 $db = new global_class();
 
 
-
 // Redirect to LogReg if no session is set
 if (empty($_SESSION)) {
     // Ensure 'page' is the first GET parameter
     $_GET = ['page' => 'LogReg'] + $_GET;
+}else{
+    
+    $UserID=$_SESSION['UserID'];
+    $session_data = $db->check_account($UserID);
+    $_SESSION['username']=$session_data[0]['Username'];
 }
 
 // Autoload components and pages
