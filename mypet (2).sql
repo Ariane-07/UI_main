@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2025 at 04:56 PM
+-- Generation Time: Mar 02, 2025 at 05:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,42 @@ SET time_zone = "+00:00";
 --
 -- Database: `mypet`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pets`
+--
+
+CREATE TABLE `pets` (
+  `pet_id` int(11) NOT NULL,
+  `pet_photo_owner` varchar(255) NOT NULL,
+  `pet_date_application` date NOT NULL,
+  `pet_owner_name` varchar(60) NOT NULL,
+  `pet_owner_age` int(11) NOT NULL,
+  `pet_owner_gender` varchar(60) NOT NULL,
+  `pet_owner_birthday` date NOT NULL,
+  `pet_owner_telMobile` varchar(60) NOT NULL,
+  `pet_owner_email` varchar(60) NOT NULL,
+  `pet_owner_home_address` varchar(60) NOT NULL,
+  `pet_name` varchar(60) NOT NULL,
+  `pet_age` varchar(60) NOT NULL,
+  `pet_gender` varchar(60) NOT NULL,
+  `pet_species` varchar(60) NOT NULL,
+  `pet_breed` varchar(60) NOT NULL,
+  `pet_weight` varchar(60) NOT NULL,
+  `pet_color` varchar(60) NOT NULL,
+  `pet_marks` varchar(60) NOT NULL,
+  `pet_birthday` date NOT NULL,
+  `pet_antiRabies_vac_date` date NOT NULL,
+  `pet_antiRabies_expi_date` date NOT NULL,
+  `pet_vet_clinic` varchar(255) NOT NULL,
+  `pet_vet_name` varchar(60) NOT NULL,
+  `pet_vet_clinic_address` varchar(255) NOT NULL,
+  `pet_vet_contact_info` varchar(255) NOT NULL,
+  `pet_owner_signature` varchar(255) NOT NULL,
+  `pet_date_signed` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -46,7 +82,9 @@ INSERT INTO `post_comments` (`comments_id`, `comments_post_id`, `comments_user_i
 (6, 35, 6, 'multiple', '2025-03-02 15:52:05'),
 (7, 38, 11, 'turtle', '2025-03-02 15:54:10'),
 (8, 35, 11, 'test', '2025-03-02 15:54:28'),
-(9, 40, 11, 'teet', '2025-03-02 15:55:40');
+(9, 40, 11, 'teet', '2025-03-02 15:55:40'),
+(10, 39, 11, 'hello', '2025-03-02 15:59:52'),
+(11, 39, 11, 'maloi', '2025-03-02 16:04:05');
 
 -- --------------------------------------------------------
 
@@ -109,6 +147,12 @@ INSERT INTO `users` (`UserID`, `Username`, `Email`, `Password`, `ProfilePic`, `R
 --
 
 --
+-- Indexes for table `pets`
+--
+ALTER TABLE `pets`
+  ADD PRIMARY KEY (`pet_id`);
+
+--
 -- Indexes for table `post_comments`
 --
 ALTER TABLE `post_comments`
@@ -132,10 +176,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `pets`
+--
+ALTER TABLE `pets`
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `post_comments`
 --
 ALTER TABLE `post_comments`
-  MODIFY `comments_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `comments_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `post_content`
