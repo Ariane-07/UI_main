@@ -1,4 +1,6 @@
 <?php
+
+
 include ('dbconnect.php');
 date_default_timezone_set('Asia/Manila');
 
@@ -9,17 +11,148 @@ class global_class extends db_connect
         $this->connect();
     }
 
-    public function FetchUserPost($UserID) {
+
+
+
+
+
+    public function petRegistration(
+        $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
+        $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
+        $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
+        $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
+        $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, $qrCodeFileName
+    ) {
+        // Insert Data into Database
+        $sql = "INSERT INTO pets_info (
+            pet_photo_owner, pet_date_application, pet_owner_name, pet_owner_age,
+            pet_owner_gender, pet_owner_birthday, pet_owner_telMobile, pet_owner_email,
+            pet_owner_home_address, pet_name, pet_age, pet_gender, pet_species, pet_breed,
+            pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
+            pet_antiRabies_expi_date, pet_vet_clinic, pet_vet_name, pet_vet_clinic_address,
+            pet_vet_contact_info, pet_owner_signature, pet_date_signed, pet_qr_code
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
-        // Query to fetch user posts with user details, sorted by latest first
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param(
+            "sssssssssssssssssssssssssss",
+            $userPhotoName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
+            $telephone, $emailApplicant, $homeAddress, $petName, $petAge, $petGender,
+            $species, $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
+            $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
+            $vetContact, $ownerSignatureName, $dateSigned, $qrCodeFileName
+        );
+    
+        if ($stmt->execute()) {
+            $insertedId = $this->conn->insert_id; // Get the last inserted pet_id
+            $stmt->close();
+            return $insertedId; // Return the pet_id
+        } else {
+            $error = "Error: " . $stmt->error;
+            $stmt->close();
+            return $error;
+        }
+    }
+
+
+
+    public function updatePetQRCode($petID, $qrCodeFileName) {
+        $updateSQL = "UPDATE pets_info SET pet_qr_code = ? WHERE pet_id = ?";
+    
+        // Use $this->conn instead of $db->conn
+        $stmt = $this->conn->prepare($updateSQL);
+        
+        if (!$stmt) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("si", $qrCodeFileName, $petID);
+        
+        if (!$stmt->execute()) {
+            die("Execute failed: " . $stmt->error);
+        }
+    
+        $stmt->close();
+    }
+    
+    
+
+
+
+    public function FetchComments($UserID, $postId) {
+        // Query to fetch comments for a specific post, joining user details
+        $query = "
+            SELECT 
+                post_comments.comments_id,
+                post_comments.comments_text,
+                post_comments.comments_date,
+                users.Username,
+                users.ProfilePic
+            FROM post_comments
+            LEFT JOIN users ON post_comments.comments_user_id = users.UserID
+            WHERE post_comments.comments_post_id = ?
+            ORDER BY post_comments.comments_date DESC
+        ";
+    
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
+            return;
+        }
+    
+        // Bind parameter (corrected)
+        $stmt->bind_param("i", $postId);
+        
+        // Execute and fetch results
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result) {
+            $comments = [];
+            while ($row = $result->fetch_assoc()) {
+                $comments[] = [
+                    'comment_id' => $row['comments_id'],
+                    'comment_text' => $row['comments_text'],
+                    'comment_date' => $row['comments_date'],
+                    'username' => $row['Username'] ?? 'Unknown User',
+                    'profilePic' => $row['ProfilePic'] ?? 'https://ui-avatars.com/api/?name=User&background=random'
+                ];
+            }
+            echo json_encode($comments);
+        } else {
+            echo json_encode(['error' => 'Failed to retrieve comments']);
+        }
+    
+        $stmt->close();
+    }
+    
+
+
+    public function FetchUserPost($UserID, $offset, $limit) {
+        // Query to fetch user posts with user details, sorted by latest first with pagination
         $query = "
             SELECT * FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
             ORDER BY post_content.post_date DESC
+            LIMIT ? OFFSET ?
         ";
     
-        // Execute the query
-        $result = $this->conn->query($query);
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) {
+            echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
+            return;
+        }
+    
+        // Bind parameters and execute
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
     
         if ($result) {
             $rows = [];
@@ -30,9 +163,10 @@ class global_class extends db_connect
         } else {
             echo json_encode(['error' => 'Failed to retrieve posts']);
         }
+    
+        $stmt->close();
     }
-    
-    
+
 
     public function PostContent($post_user_id,$postInput, $postFilesJson)
     {
@@ -50,9 +184,33 @@ class global_class extends db_connect
         }
     }
 
+    
+    
+    
+
+    
+
+    public function AddComment($UserID, $postId, $commentText)
+    {
+        // Proceed with insertion if email does not exist
+        $stmt = $this->conn->prepare("INSERT INTO `post_comments` (`comments_user_id`,`comments_post_id`,`comments_text`) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss",$UserID, $postId,$commentText);
+    
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to sent'));
+        }
+    }
 
 
-    public function SignUp($email,$username,$password)
+
+
+
+    public function SignUp($email,$username,$password,$role)
     {
       
     
@@ -72,8 +230,8 @@ class global_class extends db_connect
         $hashedPassword = hash('sha256', $password);
     
         // Proceed with insertion if email does not exist
-        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss",$username, $email,$hashedPassword);
+        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`,`Role`) VALUES (?, ?, ?,?)");
+        $stmt->bind_param("ssss",$username, $email,$hashedPassword,$role);
     
         if ($stmt->execute()) {
             session_start();
@@ -97,7 +255,7 @@ class global_class extends db_connect
          // Hash the input password using SHA-256
          $hashedPassword = hash('sha256', $password);
          // Prepare the SQL query
-         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ? AND Role = 'pet_owner'");
+         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
      
          // Bind the email and the hashed password
          $query->bind_param("ss", $username, $hashedPassword);
