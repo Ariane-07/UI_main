@@ -1,6 +1,16 @@
 <?php
 
 
+require '../../../vendor/autoload.php';
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Color\Color;
+
+
+
 include('../class.php');
 
 $db = new global_class();
@@ -63,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
         }else if ($_POST['requestType'] == 'petRegistration') {
+
                 function generateUniqueFilename($file) {
                     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                     return uniqid() . '.' . $ext;
@@ -122,7 +133,134 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'message' => 'Pet registration successful!',
                         'data' => $result
                     ]);
+
+
+            $qrCodeDir = "../../../qrcodes/";
+            $uploadDir = "../../../uploads/images/";
+
+            function generateUniqueFilename($file) {
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                return uniqid() . '.' . $ext;
+            }
+
+            function handleFileUpload($file, $uploadDir) {
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                $maxFileSize = 2 * 1024 * 1024; // 2MB
+            
+                if ($file['error'] !== UPLOAD_ERR_OK) {
+                    return null;
                 }
+            
+                if (!in_array(mime_content_type($file['tmp_name']), $allowedTypes)) {
+                    return null;
+
+                }
+            
+                if ($file['size'] > $maxFileSize) {
+                    return null;
+                }
+            
+                $fileName = generateUniqueFilename($file);
+                $destination = $uploadDir . $fileName;
+            
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
+                    return $fileName;
+                }
+                return null;
+            }
+            if (!is_dir($qrCodeDir)) {
+                mkdir($qrCodeDir, 0777, true);
+            }
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Handle file uploads
+            $userPhoto = $_FILES['userPhoto'] ?? null;
+            $ownerSignature = $_FILES['ownerSignature'] ?? null;
+
+            $userPhotoName = $userPhoto ? handleFileUpload($userPhoto, $uploadDir) : null;
+            $ownerSignatureName = $ownerSignature ? handleFileUpload($ownerSignature, $uploadDir) : null;
+
+            // Collect form data
+            $dateApplication = $_POST['dateApplication'] ?? '';
+            $nameApplicant = $_POST['nameApplicant'] ?? '';
+            $age = $_POST['age'] ?? '';
+            $gender = $_POST['gender'] ?? '';
+            $birthday = $_POST['birthday'] ?? '';
+            $telephone = $_POST['telephone'] ?? '';
+            $emailApplicant = $_POST['emailApplicant'] ?? '';
+            $homeAddress = $_POST['homeAddress'] ?? '';
+            $petName = $_POST['petName'] ?? '';
+            $petAge = $_POST['petAge'] ?? '';
+            $petGender = $_POST['petGender'] ?? '';
+            $species = $_POST['species'] ?? '';
+            $breed = $_POST['breed'] ?? '';
+            $petWeight = $_POST['petWeight'] ?? '';
+            $petColor = $_POST['petColor'] ?? '';
+            $distinguishingMarks = $_POST['distinguishingMarks'] ?? '';
+            $petBirthday = $_POST['petBirthday'] ?? '';
+            $vaccinationDate = $_POST['vaccinationDate'] ?? '';
+            $vaccinationExpiry = $_POST['vaccinationExpiry'] ?? '';
+            $vetClinic = $_POST['vetClinic'] ?? '';
+            $vetName = $_POST['vetName'] ?? '';
+            $vetAddress = $_POST['vetAddress'] ?? '';
+            $vetContact = $_POST['vetContact'] ?? '';
+            $dateSigned = $_POST['dateSigned'] ?? '';
+
+            // ✅ Step 1: Insert pet data first and get the actual pet_id
+            $petID = $db->petRegistration(
+                $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
+                $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
+                $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
+                $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
+                $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, ""
+            );
+
+            if (!is_numeric($petID)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to register pet. Please try again.'
+                ]);
+                exit;
+            }
+
+            // ✅ Step 2: Generate QR Code using the real pet_id
+            $qrData = $petID; // QR Code contains the actual pet_id
+
+            $qrCode = new QrCode(
+                data: $qrData,
+                encoding: new Encoding('UTF-8'),
+                errorCorrectionLevel: ErrorCorrectionLevel::High,
+                size: 300,
+                margin: 10,
+                roundBlockSizeMode: RoundBlockSizeMode::Margin,
+                foregroundColor: new Color(0, 0, 0),
+                backgroundColor: new Color(255, 255, 255)
+            );
+
+            $writer = new PngWriter();
+            $qrCodeResult = $writer->write($qrCode);
+
+            // ✅ Step 3: Define QR Code file path using pet_id
+            $qrCodeFileName_directory = $qrCodeDir . "PET_" . $petID . ".png";
+            
+            $qrCodeFileName = "PET_" . $petID . ".png";
+            // Save QR Code to file
+            file_put_contents($qrCodeFileName_directory, $qrCodeResult->getString());
+
+
+            $petID = $db->updatePetQRCode($petID, $qrCodeFileName);
+            
+            // ✅ Step 5: Return response
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Pet registration successful!',
+                'pet_id' => $petID,
+                'qr_code' => $qrCodeFileName
+            ]);
+
+            
             
         }else if ($_POST['requestType'] == 'Signup') {
 

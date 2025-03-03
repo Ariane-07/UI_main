@@ -89,6 +89,7 @@
             cursor: pointer;
             margin: auto;
             margin-top: 15px;
+            margin-bottom: 15px;
             grid-column: span 2;
         }
 
@@ -152,7 +153,6 @@
             margin-right: 0.5rem;
         }
 
-        /* Two-column layout for form fields */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -168,11 +168,11 @@
             }
 
             .form-grid {
-                grid-template-columns: 1fr; /* Single column on smaller screens */
+                grid-template-columns: 1fr; 
             }
 
             .section-header, .btn-success, .form-check {
-                grid-column: span 1; /* Reset grid span for mobile */
+                grid-column: span 1; 
             }
         }
     </style>
@@ -189,7 +189,7 @@
         </div>
 
         <!-- <form id="petRegistrationForm" class="petForm" novalidate> -->
-        <form id="petRegistrationForm" class="petForm">
+        <form id="petRegistrationForm" class="petForm" novalidate>
              <!-- Spinner -->
         
                 <div class="form-grid">
@@ -206,6 +206,11 @@
                     <label for="userPhoto" class="form-label required">Photo of Owner</label>
                     <input type="file" class="form-control" id="userPhoto" name="userPhoto" accept="image/*" required>
                 </div>
+                <div>
+                    <label for="userID" class="form-label required">Valid ID</label>
+                    <input type="file" class="form-control" id="userID" accept="image/*" required>
+                </div>
+
 
                 <!-- Owner Information -->
                 <div class="section-header">Owner Information</div>
@@ -241,6 +246,10 @@
                 <div>
                     <label for="homeAddress" class="form-label required">Home Address</label>
                     <input type="text" class="form-control" id="homeAddress" name="homeAddress" required>
+                </div>
+                <div>
+                    <label for="barangay" class="form-label required">Barangay</label>
+                    <input type="text" class="form-control" id="barangay" required>
                 </div>
 
                 <!-- Pet Information -->
@@ -284,6 +293,10 @@
                 <div>
                     <label for="petBirthday" class="form-label required">Pet Birthday</label>
                     <input type="date" class="form-control" id="petBirthday" name="petBirthday" required>
+                </div>
+                <div>
+                    <label for="petPhoto" class="form-label required">Pet Photo (Front, Side, Back):</label>
+                    <input type="file" class="form-control" id="petPhoto" accept="image/*" required>
                 </div>
 
                 <!-- Vaccination Information -->

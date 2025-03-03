@@ -3,7 +3,7 @@
     <div class="home-container">
         <!-- Post Box and Post Feed -->
         <div class="post-area">
-        <form id="frmPOST_CONTENT">
+      
     <!-- Post Box -->
     <div class="post-box">
         <!-- Spinner -->
@@ -11,6 +11,7 @@
             <div class="loader"></div>
         </div>
 
+        <form id="frmPOST_CONTENT">
         <!-- Hidden User ID -->
         <input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
         <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
@@ -37,13 +38,22 @@
 
             <!-- Submit Button -->
             <button type="submit" id="btnPOSTCONTENT">POST</button>
+            </form>
         </div>
     </div>
 
    
 
+
     
 </form>
+
+    <!-- "See More" Button -->
+    <div class="see-more-container">
+        <button id="seeMoreBtn" style="display:none;">See More</button>
+    </div>
+
+
 
         <!-- Posts Feed -->
         <div id="postFeed" class="post-feed"></div>

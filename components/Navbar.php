@@ -9,7 +9,9 @@
             </div>
             <ul class="nav-links">
                 <li><a href="index.php?page=/">Home</a></li>
-                <li><a href="index.php?page=pets">Pets</a></li>
+                <li><a href="index.php?page=pets">Register</a></li>
+                <li><a href="index.php?page=MyPets">Pets</a></li>
+                <li><a href="index.php?page=ImpoundedPets">Impounded</a></li>
                 <li><a href="index.php?page=info">Info</a></li>
                 <li><a href="index.php?page=aboutus">About Us</a></li>
             </ul>
