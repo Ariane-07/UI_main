@@ -22,7 +22,7 @@ class global_class extends db_connect
             FROM post_comments
             LEFT JOIN users ON post_comments.comments_user_id = users.UserID
             WHERE post_comments.comments_post_id = ?
-            ORDER BY post_comments.comments_date DESC
+            ORDER BY post_comments.comments_date ASC
         ";
     
         // Prepare statement
@@ -46,8 +46,8 @@ class global_class extends db_connect
                     'comment_id' => $row['comments_id'],
                     'comment_text' => $row['comments_text'],
                     'comment_date' => $row['comments_date'],
-                    'username' => $row['Username'] ?? 'Unknown User',
-                    'profilePic' => $row['ProfilePic'] ?? 'https://ui-avatars.com/api/?name=User&background=random'
+                    'username' => $row['Username'],
+                    'profilePic' => $row['ProfilePic']
                 ];
             }
             echo json_encode($comments);

@@ -14,6 +14,7 @@
         <!-- Hidden User ID -->
         <input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
         <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
+        <input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
         <!-- Textarea -->
         <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>

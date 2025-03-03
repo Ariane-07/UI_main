@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
     var Session_UserID=$("#UserID").val();
+    var Session_ProfilePic=$("#ProfilePic").val();
+
+    // console.log(Session_ProfilePic);
 
     let offset = 0;
     const limit = 5;
@@ -12,7 +15,7 @@ $(document).ready(function () {
             data: { offset: offset, limit: limit },
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+               
 
                 if (!Array.isArray(response) || response.length === 0) {
                     if (!append) $("#postFeed").html("<p>No posts available.</p>");
@@ -25,12 +28,13 @@ $(document).ready(function () {
                 response.forEach(post => {
                     let Username = post.Username || "Unknown User";
                     let ProfilePic = post.ProfilePic 
-                        ? post.ProfilePic 
-                        : "https://ui-avatars.com/api/?name=User&background=random";
+                        ? `uploads/images/${post.ProfilePic}` 
+                        : "assets/imgs/User-Profile.png";
                     let postDate = post.post_date 
                         ? new Date(post.post_date).toLocaleString("en-US", { hour12: true }) 
                         : "Unknown Date";
                     let postContent = post.post_content || "";
+
 
                     let mediaContent = "";
                     if (post.post_images) {
@@ -67,7 +71,7 @@ if (Session_UserID == post.post_user_id) {
                 $("#postFeed").append(`
                     <div class="post">
                         <div class="post-header">
-                            <img class="profile-pic" src="uploads/images/${ProfilePic}" alt="Profile Picture">
+                            <img class="profile-pic" src="${ProfilePic}" alt="Profile Picture">
                             <div>
                                 <strong class="Username">${Username}</strong>
                                 <span style="color: #666; font-size: 14px;" class="post_date"> • ${postDate}</span>
@@ -88,7 +92,7 @@ if (Session_UserID == post.post_user_id) {
                         <div class="comments-section" id="comments-${post.post_id}" style="display: none;">
                             <div class="comments-list"></div>
                             <div class="comment-input">
-                                <img src="uploads/images/${ProfilePic}" class="profile-pic" style="width: 32px; height: 32px;">
+                                <img src="${Session_ProfilePic}" class="profile-pic" style="width: 32px; height: 32px;">
                                 <input type="text" placeholder="Write a comment..." data-postid='${post.post_id}'>
                             </div>
                         </div>
@@ -133,45 +137,63 @@ if (Session_UserID == post.post_user_id) {
     });
     
     // Function to fetch comments for a post
-    const getComments = (postId) => {
-        $.ajax({
-            url: "api/config/end-points/FetchComments.php", // Replace with your actual API endpoint
-            type: "GET",
-            data: { postId: postId },
-            dataType: "json",
-            success: function (response) {
-                console.log(postId);
-                let commentsList = $("#comments-" + postId).find(".comments-list");
-                commentsList.empty(); // Clear existing comments
-    
-                if (!Array.isArray(response) || response.length === 0) {
-                    commentsList.html("<p>No comments yet.</p>");
-                    return;
-                }
-    
-                response.forEach(comment => {
-                    let username = comment.username || "Anonymous";
-                    let profilePic = comment.profilePic || "https://ui-avatars.com/api/?name=User&background=random";
-                    let commentText = comment.comment_text || "";
-                    let commentDate = new Date(comment.comment_date).toLocaleString("en-US", { hour12: true });
-    
-                    let commentHTML = `
-                        <div class="comment">
-                            <img src="uploads/images/${profilePic}" class="profile-pic" style="width: 32px; height: 32px;">
-                            <div>
-                                <strong>${username}</strong> <span style="font-size: 12px; color: gray;">${commentDate}</span>
-                                <p>${commentText}</p>
-                            </div>
-                        </div>
-                    `;
-                    commentsList.append(commentHTML);
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching comments:", error);
+const getComments = (postId) => {
+    $.ajax({
+        url: "api/config/end-points/FetchComments.php", // Replace with your actual API endpoint
+        type: "GET",
+        data: { postId },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            
+            let commentsList = $(`#comments-${postId} .comments-list`);
+            commentsList.empty(); // Clear existing comments
+
+            if (!Array.isArray(response) || response.length === 0) {
+                commentsList.html("<p>No comments yet.</p>");
+                return;
             }
-        });
-    };
+
+            response.forEach(comment => {
+                let username = comment.username || "Anonymous";
+                let profilePic;
+
+                if (comment.profilePic) {
+                    profilePic = `uploads/images/${comment.profilePic}`;
+                } else {
+                    profilePic = "assets/imgs/User-Profile.png";
+                }
+                
+
+
+                let commentText = comment.comment_text || "";
+                let commentDate = comment.comment_date 
+                    ? new Date(comment.comment_date).toLocaleString("en-US", { hour12: true }) 
+                    : "Unknown Date";
+
+                console.log(comment.profilePic);
+
+                let commentHTML = `
+                    <div class="comment">
+                        <img src="${profilePic}" class="profile-pic" style="width: 32px; height: 32px;"
+                            onerror="this.onerror=null; this.src='assets/imgs/User-Profile.png';">
+                        <div>
+                            <strong>${username}</strong> 
+                            <span style="font-size: 12px; color: gray;">${commentDate}</span>
+                            <p>${commentText}</p>
+                        </div>
+                    </div>
+                `;
+
+                commentsList.append(commentHTML);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error fetching comments:", error);
+        }
+    });
+};
+
     
     // Submit new comment when pressing Enter
     $(document).on("keypress", ".comment-input input", function (event) {
@@ -182,12 +204,12 @@ if (Session_UserID == post.post_user_id) {
     
             // Simulated logged-in user details (replace with actual session values)
             let username = $("#username").val();// Replace with actual username from session
-            let profilePic = "https://ui-avatars.com/api/?name=User&background=random"; // Replace with actual user profile pic
+        
     
             // Add comment to UI
             let newComment = `
                 <div class="comment">
-                    <img src="${profilePic}" class="profile-pic" style="width: 32px; height: 32px;">
+                    <img src="${Session_ProfilePic}" class="profile-pic" style="width: 32px; height: 32px;">
                     <div>
                         <strong>${username}</strong>
                         <p>${commentText}</p>
@@ -223,8 +245,4 @@ if (Session_UserID == post.post_user_id) {
 
 
     
-
-    // setInterval(() => {
-    //     getUserPost();
-    // }, 1000);
 });
