@@ -189,7 +189,7 @@
         </div>
 
         <!-- <form id="petRegistrationForm" class="petForm" novalidate> -->
-        <form id="petRegistrationForm" class="petForm" >
+        <form id="petRegistrationForm" class="petForm">
              <!-- Spinner -->
         
                 <div class="form-grid">
@@ -381,21 +381,21 @@
             }
         });
 
-        document.getElementById('petRegistrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        // document.getElementById('petRegistrationForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
 
-            if (this.checkValidity()) {
-                alert('Pet registration submitted successfully!');
-                this.reset();
-                document.getElementById('photoPreview').innerHTML = '<span class="text-muted">Photo Preview</span>';
-                document.getElementById('signaturePreview').innerHTML = '';
-                document.getElementById('dateApplication').value = new Date().toISOString().split('T')[0];
-                document.getElementById('dateSigned').value = new Date().toISOString().split('T')[0];
-            }
+        //     if (this.checkValidity()) {
+        //         // alert('Pet registration submitted successfully!');
+        //         this.reset();
+        //         document.getElementById('photoPreview').innerHTML = '<span class="text-muted">Photo Preview</span>';
+        //         document.getElementById('signaturePreview').innerHTML = '';
+        //         document.getElementById('dateApplication').value = new Date().toISOString().split('T')[0];
+        //         document.getElementById('dateSigned').value = new Date().toISOString().split('T')[0];
+        //     }
 
-            this.classList.add('was-validated');
-        });
+        //     this.classList.add('was-validated');
+        // });
     </script>
 </body>
 </html>
