@@ -215,8 +215,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $vetContact = $_POST['vetContact'] ?? '';
             $dateSigned = $_POST['dateSigned'] ?? '';
 
-            // ✅ Step 1: Insert pet data first and get the actual pet_id
-            $petID = $db->petRegistration(
+                    // ✅ Step 1: Insert pet data and get the returned array
+            $petData = $db->petRegistration(
                 $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
                 $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
                 $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
@@ -224,7 +224,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, ""
             );
 
-            if (!is_numeric($petID)) {
+            // ✅ Extract the pet ID from the returned array
+            if (isset($petData['inserted_id']) && is_numeric($petData['inserted_id'])) {
+                $petID = $petData['inserted_id'];
+            } else {
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'Failed to register pet. Please try again.'
@@ -232,9 +235,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
-            // ✅ Step 2: Generate QR Code using the real pet_id
-            $qrData = $petID; // QR Code contains the actual pet_id
-
+            // ✅ Step 2: Generate QR Code 
+            
+            $qrData = '';
+            foreach ($petData as $key => $value) {
+                $qrData .= "{$key}: {$value}\n";
+            }
+            
             $qrCode = new QrCode(
                 data: $qrData,
                 encoding: new Encoding('UTF-8'),
@@ -245,27 +252,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foregroundColor: new Color(0, 0, 0),
                 backgroundColor: new Color(255, 255, 255)
             );
+            
 
             $writer = new PngWriter();
             $qrCodeResult = $writer->write($qrCode);
 
             // ✅ Step 3: Define QR Code file path using pet_id
-            $qrCodeFileName_directory = $qrCodeDir . "PET_" . $petID . ".png";
-            
             $qrCodeFileName = "PET_" . $petID . ".png";
-            // Save QR Code to file
-            file_put_contents($qrCodeFileName_directory, $qrCodeResult->getString());
+            $qrCodeFilePath = $qrCodeDir . $qrCodeFileName;
 
+            // ✅ Step 4: Save QR Code to file
+            file_put_contents($qrCodeFilePath, $qrCodeResult->getString());
 
-            $petID = $db->updatePetQRCode($petID, $qrCodeFileName);
-            
-            // ✅ Step 5: Return response
+            // ✅ Step 5: Update pet's QR code in the database
+            $db->updatePetQRCode($petID, $qrCodeFileName);
+
+            // ✅ Step 6: Return response with all pet data and QR code
+            $petData['qr_code'] = $qrCodeFileName; // Add QR code filename to response
+
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Pet registration successful!',
-                'pet_id' => $petID,
-                'qr_code' => $qrCodeFileName
+                'pet_data' => $petData, // Return all pet data including pet_id & qr_code
             ]);
+
 
             
             

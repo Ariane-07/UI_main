@@ -50,13 +50,40 @@ class global_class extends db_connect
         if ($stmt->execute()) {
             $insertedId = $this->conn->insert_id; // Get the last inserted pet_id
             $stmt->close();
-            return $insertedId; // Return the pet_id
+            return [
+                'inserted id' => $insertedId,
+                'date application' => $dateApplication,
+                'name applicant' => $nameApplicant,
+                'age' => $age,
+                'gender' => $gender,
+                'birthday' => $birthday,
+                'telephone' => $telephone,
+                'email applicant' => $emailApplicant,
+                'home address' => $homeAddress,
+                'pet name' => $petName,
+                'pet age' => $petAge,
+                'pet gender' => $petGender,
+                'species' => $species,
+                'breed' => $breed,
+                'pet weight' => $petWeight,
+                'pet color' => $petColor,
+                'distinguishing_marks' => $distinguishingMarks,
+                'pet birthday' => $petBirthday,
+                'vaccination_date' => $vaccinationDate,
+                'vaccination_expiry' => $vaccinationExpiry,
+                'vet clinic' => $vetClinic,
+                'vet name' => $vetName,
+                'vet address' => $vetAddress,
+                'vet contact' => $vetContact,
+                'date signed' => $dateSigned
+            ];
         } else {
             $error = "Error: " . $stmt->error;
             $stmt->close();
-            return $error;
+            return ['error' => $error];
         }
     }
+    
 
 
 

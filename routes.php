@@ -22,7 +22,6 @@ if (empty($_SESSION)) {
     $_SESSION['Gender']=$session_data[0]['Gender'];
     $_SESSION['Link_address']=$session_data[0]['Link_address'];
 
-   
 }
 
 // Autoload components and pages
@@ -48,9 +47,9 @@ function loadPage($folder, $page)
 
 // Get 'page', 'vetpage', and 'lgupage' parameters if they exist
 $page = $_GET['page'] ?? 'LogReg';         // Default to 'home' if 'page' is not set
-$vetpage = $_GET['vetpage'] ?? null;     // Check if 'vetpage' is set
-$lgupage = $_GET['lgupage'] ?? null;     // Check if 'lgupage' is set
-$component = $_GET['component'] ?? null;
+$vetpage = $_GET['vetpages'] ?? null;     // Check if 'vetpage' is set
+$lgupage = $_GET['lgupages'] ?? null;     // Check if 'lgupage' is set
+$component = $_GET['components'] ?? null;
 
 // Include the appropriate Navbar component
 if ($vetpage) {
