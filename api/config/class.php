@@ -1,4 +1,6 @@
 <?php
+
+
 include ('dbconnect.php');
 date_default_timezone_set('Asia/Manila');
 
@@ -8,6 +10,77 @@ class global_class extends db_connect
     {
         $this->connect();
     }
+
+
+
+
+
+
+    public function petRegistration(
+        $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
+        $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
+        $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
+        $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
+        $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, $qrCodeFileName
+    ) {
+        // Insert Data into Database
+        $sql = "INSERT INTO pets_info (
+            pet_photo_owner, pet_date_application, pet_owner_name, pet_owner_age,
+            pet_owner_gender, pet_owner_birthday, pet_owner_telMobile, pet_owner_email,
+            pet_owner_home_address, pet_name, pet_age, pet_gender, pet_species, pet_breed,
+            pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
+            pet_antiRabies_expi_date, pet_vet_clinic, pet_vet_name, pet_vet_clinic_address,
+            pet_vet_contact_info, pet_owner_signature, pet_date_signed, pet_qr_code
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param(
+            "sssssssssssssssssssssssssss",
+            $userPhotoName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
+            $telephone, $emailApplicant, $homeAddress, $petName, $petAge, $petGender,
+            $species, $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
+            $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
+            $vetContact, $ownerSignatureName, $dateSigned, $qrCodeFileName
+        );
+    
+        if ($stmt->execute()) {
+            $insertedId = $this->conn->insert_id; // Get the last inserted pet_id
+            $stmt->close();
+            return $insertedId; // Return the pet_id
+        } else {
+            $error = "Error: " . $stmt->error;
+            $stmt->close();
+            return $error;
+        }
+    }
+
+
+
+    public function updatePetQRCode($petID, $qrCodeFileName) {
+        $updateSQL = "UPDATE pets_info SET pet_qr_code = ? WHERE pet_id = ?";
+    
+        // Use $this->conn instead of $db->conn
+        $stmt = $this->conn->prepare($updateSQL);
+        
+        if (!$stmt) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("si", $qrCodeFileName, $petID);
+        
+        if (!$stmt->execute()) {
+            die("Execute failed: " . $stmt->error);
+        }
+    
+        $stmt->close();
+    }
+    
+    
+
 
 
     public function FetchComments($UserID, $postId) {
@@ -115,44 +188,7 @@ class global_class extends db_connect
     
     
 
-    public function petRegistration(
-        $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
-        $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
-        $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
-        $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-        $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName
-    ) {
-        $sql = "INSERT INTO pets_info (
-            pet_photo_owner, pet_date_application, pet_owner_name, pet_owner_age,
-            pet_owner_gender, pet_owner_birthday, pet_owner_telMobile, pet_owner_email,
-            pet_owner_home_address, pet_name, pet_age, pet_gender, pet_species, pet_breed,
-            pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
-            pet_antiRabies_expi_date, pet_vet_clinic, pet_vet_name, pet_vet_clinic_address,
-            pet_vet_contact_info, pet_owner_signature, pet_date_signed
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            die("Prepare failed: " . $this->conn->error);
-        }
-
-        $stmt->bind_param(
-            "ssssssssssssssssssssssssss",
-            $userPhotoName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
-            $telephone, $emailApplicant, $homeAddress, $petName, $petAge, $petGender,
-            $species, $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
-            $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-            $vetContact, $ownerSignatureName, $dateSigned
-        );
-
-        if ($stmt->execute()) {
-            return "Pet registration successful!";
-        } else {
-            return "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-    }
+    
 
     public function AddComment($UserID, $postId, $commentText)
     {
