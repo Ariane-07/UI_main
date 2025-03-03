@@ -215,31 +215,39 @@ class global_class extends db_connect
 
 
     public function LogIn($username, $password)
-    {
-         // Hash the input password using SHA-256
-         $hashedPassword = hash('sha256', $password);
-         // Prepare the SQL query
-         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
-     
-         // Bind the email and the hashed password
-         $query->bind_param("ss", $username, $hashedPassword);
-         
-         // Execute the query
-         if ($query->execute()) {
-             $result = $query->get_result();
-             if ($result->num_rows > 0) {
-                 $user = $result->fetch_assoc();
-                 session_start();
-                 $_SESSION['UserID'] = $user['UserID'];
-     
-                 return $user;
-             } else {
-                 return false;
-             }
-         } else {
-             return false;
-         }
+{
+    // Hash the input password using SHA-256
+    $hashedPassword = hash('sha256', $password);
+    
+    // Prepare the SQL query
+    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
+    
+    // Bind the username and the hashed password
+    $query->bind_param("ss", $username, $hashedPassword);
+    
+    // Execute the query
+    if ($query->execute()) {
+        $result = $query->get_result();
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            session_start();
+            $_SESSION['UserID'] = $user['UserID'];
+            $_SESSION['Role'] = $user['Role'];
+            
+            // Return user data along with role
+            return [
+                'UserID' => $user['UserID'],
+                'Username' => $user['Username'],
+                'Role' => $user['Role']
+            ];
+        } else {
+            return false; // No user found
+        }
+    } else {
+        return false; // Query execution failed
     }
+}
+
 
 
     public function check_account($UserID) {

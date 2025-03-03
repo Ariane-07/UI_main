@@ -7,7 +7,6 @@ $db = new global_class();
 
 
 if (empty($_SESSION)) {
-    // Ensure 'page' is the first GET parameter
     $_GET = ['page' => 'LogReg'] + $_GET;
 }else{
     $UserID=$_SESSION['UserID'];

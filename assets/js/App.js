@@ -162,9 +162,17 @@ $(document).ready(function () {
                 if (data.status === "success") {
                     alertify.success('Login Successful');
     
-                    // Delay redirect by 2 seconds to allow message display
+                    
                     setTimeout(function() {
-                        window.location.href = "index.php?page=home";
+                        if (data.data.Role === "pet_owner") {
+                            window.location.href = "index.php?page=home";
+                        }else if (data.data.Role === "vet") {
+                            window.location.href = "index.php?page=home";
+                        }else if (data.data.Role === "lgu") {
+                            window.location.href = "index.php?page=home";
+                        }else if (data.data.Role === "admin") {
+                            window.location.href = "index.php?page=home";
+                        }
                     }, 2000);  
     
                 }else if(data.status === "error"){
