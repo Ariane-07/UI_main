@@ -72,12 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }else if ($_POST['requestType'] == 'petRegistration') {
 
-            
-                // Ensure the required folders exist
             $qrCodeDir = "../../../qrcodes/";
             $uploadDir = "../../../uploads/images/";
 
-            // Function to generate a unique filename for uploaded files
             function generateUniqueFilename($file) {
                 $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                 return uniqid() . '.' . $ext;
@@ -153,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
                 $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
                 $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-                $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, "" // Placeholder for QR Code
+                $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, ""
             );
 
             if (!is_numeric($petID)) {
