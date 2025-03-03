@@ -1,16 +1,26 @@
+<?php 
+if($_SESSION['Role']=="pet_owner"){
+    $Role="Pet Owner";
+}else{
+    $Role=$_SESSION['Role'];
+}
+?>
+
 
 <div class="profile-container">
     <div class="profile-sidebar">
+        <form id="frmUpdateProfile">
         <div class="profile-image">
-            <img id="profile-pic" src="assets/imgs/User-Profile.png" alt="Profile Image">
+            <img id="profile-pic" src="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+
             <label for="profile-pic-input" class="file-input-label">CHOOSE A PHOTO</label>
-            <input type="file" id="profile-pic-input" class="file-input" accept="image/*" onchange="loadFile(event)">
+            <input type="file" id="profile-pic-input" name="profile-pic-input" class="file-input" accept="image/*" onchange="loadFile(event)">
         </div>
         <div class="profile-info">
             <p>Email</p>
-            <input type="email" id="email" class="editable-input">
+            <input type="email" id="email" name="email" class="editable-input" value="<?=$_SESSION['email']?>">
             <p>Role</p>
-            <input type="text" id="role" class="editable-input" disabled>
+            <input type="text" id="role" class="editable-input" value="<?=$Role?>" disabled>
         </div>
         <a href="logout.php" class="logout-link">LOG OUT</a>
     </div>
@@ -18,100 +28,61 @@
     <div class="profile-details">
         <div class="detail-group">
             <label class="detail-label">Name</label>
-            <input type="text" id="name" class="editable-input">
+            <input type="text" id="name" name="owner_name" class="editable-input" value="<?=$_SESSION['name']?>">
         </div>
+        <div class="detail-group">
+            <label class="detail-label">Username</label>
+            <input type="text" id="username" name="username" class="editable-input" value="<?=$_SESSION['username']?>">
+        </div>
+        
+
         <div class="detail-group">
             <label class="detail-label">Gender</label>
-            <select id="gender" class="editable-input">
-                <option value="Female" selected>Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
+            <select id="gender" name="gender" class="editable-input">
+                <option value="Female" <?= ($_SESSION['Gender'] ?? '') == 'Female' ? 'selected' : '' ?>>Female</option>
+                <option value="Male" <?= ($_SESSION['Gender'] ?? '') == 'Male' ? 'selected' : '' ?>>Male</option>
+                <option value="Other" <?= ($_SESSION['Gender'] ?? '') == 'Other' ? 'selected' : '' ?>>Other</option>
             </select>
         </div>
+
+
         <div class="detail-group">
             <label class="detail-label">Birth Date</label>
-            <input type="date" id="birthdate" class="editable-input">
+            <input type="date" id="birthdate" name="birthdate" class="editable-input" value="<?=$_SESSION['BirthDate']?>">
         </div>
         <div class="detail-group">
             <label class="detail-label">Contact Number</label>
-            <input type="tel" id="contact" class="editable-input">
+            <input type="tel" id="contact" name="contact" class="editable-input" value="<?=$_SESSION['Contact']?>">
         </div>
         <div class="detail-group">
             <label class="detail-label">Address</label>
-            <div id="map" style="height: 300px; width: 100%;"></div>
-            <textarea id="address" class="editable-input"></textarea>
+            <textarea id="address" name="address" class="editable-input"><?=$_SESSION['Address']?></textarea>
         </div>
-        <button class="btn" onclick="saveProfile()">SAVE</button>
+
+        <div class="detail-group">
+            <label class="detail-label">Link Address</label>
+            <textarea id="Link_address" name="Link_address" class="editable-input"><?=$_SESSION['Link_address']?></textarea>
+           
+           
+        </div>
+
+        <div class="detail-group" style="width: 100%; max-width: 400px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; overflow: hidden;">
+            <?php 
+                if (!empty($_SESSION['Link_address'])) {
+                    echo $_SESSION['Link_address'];
+                }
+            ?>
+        </div>
+
+
+
+        <button type="submit" id="btnUpdateProfile" class="btn">SAVE</button>
+        </form>
     </div>
 </div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+
+
 <script>
- let map, marker;
-
-window.initMap = function() {
-    console.log("initMap called"); // Debugging
-    const initialLocation = {
-        lat: -34.397,
-        lng: 150.644
-    };
-
-    map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
-        center: initialLocation,
-    });
-
-    marker = new google.maps.Marker({
-        position: initialLocation,
-        map: map,
-    });
-
-    map.addListener("click", (event) => {
-        marker.setPosition(event.latLng);
-        document.getElementById("address").value = `${event.latLng.lat()}, ${event.latLng.lng()}`;
-    });
-};
-
-    window.onload = function() {
-        const storedName = localStorage.getItem("name");
-        const storedEmail = localStorage.getItem("email");
-        const storedGender = localStorage.getItem("gender");
-        const storedContact = localStorage.getItem("contact");
-        const storedAddress = localStorage.getItem("address");
-        const storedBirthdate = localStorage.getItem("birthdate");
-        const storedProfilePic = localStorage.getItem("profilePic");
-
-        if (storedBirthdate)
-            document.getElementById("birthdate").value = storedBirthdate;
-        if (storedName) document.getElementById("name").value = storedName;
-        if (storedEmail) document.getElementById("email").value = storedEmail;
-        if (storedGender) document.getElementById("gender").value = storedGender;
-        if (storedContact) document.getElementById("contact").value = storedContact;
-        if (storedAddress) document.getElementById("address").value = storedAddress;
-        if (storedProfilePic) {
-            document.getElementById("profile-pic").src = storedProfilePic;
-        }
-    };
-
-    function saveProfile() {
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const gender = document.getElementById("gender").value;
-        const contact = document.getElementById("contact").value;
-        const address = document.getElementById("address").value;
-        const birthdate = document.getElementById("birthdate").value;
-        const profilePic = document.getElementById("profile-pic").src;
-
-        localStorage.setItem("name", name);
-        localStorage.setItem("email", email);
-        localStorage.setItem("gender", gender);
-        localStorage.setItem("contact", contact);
-        localStorage.setItem("address", address);
-        localStorage.setItem("birthdate", birthdate);
-        localStorage.setItem("profilePic", profilePic);
-
-        alert("Profile saved!");
-    }
-
     const loadFile = function(event) {
         const profilePic = document.getElementById("profile-pic");
         const reader = new FileReader();

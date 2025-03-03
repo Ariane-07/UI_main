@@ -15,6 +15,7 @@
         <!-- Hidden User ID -->
         <input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
         <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
+        <input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
         <!-- Textarea -->
         <textarea id="postInput" placeholder="What's happening?" rows="3" name="postInput"></textarea>
@@ -41,8 +42,11 @@
         </div>
     </div>
 
-    <!-- Posts Feed -->
-    <div id="postFeed" class="post-feed"></div>
+   
+
+
+    
+</form>
 
     <!-- "See More" Button -->
     <div class="see-more-container">
@@ -50,6 +54,13 @@
     </div>
 
 
+
+        <!-- Posts Feed -->
+        <div id="postFeed" class="post-feed"></div>
+        <!-- "See More" Button -->
+        <div class="see-more-container">
+            <button id="seeMoreBtn" style="display:none;">See More</button>
+        </div>
 
         <!-- Image Modal for Zoom -->
         <div class="image-modal" id="imageModal">

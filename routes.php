@@ -7,13 +7,22 @@ $db = new global_class();
 
 
 if (empty($_SESSION)) {
-    // Ensure 'page' is the first GET parameter
     $_GET = ['page' => 'LogReg'] + $_GET;
 }else{
     $UserID=$_SESSION['UserID'];
     $session_data = $db->check_account($UserID);
+    $_SESSION['name']=$session_data[0]['Name'];
+    $_SESSION['email']=$session_data[0]['Email'];
     $_SESSION['username']=$session_data[0]['Username'];
+    $_SESSION['ProfilePic']=$session_data[0]['ProfilePic'];
     $_SESSION['Role']=$session_data[0]['Role'];
+    $_SESSION['BirthDate']=$session_data[0]['BirthDate'];
+    $_SESSION['Contact']=$session_data[0]['Contact'];
+    $_SESSION['Address']=$session_data[0]['Address'];
+    $_SESSION['Gender']=$session_data[0]['Gender'];
+    $_SESSION['Link_address']=$session_data[0]['Link_address'];
+
+   
 }
 
 // Autoload components and pages

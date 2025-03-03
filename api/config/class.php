@@ -95,7 +95,7 @@ class global_class extends db_connect
             FROM post_comments
             LEFT JOIN users ON post_comments.comments_user_id = users.UserID
             WHERE post_comments.comments_post_id = ?
-            ORDER BY post_comments.comments_date DESC
+            ORDER BY post_comments.comments_date ASC
         ";
     
         // Prepare statement
@@ -119,8 +119,8 @@ class global_class extends db_connect
                     'comment_id' => $row['comments_id'],
                     'comment_text' => $row['comments_text'],
                     'comment_date' => $row['comments_date'],
-                    'username' => $row['Username'] ?? 'Unknown User',
-                    'profilePic' => $row['ProfilePic'] ?? 'https://ui-avatars.com/api/?name=User&background=random'
+                    'username' => $row['Username'],
+                    'profilePic' => $row['ProfilePic']
                 ];
             }
             echo json_encode($comments);
@@ -166,6 +166,52 @@ class global_class extends db_connect
     
         $stmt->close();
     }
+
+
+    public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID)
+    {
+        // Start constructing the SQL statement
+        $sql = "UPDATE users SET Email = ?, Name = ?, Username = ?, Gender = ?, BirthDate = ?, Contact = ?, Address = ?, Link_address = ?";
+        
+        // Array to store the parameters and their types
+        $params = [$email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address];
+        $types = "ssssssss"; // Corresponding types for bind_param
+    
+        // Include ProfilePic in the update only if it's not null
+        if ($profilePicName !== null) {
+            $sql .= ", ProfilePic = ?";
+            $params[] = $profilePicName;
+            $types .= "s"; // Add one more string type
+        }
+    
+        // Add the WHERE condition
+        $sql .= " WHERE UserID = ?";
+        $params[] = $UserID;
+        $types .= "i"; // UserID is an integer
+    
+        // Prepare SQL statement
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            return json_encode(array('status' => 'error', 'message' => 'Failed to prepare statement.'));
+        }
+    
+        // Bind parameters dynamically
+        $stmt->bind_param($types, ...$params);
+    
+        // Execute the query
+        if ($stmt->execute()) {
+            $stmt->close();
+            return json_encode(array('status' => 'success', 'message' => 'Profile updated successfully.'));
+        } else {
+            $stmt->close();
+            return json_encode(array('status' => 'error', 'message' => 'Unable to update profile.'));
+        }
+    }
+    
+
+
+
 
 
     public function PostContent($post_user_id,$postInput, $postFilesJson)
@@ -251,31 +297,39 @@ class global_class extends db_connect
 
 
     public function LogIn($username, $password)
-    {
-         // Hash the input password using SHA-256
-         $hashedPassword = hash('sha256', $password);
-         // Prepare the SQL query
-         $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
-     
-         // Bind the email and the hashed password
-         $query->bind_param("ss", $username, $hashedPassword);
-         
-         // Execute the query
-         if ($query->execute()) {
-             $result = $query->get_result();
-             if ($result->num_rows > 0) {
-                 $user = $result->fetch_assoc();
-                 session_start();
-                 $_SESSION['UserID'] = $user['UserID'];
-     
-                 return $user;
-             } else {
-                 return false;
-             }
-         } else {
-             return false;
-         }
+{
+    // Hash the input password using SHA-256
+    $hashedPassword = hash('sha256', $password);
+    
+    // Prepare the SQL query
+    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
+    
+    // Bind the username and the hashed password
+    $query->bind_param("ss", $username, $hashedPassword);
+    
+    // Execute the query
+    if ($query->execute()) {
+        $result = $query->get_result();
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            session_start();
+            $_SESSION['UserID'] = $user['UserID'];
+            $_SESSION['Role'] = $user['Role'];
+            
+            // Return user data along with role
+            return [
+                'UserID' => $user['UserID'],
+                'Username' => $user['Username'],
+                'Role' => $user['Role']
+            ];
+        } else {
+            return false; // No user found
+        }
+    } else {
+        return false; // Query execution failed
     }
+}
+
 
 
     public function check_account($UserID) {
