@@ -2,6 +2,41 @@ $(document).ready(function () {
 
 
 
+    $("#frmUpdateProfile").submit(function (e) {
+        e.preventDefault();
+    
+        $('.spinner').show();
+        $('#btnUpdateProfile').prop('disabled', true);
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'UpdateProfile');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#btnUpdateProfile').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Update Successfully');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    alertify.error('Error');
+                }
+            }
+        });
+    });
+
+
+
     $("#petRegistrationForm").submit(function (e) {
         e.preventDefault();
     

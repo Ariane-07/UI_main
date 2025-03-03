@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+    var Session_UserID=$("#UserID").val();
+
     let offset = 0;
     const limit = 5;
 
@@ -51,39 +54,47 @@ $(document).ready(function () {
                         }
                     }
 
-                    $("#postFeed").append(`
-                        <div class="post">
-                            <div class="post-header">
-                                <img class="profile-pic" src="${ProfilePic}" alt="Profile Picture">
-                                <div>
-                                    <strong class="Username">${Username}</strong>
-                                    <span style="color: #666; font-size: 14px;" class="post_date"> • ${postDate}</span>
-                                </div>
-                            </div>
-                            <div class="post-content">${postContent}</div>
-                            <div class="media-content">${mediaContent}</div>
-                            <div class="post-actions">
-                                <div class="post-actions-left">
-                                    <button type="button" class="action-btn"><i class="far fa-heart"></i> <span>0</span></button>
-                                    <button type="button" class="action-btn comment-btn" data-post-id="${post.post_id}">
-                                        <i class="far fa-comment"></i> Comment
-                                    </button>
-                                    <button type="button" class="action-btn"><i class="far fa-share-square"></i> Share</button>
-                                </div>
-                                <div class="post-actions-right">
-                                    <span class="edit-icon"><i class="fas fa-edit"></i></span>
-                                    <span class="delete-icon"><i class="fas fa-trash"></i></span>
-                                </div>
-                            </div>
-                            <div class="comments-section" id="comments-${post.post_id}" style="display: none;">
-                                <div class="comments-list"></div>
-                                <div class="comment-input">
-                                    <img src="${ProfilePic}" class="profile-pic" style="width: 32px; height: 32px;">
-                                    <input type="text" placeholder="Write a comment..." data-postid='${post.post_id}'>
-                                </div>
+                    let editDeleteButtons = "";
+if (Session_UserID == post.post_user_id) {
+    editDeleteButtons = `
+        <div class="post-actions-right">
+            <span class="edit-icon"><i class="fas fa-edit"></i></span>
+            <span class="delete-icon"><i class="fas fa-trash"></i></span>
+        </div>
+    `;
+}
+
+                $("#postFeed").append(`
+                    <div class="post">
+                        <div class="post-header">
+                            <img class="profile-pic" src="uploads/images/${ProfilePic}" alt="Profile Picture">
+                            <div>
+                                <strong class="Username">${Username}</strong>
+                                <span style="color: #666; font-size: 14px;" class="post_date"> • ${postDate}</span>
                             </div>
                         </div>
-                    `);
+                        <div class="post-content">${postContent}</div>
+                        <div class="media-content">${mediaContent}</div>
+                        <div class="post-actions">
+                            <div class="post-actions-left">
+                                <button type="button" class="action-btn"><i class="far fa-heart"></i> <span>0</span></button>
+                                <button type="button" class="action-btn comment-btn" data-post-id="${post.post_id}">
+                                    <i class="far fa-comment"></i> Comment
+                                </button>
+                                <button type="button" class="action-btn"><i class="far fa-share-square"></i> Share</button>
+                            </div>
+                            ${editDeleteButtons} <!-- Insert edit/delete buttons here if condition is met -->
+                        </div>
+                        <div class="comments-section" id="comments-${post.post_id}" style="display: none;">
+                            <div class="comments-list"></div>
+                            <div class="comment-input">
+                                <img src="uploads/images/${ProfilePic}" class="profile-pic" style="width: 32px; height: 32px;">
+                                <input type="text" placeholder="Write a comment..." data-postid='${post.post_id}'>
+                            </div>
+                        </div>
+                    </div>
+                `);
+
                 });
 
                 if (response.length < limit) {
@@ -146,7 +157,7 @@ $(document).ready(function () {
     
                     let commentHTML = `
                         <div class="comment">
-                            <img src="${profilePic}" class="profile-pic" style="width: 32px; height: 32px;">
+                            <img src="uploads/images/${profilePic}" class="profile-pic" style="width: 32px; height: 32px;">
                             <div>
                                 <strong>${username}</strong> <span style="font-size: 12px; color: gray;">${commentDate}</span>
                                 <p>${commentText}</p>

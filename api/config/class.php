@@ -95,6 +95,52 @@ class global_class extends db_connect
     }
 
 
+    public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID)
+    {
+        // Start constructing the SQL statement
+        $sql = "UPDATE users SET Email = ?, Name = ?, Username = ?, Gender = ?, BirthDate = ?, Contact = ?, Address = ?, Link_address = ?";
+        
+        // Array to store the parameters and their types
+        $params = [$email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address];
+        $types = "ssssssss"; // Corresponding types for bind_param
+    
+        // Include ProfilePic in the update only if it's not null
+        if ($profilePicName !== null) {
+            $sql .= ", ProfilePic = ?";
+            $params[] = $profilePicName;
+            $types .= "s"; // Add one more string type
+        }
+    
+        // Add the WHERE condition
+        $sql .= " WHERE UserID = ?";
+        $params[] = $UserID;
+        $types .= "i"; // UserID is an integer
+    
+        // Prepare SQL statement
+        $stmt = $this->conn->prepare($sql);
+    
+        if (!$stmt) {
+            return json_encode(array('status' => 'error', 'message' => 'Failed to prepare statement.'));
+        }
+    
+        // Bind parameters dynamically
+        $stmt->bind_param($types, ...$params);
+    
+        // Execute the query
+        if ($stmt->execute()) {
+            $stmt->close();
+            return json_encode(array('status' => 'success', 'message' => 'Profile updated successfully.'));
+        } else {
+            $stmt->close();
+            return json_encode(array('status' => 'error', 'message' => 'Unable to update profile.'));
+        }
+    }
+    
+
+
+
+
+
     public function PostContent($post_user_id,$postInput, $postFilesJson)
     {
         // Proceed with insertion if email does not exist

@@ -61,14 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
         }else if ($_POST['requestType'] == 'petRegistration') {
-
-          
-            // Function to generate a unique filename
                 function generateUniqueFilename($file) {
                     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                     return uniqid() . '.' . $ext;
                 }
-
+                
                 $userPhoto = $_FILES['userPhoto'];
                 $ownerSignature = $_FILES['ownerSignature'];
 
@@ -109,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $vetContact = $_POST['vetContact'];
                 $dateSigned = $_POST['dateSigned'];
 
-                // Call petRegistration function with all data including uploaded file names
                 $result= $db->petRegistration(
                     $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone, 
                     $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species, 
@@ -135,6 +131,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           
 
             echo $db->SignUp($email,$username,$password,$role);
+            
+        }else if ($_POST['requestType'] == 'UpdateProfile') {
+
+
+            session_start();
+            $uploadDir = "../../../uploads/images/";
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            // Get the current profile picture filename from the session
+            $currentProfilePic = $_SESSION['ProfilePic'] ?? null;
+            
+            // Handle profile picture upload
+            $profilePic = $_FILES['profile-pic-input'] ?? null;
+            $profilePicName = $currentProfilePic; // Default to the existing profile picture
+            $newProfileUploaded = false; // Track if a new profile pic is uploaded
+            
+            if ($profilePic && $profilePic['error'] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($profilePic['name'], PATHINFO_EXTENSION);
+                $newProfilePicName = uniqid("Profile_") . "." . $ext;
+                $profilePicPath = $uploadDir . $newProfilePicName;
+            
+                if (move_uploaded_file($profilePic['tmp_name'], $profilePicPath)) {
+                    $profilePicName = $newProfilePicName; // Set new profile picture if upload succeeds
+                    $newProfileUploaded = true; // Mark as uploaded
+                }
+            }
+            
+            // Get user input
+            $email = $_POST['email'] ?? '';
+            $owner_name = $_POST['owner_name'] ?? '';
+            $username = $_POST['username'] ?? '';
+            $gender = $_POST['gender'] ?? '';
+            $birthdate = $_POST['birthdate'] ?? '';
+            $contact = $_POST['contact'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $link_address = $_POST['Link_address'] ?? '';
+            $UserID = $_SESSION['UserID'];
+            
+            // Call UpdateProfile function with the updated parameters
+            $updateSuccess = $db->UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID);
+            
+            if ($updateSuccess) {
+                // Only unlink the old profile pic if a new one was uploaded
+                if ($newProfileUploaded && $currentProfilePic && file_exists($uploadDir . $currentProfilePic)) {
+                    unlink($uploadDir . $currentProfilePic);
+                }
+            
+                // Update session with the new profile picture
+                $_SESSION['ProfilePic'] = $profilePicName;
+            
+                echo json_encode([
+                    "status" => "success",
+                    "message" => "Profile updated successfully!",
+                    "profilePic" => $profilePicName
+                ]);
+            } else {
+                // If update fails and a new profile pic was uploaded, delete it to prevent unused files
+                if ($newProfileUploaded && file_exists($profilePicPath)) {
+                    unlink($profilePicPath);
+                }
+            
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Failed to update profile."
+                ]);
+            }
+            
+
+            
             
         }else if ($_POST['requestType'] == 'Login') {
             $username = $_POST['username'];

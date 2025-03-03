@@ -39,15 +39,17 @@
         </div>
     </div>
 
-    <!-- Posts Feed -->
-    <div id="postFeed" class="post-feed"></div>
+   
 
-    <!-- "See More" Button -->
-    <div class="see-more-container">
-        <button id="seeMoreBtn" style="display:none;">See More</button>
-    </div>
+    
 </form>
 
+        <!-- Posts Feed -->
+        <div id="postFeed" class="post-feed"></div>
+        <!-- "See More" Button -->
+        <div class="see-more-container">
+            <button id="seeMoreBtn" style="display:none;">See More</button>
+        </div>
 
         <!-- Image Modal for Zoom -->
         <div class="image-modal" id="imageModal">
