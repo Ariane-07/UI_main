@@ -9,6 +9,7 @@ $db = new global_class();
 if (empty($_SESSION)) {
     $_GET = ['page' => 'LogReg'] + $_GET;
 }else{
+    
     $UserID=$_SESSION['UserID'];
     $session_data = $db->check_account($UserID);
     $_SESSION['name']=$session_data[0]['Name'];
@@ -22,6 +23,8 @@ if (empty($_SESSION)) {
     $_SESSION['Gender']=$session_data[0]['Gender'];
     $_SESSION['Link_address']=$session_data[0]['Link_address'];
 
+    
+   
 }
 
 // Autoload components and pages

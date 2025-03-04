@@ -79,6 +79,9 @@ if (Session_UserID == post.post_user_id) {
     `;
 }
 
+
+
+
                 $("#postFeed").append(`
                     <div class="post">
                         <div class="post-header">
@@ -109,6 +112,9 @@ if (Session_UserID == post.post_user_id) {
                         </div>
                     </div>
                 `);
+
+
+             
 
                 });
 
@@ -182,7 +188,7 @@ const getComments = (postId) => {
                     ? new Date(comment.comment_date).toLocaleString("en-US", { hour12: true }) 
                     : "Unknown Date";
 
-                console.log(comment.profilePic);
+            
 
                 let commentHTML = `
                     <div class="comment">
@@ -227,6 +233,7 @@ const getComments = (postId) => {
                     </div>
                 </div>
             `;
+
             commentsList.append(newComment);
             $(this).val(""); // Clear input field
     
