@@ -211,6 +211,34 @@ class global_class extends db_connect
     }
 
 
+    public function fetchUserChats($sender_id, $receiver_id) {
+        $sql = "SELECT cm.*, 
+                       sender.UserID AS sender_id, sender.Name AS sender_name, sender.ProfilePic AS sender_profile, 
+                       receiver.UserID AS receiver_id, receiver.Name AS receiver_name, receiver.ProfilePic AS receiver_profile
+                FROM chat_messages cm
+                LEFT JOIN users sender ON sender.UserID = cm.sender_id
+                LEFT JOIN users receiver ON receiver.UserID = cm.receiver_id
+                WHERE (cm.sender_id = ? AND cm.receiver_id = ?) 
+                   OR (cm.sender_id = ? AND cm.receiver_id = ?)
+                ORDER BY cm.chat_id ASC";
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iiii", $sender_id, $receiver_id, $receiver_id, $sender_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        $messages = [];
+        while ($row = $result->fetch_assoc()) {
+            $messages[] = $row;
+        }
+    
+        return $messages;
+    }
+    
+    
+    
+
+
 
     public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID)
     {
@@ -316,6 +344,24 @@ class global_class extends db_connect
         }
     }
 
+
+    public function SentMessagge($sender_id, $reciever_id, $message, $uniqueFileName)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO `chat_messages` (`sender_id`, `receiver_id`, `message_text`, `message_media`) VALUES (?, ?, ?, ?)");
+    
+        if (!$stmt) {
+            return json_encode(array('status' => 'error', 'message' => 'SQL prepare failed: ' . $this->conn->error));
+        }
+    
+        $stmt->bind_param("ssss", $sender_id, $reciever_id, $message, $uniqueFileName);
+    
+        if ($stmt->execute()) {
+            return json_encode(array('status' => 'success'));
+        } else {
+            return json_encode(array('status' => 'error', 'message' => 'Unable to post: ' . $stmt->error));
+        }
+    }
+    
     
     
     

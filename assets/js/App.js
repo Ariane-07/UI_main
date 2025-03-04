@@ -1,7 +1,52 @@
 $(document).ready(function () {
 
-    
 
+   
+
+    
+    $("#frmSentMessagge").submit(function (e) {
+        e.preventDefault();
+
+        
+        if ($("#reciever_id").val().trim() === "") {
+            alertify.error('Select Receiver First');
+            return;
+        }
+
+        if ($("#message-input").val().trim() === "" && $("#file-upload")[0].files.length === 0) {
+            return;
+        }
+        
+
+        $('.spinner').show();
+        $('#send-message').prop('disabled', true);
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'SentMessagge');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#send-message').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Sent Successfully');
+
+                    $("#file-upload").val("");
+                    $("#message-input").val("");
+                } else {
+                    alertify.error('Error');
+                }
+            }
+        });
+    });
 
 
     

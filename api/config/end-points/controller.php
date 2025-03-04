@@ -279,6 +279,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             
+        }else if ($_POST['requestType'] == 'SentMessagge') {
+
+            session_start();
+            $imageUpload = isset($_FILES['file-upload']) ? $_FILES['file-upload'] : null;
+            $message = $_POST['message-input'];
+            $reciever_id = $_POST['reciever_id'];
+            $sender_id = $_SESSION['UserID'];
+            
+            // Set unique file name only if an image is uploaded
+            if ($imageUpload && $imageUpload['error'] === UPLOAD_ERR_OK) {
+                $uniqueFileName = uniqid() . "_" . basename($imageUpload['name']);
+            } else {
+                $uniqueFileName = null; // Set to null if no file is uploaded
+            }
+            
+            // Call the SentMessagge method
+            $response = json_decode($db->SentMessagge($sender_id, $reciever_id, $message, $uniqueFileName), true);
+            
+            // Check if the message was successfully inserted before uploading the image
+            if ($response && isset($response['status']) && $response['status'] === 'success') {
+                if ($uniqueFileName) {
+                    $uploadDir = "../../../uploads/images/"; // Directory to save images
+                    $uploadPath = $uploadDir . $uniqueFileName;
+            
+                    if (move_uploaded_file($imageUpload['tmp_name'], $uploadPath)) {
+                        echo json_encode(array('status' => 'success', 'message' => 'Message sent and image uploaded.'));
+                    } else {
+                        echo json_encode(array('status' => 'error', 'message' => 'Message sent but image upload failed.'));
+                    }
+                } else {
+                    echo json_encode(array('status' => 'success', 'message' => 'Message sent without an image.'));
+                }
+            } else {
+                echo json_encode(array('status' => 'error', 'message' => 'Message sending failed.'));
+            }
+            
+            
+            
         }else if ($_POST['requestType'] == 'Signup') {
 
             $email=$_POST['email'];

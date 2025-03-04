@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.chat-message.sent {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    text-align: right;
+}
+
+.chat-message.received {
+    align-self: flex-start;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+.chat-profile {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chat-image {
+    max-width: 150px;
+    border-radius: 5px;
+}
+
+.no-messages,
+.error-message {
+    text-align: center;
+    color: gray;
+    padding: 10px;
+    font-style: italic;
+}

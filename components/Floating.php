@@ -31,6 +31,8 @@
 
 
 
+<form id="frmSentMessagge">
+
 <!-- Modal HTML Structure for Chat Box -->
 <div id="chat-modal" class="chat-modal">
     <div class="chat-modal-content">
@@ -45,20 +47,33 @@
             </ul>
 
         </div>
+
+
         <div class="chat-box">
-            <h3>Chat with <span id="chat-with">John</span></h3>
+            <h3>Chat with <span id="chat-with"></span></h3>
+            <input type="hidden"  id="reciever_id"  name="reciever_id" />
+
             <div class="chat-messages">
                 <!-- Messages will appear here -->
             </div>
+
             <div class="chat-input">
                 <label for="file-upload" class="custom-file-upload">
                     <i class='bx bx-upload'></i>
                 </label>
-                <input id="file-upload" type="file" />
-                <input type="text" id="message-input" placeholder="Type A Message...">
-                <button id="send-message" class="btn">SEND</button>
-            </div>
 
+                
+              
+
+                <input id="file-upload" type="file" name="file-upload" />
+                <input type="text" id="message-input" name="message-input" placeholder="Type A Message...">
+                <button type="submit" id="send-message" class="btn">SEND</button>
+            </div>
         </div>
+
+
     </div>
 </div>
+
+</form>
+
