@@ -295,7 +295,7 @@
                     <input type="date" class="form-control" id="petBirthday" name="petBirthday" required>
                 </div>
                 <div>
-                    <label for="petPhoto" class="form-label required">Pet Photo (Front, Side, Back):</label>
+                    <label for="petPhoto" class="form-label required">Pet Photo:</label>
                     <input type="file" class="form-control" id="petPhoto" accept="image/*" required>
                 </div>
 
@@ -308,6 +308,10 @@
                 <div>
                     <label for="vaccinationExpiry" class="form-label required">Vaccination Expiry Date</label>
                     <input type="date" class="form-control" id="vaccinationExpiry" name="vaccinationExpiry" required>
+                </div>
+                <div>
+                    <label for="antiRabPic" class="form-label required">Anti-Rabies Vaccine Photo:</label>
+                    <input type="file" class="form-control" id="antiRabPic" accept="image/*" required>
                 </div>
 
                 <!-- Veterinarian Information -->
