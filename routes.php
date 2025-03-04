@@ -59,6 +59,7 @@ if ($vetpage) {
 } elseif ($page !== 'LogReg') {
     loadComponent('Navbar');             // Load default Navbar if it's not the login page
 }
+
 // Always load the Floating component unless it's the login page
 if ($page !== 'LogReg') {
     loadComponent('Floating');
@@ -70,8 +71,10 @@ if ($page !== 'LogReg') {
 if ($component) {
     loadComponent(ucfirst($component)); 
 } elseif ($vetpage) {
+    loadComponent('Floating');
     loadPage('vetpages', $vetpage);
 } elseif ($lgupage) {
+    loadComponent('Floating');
     loadPage('lgupages', $lgupage);
 } else {
     loadPage('pages', ucfirst($page)); 

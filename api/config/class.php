@@ -165,8 +165,10 @@ class global_class extends db_connect
         $query = "
             SELECT * FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
+            WHERE post_status='1'
             ORDER BY post_content.post_date DESC
             LIMIT ? OFFSET ?
+            
         ";
     
         // Prepare statement
@@ -241,6 +243,48 @@ class global_class extends db_connect
 
 
 
+    public function DeletePost($deletepostid)
+    {
+        
+            // Update query excluding post_images
+            $stmt = $this->conn->prepare("UPDATE `post_content` SET `post_status` = '0' WHERE `post_id` = ?");
+            $stmt->bind_param("s",$deletepostid);
+        
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to delete post'));
+        }
+    }
+
+
+    public function EditPost($editpostid, $postInput, $postFilesJson)
+    {
+        if (!empty($postFilesJson)) {
+            // Update query including post_images
+            $stmt = $this->conn->prepare("UPDATE `post_content` SET `post_content` = ?, `post_images` = ? WHERE `post_id` = ?");
+            $stmt->bind_param("sss", $postInput, $postFilesJson, $editpostid);
+        } else {
+            // Update query excluding post_images
+            $stmt = $this->conn->prepare("UPDATE `post_content` SET `post_content` = ? WHERE `post_id` = ?");
+            $stmt->bind_param("ss", $postInput, $editpostid);
+        }
+    
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to update post'));
+        }
+    }
+
+
+
     public function PostContent($post_user_id,$postInput, $postFilesJson)
     {
         // Proceed with insertion if email does not exist
@@ -253,7 +297,7 @@ class global_class extends db_connect
             );
             echo json_encode($response);
         } else {
-            echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to post'));
         }
     }
 

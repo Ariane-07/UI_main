@@ -83,41 +83,50 @@
             </div>
         </div>
 
-        <div class="delete-modal" id="deleteModal">
-            <div class="delete-modal-content">
-                <h3>Delete Post</h3>
-                <p>Are you sure you want to delete this post?</p>
-                <div class="delete-modal-actions">
-                    <button id="confirmDelete" class="delete-btn">Delete</button>
-                    <button onclick="closeDeleteModal()" class="cancel-btn">Cancel</button>
+
+        <form id="frmDeletePost">
+            <div class="delete-modal" id="deletePostModal">
+                <div class="delete-modal-content">
+                <input hidden type="text" id="deletepostid" name="deletepostid">
+                    <h3>Delete Post</h3>
+                    <p>Are you sure you want to delete this post?</p>
+                    <div class="delete-modal-actions">
+                        <button type="submit" id="confirmDeletePost" class="delete-btn">Delete</button>
+                        <button type="button"  class="CloseDeletePostModal cancel-btn">Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+
 
         <!-- Edited Modal -->
-        <div class="edit-modal" id="editModal">
+        <form id="frmEditPost">
+        <div class="edit-modal" id="editPostModal">
             <div class="edit-modal-content">
-                <span class="edit-modal-close" onclick="closeEditModal()">&times;</span>
+           
+                <span class="edit-modal-close ClosePostModal" >&times;</span>
                 <h3>Edit Post</h3>
-                <textarea id="editPostText" rows="3" placeholder="What's on your mind?"></textarea>
+                
+                    <input hidden type="text" id="editpostid" name="editpostid">
+                    <textarea id="editPostText" name="editPostText" rows="3" placeholder="What's on your mind?"></textarea>
 
-                <div id="editMediaPreview"></div>
+                    <div id="editMediaPreview"></div>
 
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <label for="editImageUpload" class="custom-file-label" title="Upload Photos">
-                        <input type="file" id="editImageUpload" multiple accept="image/*" style="display: none;">
-                        <i class="fas fa-image"></i>
-                    </label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label for="editImageUpload" class="custom-file-label" title="Upload Photos">
+                            <input type="file" id="editImageUpload" multiple accept="image/*" style="display: none;" name="images[]">
+                            <i class="fas fa-image"></i>
+                        </label>
 
-                    <label for="editVideoUpload" class="custom-file-label" title="Upload Video">
-                        <input type="file" id="editVideoUpload" accept="video/*" style="display: none;">
-                        <i class="fas fa-video"></i>
-                    </label>
-
-                    <button onclick="savePostChanges()" class="save-btn">Save Changes</button>
+                        <label for="editVideoUpload" class="custom-file-label" title="Upload Video">
+                            <input type="file" id="editVideoUpload" accept="video/*" style="display: none;" name="videos[]">
+                            <i class="fas fa-video"></i>
+                        </label>
+                        <button type="submit" id="btnUpdatePost" class="save-btn">Save Changes</button>
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </section>
 
@@ -606,3 +615,4 @@ function deletePost(postId) {
 
 
 <script src="assets/js/FetchPost.js"></script>
+<script src="assets/js/modal.js"></script>

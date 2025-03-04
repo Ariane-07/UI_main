@@ -289,6 +289,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo $db->SignUp($email,$username,$password,$role);
             
+        }else if ($_POST['requestType'] == 'DeletePost') {
+
+            $deletepostid=$_POST['deletepostid'];
+          
+
+            echo $db->DeletePost($deletepostid);
+            
         }else if ($_POST['requestType'] == 'Login') {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -330,6 +337,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'message' => 'Invalid Email or password'
                 ]);
             }
+        }else if ($_POST['requestType'] == 'EditPost') {
+
+
+            $editpostid = $_POST['editpostid'] ?? null;
+            $postInput = $_POST['editPostText'] ?? null;
+
+            $postFiles = [
+            ];
+
+            function handleUpload($files, $uploadDir, &$fileArray, $type) {
+                if (!isset($files['tmp_name']) || !is_array($files['tmp_name'])) {
+                    error_log("handleUpload() received invalid input: " . print_r($files, true));
+                    return;
+                }
+                
+                foreach ($files['tmp_name'] as $key => $tmpName) {
+                    if ($files['error'][$key] === UPLOAD_ERR_OK) {
+                        $ext = pathinfo($files['name'][$key], PATHINFO_EXTENSION);
+                        $uniqueFilename = uniqid($type . '_') . '.' . $ext;
+                        $destination = __DIR__ . "/$uploadDir/" . $uniqueFilename; 
+                        // Ensure directory exists
+                        if (!is_dir(__DIR__ . "/$uploadDir")) {
+                            mkdir(__DIR__ . "/$uploadDir", 0777, true);
+                        }
+
+                        if (move_uploaded_file($tmpName, $destination)) {
+                            error_log("File uploaded: " . $uniqueFilename);
+                            $fileArray[] = $uniqueFilename;  
+                        } else {
+                            error_log("Failed to move file: " . $tmpName . " to " . $destination);
+                        }
+                    } else {
+                        error_log("Upload error for file: " . $files['name'][$key] . " Error code: " . $files['error'][$key]);
+                    }
+                }
+            }
+
+            if (!empty($_FILES['images']['name'][0])) {
+                handleUpload($_FILES['images'], '../../../uploads/images', $postFiles["images"], 'img');
+            }
+
+            // Handle videos separately
+            if (!empty($_FILES['videos']['name'][0])) {
+                handleUpload($_FILES['videos'], '../../../uploads/videos', $postFiles["videos"], 'vid');
+            }
+            // Ensure we don't store empty arrays in the database
+            $postFilesJson = (!empty($postFiles["images"]) || !empty($postFiles["videos"])) ? json_encode($postFiles) : null;
+            // Call database function
+            $result = $db->EditPost($editpostid, $postInput, $postFilesJson);
+
+
         } else {
             echo 'requestType NOT FOUND';
         }

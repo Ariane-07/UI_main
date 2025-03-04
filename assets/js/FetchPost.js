@@ -16,7 +16,8 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(response) {
                
-
+                
+                console.log(response);
                 if (!Array.isArray(response) || response.length === 0) {
                     if (!append) $("#postFeed").html("<p>No posts available.</p>");
                     $("#seeMoreBtn").hide();
@@ -58,12 +59,22 @@ $(document).ready(function () {
                         }
                     }
 
+                    
+
                     let editDeleteButtons = "";
 if (Session_UserID == post.post_user_id) {
     editDeleteButtons = `
         <div class="post-actions-right">
-            <span class="edit-icon"><i class="fas fa-edit"></i></span>
-            <span class="delete-icon"><i class="fas fa-trash"></i></span>
+            <span class="EditPostToggler edit-icon" 
+            data-postid='${post.post_id}'
+            data-textcontent='${post.post_content}'
+            data-mediacontent='${post.post_images}'
+            ><i class="fas fa-edit"></i></span>
+
+
+            <span class="DeletePostToggler delete-icon"
+            data-postid='${post.post_id}'
+            ><i class="fas fa-trash"></i></span>
         </div>
     `;
 }

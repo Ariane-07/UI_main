@@ -1,7 +1,77 @@
 $(document).ready(function () {
 
+    
 
 
+
+    
+    $("#frmDeletePost").submit(function (e) {
+        e.preventDefault();
+        $('.spinner').show();
+        $('#confirmDeletePost').prop('disabled', true);
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'DeletePost');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#confirmDeletePost').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Deleted Successfully');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    alertify.error('Error');
+                }
+            }
+        });
+    });
+
+
+    $("#frmEditPost").submit(function (e) {
+        e.preventDefault();
+    
+        $('.spinner').show();
+        $('#btnUpdatePost').prop('disabled', true);
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'EditPost');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#btnUpdatePost').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Update Successfully');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    alertify.error('Error');
+                }
+            }
+        });
+    });
+
+    
     $("#frmUpdateProfile").submit(function (e) {
         e.preventDefault();
     
@@ -34,7 +104,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
 
     $("#petRegistrationForm").submit(function (e) {
@@ -202,9 +271,9 @@ $(document).ready(function () {
                         if (data.data.Role === "pet_owner") {
                             window.location.href = "index.php?page=home";
                         }else if (data.data.Role === "vet") {
-                            window.location.href = "index.php?page=home";
+                            window.location.href = "index.php?vetpages=VetHome";
                         }else if (data.data.Role === "lgu") {
-                            window.location.href = "index.php?page=home";
+                            window.location.href = "index.php?lgupages=LGUHome";
                         }else if (data.data.Role === "admin") {
                             window.location.href = "index.php?page=home";
                         }
