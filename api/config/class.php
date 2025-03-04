@@ -161,7 +161,6 @@ class global_class extends db_connect
 
 
     public function FetchUserPost($UserID, $offset, $limit) {
-        // Query to fetch user posts with user details, sorted by latest first with pagination
         $query = "
             SELECT * FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
@@ -170,8 +169,6 @@ class global_class extends db_connect
             LIMIT ? OFFSET ?
             
         ";
-    
-        // Prepare statement
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
             echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
@@ -195,6 +192,24 @@ class global_class extends db_connect
     
         $stmt->close();
     }
+
+
+    public function FetchAllUsers($UserID) {
+        $query = "SELECT UserID, Username FROM users WHERE UserID != ?";
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bind_param("i", $UserID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        $users = [];
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
+        $stmt->close();
+        echo json_encode($users); 
+    }
+
 
 
     public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID)

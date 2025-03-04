@@ -46,13 +46,6 @@
 
 
     
-</form>
-
-    <!-- "See More" Button -->
-    <div class="see-more-container">
-        <button id="seeMoreBtn" style="display:none;">See More</button>
-    </div>
-
 
 
         <!-- Posts Feed -->
@@ -68,20 +61,7 @@
             <video id="modalVideo" style="display: none; width: 100%;" controls></video>
         </div>
 
-        <div class="share-modal" id="shareModal">
-            <div class="share-modal-content">
-                <span class="share-modal-close">&times;</span>
-                <h3>Share Post</h3>
-                <div class="share-options">
-                    <button class="share-btn copy-link">
-                        <i class="fas fa-link"></i> Copy Post Link
-                    </button>
-                    <button class="share-btn share-to-feed">
-                        <i class="fas fa-share"></i> Share to Feed
-                    </button>
-                </div>
-            </div>
-        </div>
+      
 
 
         <form id="frmDeletePost">

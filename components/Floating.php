@@ -29,18 +29,21 @@
     </div>
 </div>
 
+
+
 <!-- Modal HTML Structure for Chat Box -->
 <div id="chat-modal" class="chat-modal">
     <div class="chat-modal-content">
         <span class="chat-close">&times;</span>
         <div class="chat-sidebar">
             <h3>Chat List</h3>
-            <ul class="chat-list">
+            <ul class="chat-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
                 <li class="chat-user" data-username="John">John</li>
                 <li class="chat-user" data-username="Jane">Jane</li>
                 <li class="chat-user" data-username="Doe">Doe</li>
                 <!-- Add dynamically as needed -->
             </ul>
+
         </div>
         <div class="chat-box">
             <h3>Chat with <span id="chat-with">John</span></h3>

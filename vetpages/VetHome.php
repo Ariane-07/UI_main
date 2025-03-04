@@ -41,6 +41,18 @@
                 </div>
             </div>
 
+        <!-- Posts Feed -->
+        <div id="postFeed" class="post-feed"></div>
+        <!-- "See More" Button -->
+        <div class="see-more-container">
+            <button id="seeMoreBtn" style="display:none;">See More</button>
+        </div>
+
+        <!-- Image Modal for Zoom -->
+        <div class="image-modal" id="imageModal">
+            <img id="modalImage" style="display: none; width: 100%; border-radius: 10px;">
+            <video id="modalVideo" style="display: none; width: 100%;" controls></video>
+        </div>
             <!-- Post Feed -->
             <div id="postFeed" class="post-feed"></div>
         </div>
@@ -109,6 +121,7 @@
                         </div>
                     </div>
                     </form>
+                    
     </div>
 </section>
 
