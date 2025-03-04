@@ -2,7 +2,7 @@
     <div class="floating-button">+</div>
     <div class="element-container">
         <span class="float-element">
-            <a href="index.php?page=profile">
+            <a href="index.php?components=profile&&role=<?=$_SESSION['Role']?>">
                 <i class='bx bxs-user'></i>
             </a>
         </span>

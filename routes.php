@@ -69,6 +69,16 @@ if ($page !== 'LogReg') {
 }
 
 
+if(!empty($_GET['role'])){
+    if($_GET['role']=='pet_owner'){
+        loadComponent('Navbar');      
+    }else if($_GET['role']=='vet'){
+        loadComponent('VetNavbar'); 
+    }else if($_GET['role']=='lgu'){
+        loadComponent('LGUNavbar');    
+    }  
+}
+
 
 // Determine which page to load
 if ($component) {
