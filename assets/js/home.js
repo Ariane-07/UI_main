@@ -72,7 +72,6 @@ function handleFileSelection(files, mediaPreview) {
     });
 }
 
-
 function removeMedia(file, mediaContainer) {
     selectedFiles = selectedFiles.filter(f => f !== file);
     mediaContainer.remove();
@@ -87,7 +86,6 @@ function removeMedia(file, mediaContainer) {
         videoUpload.value = ''; // Clear video input
     }
 }
-
 
 function initializePostButton() {
     document.getElementById('postButton').addEventListener('click', () => {
@@ -193,7 +191,7 @@ function createPostActions(postId) {
     const actions = document.createElement('div');
     actions.classList.add('post-actions');
 
-    // Left side actions (like, comment, share)
+    // Left side actions (like, comment)
     const leftActions = document.createElement('div');
     leftActions.classList.add('post-actions-left');
 
@@ -209,15 +207,8 @@ function createPostActions(postId) {
     commentBtn.innerHTML = '<i class="far fa-comment"></i> Comment';
     commentBtn.addEventListener('click', () => toggleComments(postId));
 
-    // Share button
-    const shareBtn = document.createElement('button');
-    shareBtn.classList.add('action-btn');
-    shareBtn.innerHTML = '<i class="far fa-share-square"></i> Share';
-    shareBtn.addEventListener('click', () => showShareModal(postId));
-
     leftActions.appendChild(likeBtn);
     leftActions.appendChild(commentBtn);
-    leftActions.appendChild(shareBtn);
 
     // Right side actions (edit, delete)
     const rightActions = document.createElement('div');
@@ -296,36 +287,6 @@ function handleCommentSubmit(event, postId) {
     }
 }
 
-function showShareModal(postId) {
-    const shareModal = document.getElementById('shareModal');
-    shareModal.style.display = 'block';
-
-    const copyLinkBtn = shareModal.querySelector('.copy-link');
-    copyLinkBtn.onclick = () => {
-        const postUrl = `${window.location.pathname}#post-${postId}`;
-        navigator.clipboard.writeText(postUrl);
-        alert('Link copied! You can now share it with other users on the platform.');
-    };
-
-    const shareToFeedBtn = shareModal.querySelector('.share-to-feed');
-    shareToFeedBtn.onclick = () => {
-        shareToFeed(postId);
-    };
-}
-
-function shareToFeed(postId) {
-    const originalPost = document.getElementById(`post-${postId}`);
-    const postText = originalPost.querySelector('.post-content').textContent;
-    const mediaContent = originalPost.querySelector('.media-content').cloneNode(true);
-
-    // Create a new post with shared content
-    createPost(`Shared: ${postText}`, [], null, mediaContent);
-    alert('Post shared to your feed!');
-
-    // Close the share modal
-    document.getElementById('shareModal').style.display = 'none';
-}
-
 function showMediaModal(src, type) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
@@ -355,7 +316,6 @@ function initializeModals() {
     window.onclick = (event) => {
         const modals = [
             document.getElementById('imageModal'),
-            document.getElementById('shareModal'),
             document.getElementById('editModal'),
             document.getElementById('deleteModal')
         ];
@@ -368,9 +328,9 @@ function initializeModals() {
     };
 
     // Close buttons
-    document.querySelectorAll('.share-modal-close, .edit-modal-close').forEach(btn => {
+    document.querySelectorAll('.edit-modal-close').forEach(btn => {
         btn.onclick = () => {
-            btn.closest('.share-modal, .edit-modal').style.display = 'none';
+            btn.closest('.edit-modal').style.display = 'none';
         };
     });
 }
