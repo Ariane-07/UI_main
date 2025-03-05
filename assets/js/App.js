@@ -270,6 +270,12 @@ $(document).ready(function () {
                     $('.spinner').hide();
                     $('#btnRegister').prop('disabled', false);
     
+                }else if (data.status === "username_already") {
+                    alertify.error(data.message);
+    
+                    $('.spinner').hide();
+                    $('#btnRegister').prop('disabled', false);
+    
                 } else {
                     $('.spinner').hide();
                     $('#btnRegister').prop('disabled', false);

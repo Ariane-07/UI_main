@@ -388,10 +388,8 @@ class global_class extends db_connect
 
 
 
-    public function SignUp($email,$username,$password,$role)
+    public function SignUp($email, $username, $password, $role)
     {
-      
-    
         // Check if the email already exists
         $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Email` = ?");
         $stmt->bind_param("s", $email);
@@ -403,13 +401,25 @@ class global_class extends db_connect
             echo json_encode(array('status' => 'email_already', 'message' => 'Email already exists'));
             return;  // Stop further execution
         }
-        
+    
+        // Check if the username already exists
+        $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            // Username already exists, return error response
+            echo json_encode(array('status' => 'username_already', 'message' => 'Username already exists'));
+            return;  // Stop further execution
+        }
+    
         // Hash the password using SHA-256
         $hashedPassword = hash('sha256', $password);
     
-        // Proceed with insertion if email does not exist
-        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`,`Role`) VALUES (?, ?, ?,?)");
-        $stmt->bind_param("ssss",$username, $email,$hashedPassword,$role);
+        // Proceed with insertion if email and username do not exist
+        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`, `Role`) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $username, $email, $hashedPassword, $role);
     
         if ($stmt->execute()) {
             session_start();
@@ -425,6 +435,7 @@ class global_class extends db_connect
             echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
         }
     }
+    
 
 
 
