@@ -5,19 +5,19 @@
             <div class="client-info">
                 <div class="client-details">
                     <p><strong>Name</strong></p>
-                    <p>Client 1</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Contact Number</strong></p>
-                    <p>09123456789</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Email</strong></p>
-                    <p>c1@gmail.com</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Pet Name</strong></p>
-                    <p>Pet A</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
             </div>
             <div class="actions">
@@ -30,19 +30,19 @@
             <div class="client-info">
                 <div class="client-details">
                     <p><strong>Name</strong></p>
-                    <p>Client 2</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Contact Number</strong></p>
-                    <p>09123456789</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Email</strong></p>
-                    <p>c2@gmail.com</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Pet Name</strong></p>
-                    <p>Pet B</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
             </div>
             <div class="actions">
@@ -55,19 +55,19 @@
             <div class="client-info">
                 <div class="client-details">
                     <p><strong>Name</strong></p>
-                    <p>Client 3</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Contact Number</strong></p>
-                    <p>09123456789</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Email</strong></p>
-                    <p>c3@gmail.com</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
                 <div class="client-details">
                     <p><strong>Pet Name</strong></p>
-                    <p>Pet C</p>
+                    <p></p> <!-- Empty by default -->
                 </div>
             </div>
             <div class="actions">
@@ -86,28 +86,40 @@
         </div>
         <div class="client-modal-body">
             <label for="client-name">Name</label>
-            <input type="text" id="client-name" placeholder="Client Name">
+            <input type="text" id="client-name" readonly>
 
             <label for="client-contact">Contact Number</label>
-            <input type="text" id="client-contact" placeholder="09123456789">
+            <input type="text" id="client-contact">
 
             <label for="client-email">Email</label>
-            <input type="email" id="client-email" placeholder="c1@gmail.com">
+            <input type="email" id="client-email">
+
+            <label for="client-address">Address</label>
+            <input type="text" id="client-address">
+
+            <label for="client-barangay">Barangay</label>
+            <input type="text" id="client-barangay">
 
             <label for="client-pet-name">Pet Name</label>
-            <input type="text" id="client-pet-name" placeholder="Pet Name">
+            <input type="text" id="client-pet-name" readonly>
 
             <label for="client-birthdate">Birthdate</label>
-            <input type="date" id="client-birthdate">
+            <input type="date" id="client-birthdate" readonly>
 
             <label for="client-breed">Breed</label>
-            <input type="text" id="client-breed" placeholder="Pet Breed">
+            <input type="text" id="client-breed" readonly>
 
-            <label for="client-gender">Gender</label>
-            <select id="client-gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <label for="client-gender">Gender of Pet</label>
+            <input type="text" id="client-gender" readonly>
+
+            <label for="client-species">Species</label>
+            <input type="text" id="client-species" readonly>
+
+            <label for="client-color">Color of Pet</label>
+            <input type="text" id="client-color" readonly>
+
+            <label for="client-mark">Distinguishing Marks of Pet</label>
+            <input type="text" id="client-mark" readonly>
 
             <label for="client-vaccine-due">Vaccination Due Date</label>
             <input type="date" id="client-vaccine-due">
@@ -116,7 +128,7 @@
             <input type="date" id="client-vaccine-given">
 
             <label for="client-vaccine-type">Vaccine Type</label>
-            <input type="text" id="client-vaccine-type" placeholder="Vaccine Type">
+            <input type="text" id="client-vaccine-type">
         </div>
         <div class="client-modal-footer">
             <button id="client-saveBtn" class="view-details">Save</button>
@@ -124,6 +136,7 @@
         </div>
     </div>
 </div>
+
 <script>
     var clientModal = document.getElementById("clientModal");
 

@@ -94,6 +94,12 @@
             <label for="client-email">Email</label>
             <input type="email" id="client-email" readonly>
 
+            <label for="client-address">Address</label>
+            <input type="text" id="client-address" readonly>
+
+            <label for="client-barangay">Barangay</label>
+            <input type="text" id="client-barangay" readonly>
+
             <label for="client-pet-name">Pet Name</label>
             <input type="text" id="client-pet-name" readonly>
 
@@ -103,8 +109,17 @@
             <label for="client-breed">Breed</label>
             <input type="text" id="client-breed" readonly>
 
-            <label for="client-gender">Gender</label>
+            <label for="client-gender">Gender of Pet</label>
             <input type="text" id="client-gender" readonly>
+
+            <label for="client-species">Species</label>
+            <input type="text" id="client-species" readonly>
+
+            <label for="client-color">Color of Pet</label>
+            <input type="text" id="client-color" readonly>
+
+            <label for="client-mark">Distinguishing Marks of Pet</label>
+            <input type="text" id="client-mark" readonly>
 
             <label for="client-vaccine-due">Vaccination Due Date</label>
             <input type="date" id="client-vaccine-due">
