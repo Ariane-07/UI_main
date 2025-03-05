@@ -74,6 +74,24 @@ $(document).ready(function() {
     });
 });
 
+function openImageModal(mediaSrc, mediaType) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+
+    if (mediaType === 'image') {
+        modalImage.src = mediaSrc;
+        modalImage.style.display = 'block';
+        modalVideo.style.display = 'none';
+    } else if (mediaType === 'video') {
+        modalVideo.src = mediaSrc;
+        modalVideo.style.display = 'block';
+        modalImage.style.display = 'none';
+    }
+
+    modal.style.display = 'flex'; // Show the modal
+}
+
 //image zoom
 function closeImageModal() {
     const modal = document.getElementById('imageModal');
