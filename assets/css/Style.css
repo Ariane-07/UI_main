@@ -1611,7 +1611,7 @@ button:hover {
   margin: 20px 0;
   border-radius: 8px;
   background: var(--hover-color);
-  color: var(--text-color);
+  color: black;
 }
 
 #editMediaPreview {
@@ -1716,6 +1716,7 @@ button:hover {
   font-size: 14px;
   padding: 10px 20px;
   margin-right: 10px;
+  margin-bottom: 2px;
   border-radius: 20px;
   display: inline-block;
   color: var(--text-color);
