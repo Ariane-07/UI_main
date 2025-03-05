@@ -1294,6 +1294,7 @@ button:hover {
 }
 
 .post {
+  position: relative;
   max-width: 750px;
   width: 100%;
   padding: 20px;
@@ -1384,7 +1385,6 @@ button:hover {
 
 .action-btn:hover {
   background: var(--hover-color);
-  color: #000;
 }
 
 .liked {
@@ -1420,7 +1420,6 @@ button:hover {
 
 /* Modal Styles */
 .image-modal,
-.share-modal,
 .edit-modal {
     display: none;
     position: fixed;
@@ -1432,7 +1431,6 @@ button:hover {
     z-index: 1000;
 }
 
-.share-modal-content,
 .edit-modal-content {
     position: relative;
     background: var(--nav-color);
@@ -1443,44 +1441,12 @@ button:hover {
     border-radius: 10px;
 }
 
-.share-modal-close,
 .edit-modal-close {
     position: absolute;
     right: 20px;
     top: 10px;
     font-size: 24px;
     cursor: pointer;
-}
-
-.share-options {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.share-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--hover-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-}
-
-.share-btn i {
-    margin-right: 10px;
-}
-
-.share-btn:hover {
-    background: var(--border-color);
-    transform: translateY(-2px);
 }
 
 .image-modal {
@@ -1728,10 +1694,10 @@ button:hover {
 
 .edit-icon,
 .delete-icon {
+  position: absolute;
   top: 10px;
   padding: 5px;
   cursor: pointer;
-  position: absolute;
   border-radius: 5px;
   color: var(--text-color);
   transition: transform 0.3s;
@@ -1840,13 +1806,6 @@ button:hover {
     width: 25%;
   }
 
-  .edit-icon,
-  .delete-icon {
-    top: 10px;
-    left: 220px;
-    position: relative;
-  }
-
   .post-box {
     width: 100%;
     max-width: none;
@@ -1880,6 +1839,21 @@ button:hover {
     width: 100%;
     height: auto;
   }
+
+  .edit-icon,
+  .delete-icon {
+    top: 5px;
+    right: 5px; 
+  }
+
+  .edit-icon {
+    right: 30px; 
+  }
+
+  .delete-icon {
+    right: 5px; 
+  }
+  
 }
 
 .media-preview {
@@ -1915,6 +1889,28 @@ button:hover {
   width: 100%;
   height: auto;
   border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.uploaded-media {
+  max-width: 100%; 
+  height: auto; 
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 5px;
+}
+
+.uploaded-media:hover {
+  transform: scale(1.02); 
+}
+
+.media-content {
+  display: grid;
+  gap: 10px;
+  margin: 15px 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
 }
 
 /* ABOUT US CSS */
