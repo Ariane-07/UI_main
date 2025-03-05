@@ -36,7 +36,7 @@
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-envelope'></i>
-                        <input type="text" placeholder="Email" name="email" required>
+                        <input type="email" placeholder="Email" name="email" required>
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
