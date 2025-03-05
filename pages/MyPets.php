@@ -19,30 +19,10 @@
                     <p><strong>Pet Name</strong></p>
                     <p></p> <!-- Empty by default -->
                 </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
-        </div>
-
-        <div class="client-card">
-            <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
+                <!-- QR Code Container -->
+                <div class="qr-code-container">
+                    <div id="qr-code-1"></div>
+                    <button class="download-qr">Download QR Code</button>
                 </div>
             </div>
             <div class="actions">
@@ -51,30 +31,7 @@
             </div>
         </div>
 
-        <div class="client-card">
-            <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
-        </div>
+        <!-- Repeat for other client cards -->
     </div>
 </section>
 
@@ -137,6 +94,9 @@
     </div>
 </div>
 
+<!-- Include QRCode.js library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
 <script>
     var clientModal = document.getElementById("clientModal");
 
@@ -151,6 +111,43 @@
 
     var clientCards = document.querySelectorAll(".client-card");
 
+    // Function to generate QR code
+    function generateQRCode(containerId, data) {
+        var qrContainer = document.getElementById(containerId);
+        qrContainer.innerHTML = ""; // Clear previous QR code
+        new QRCode(qrContainer, {
+            text: data,
+            width: 128,
+            height: 128,
+        });
+
+        // Remove the inline display: block style
+        var canvas = qrContainer.querySelector("canvas");
+        canvas.style.display = ""; // Reset to default
+    }
+
+    // Function to download QR code as an image
+    function downloadQRCode(containerId, fileName) {
+        var qrContainer = document.getElementById(containerId);
+        var canvas = qrContainer.querySelector("canvas");
+        var link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = fileName || "qrcode.png";
+        link.click();
+    }
+
+    // Generate QR codes for all client cards
+    clientCards.forEach((card, index) => {
+        var qrContainer = card.querySelector(".qr-code-container");
+        var downloadButton = card.querySelector(".download-qr");
+
+        // Add download functionality
+        downloadButton.addEventListener("click", function () {
+            downloadQRCode(`qr-code-${index + 1}`, `client-${index + 1}-qrcode.png`);
+        });
+    });
+
+    // Function to load client data and generate QR code
     function loadClientData() {
         clientCards.forEach((card, index) => {
             var savedClient = localStorage.getItem(`client-${index}`);
@@ -168,6 +165,10 @@
                 card.querySelector(
                     ".client-details:nth-child(4) p:nth-child(2)"
                 ).innerText = clientData.petName;
+
+                // Generate QR code with all details
+                var qrData = JSON.stringify(clientData);
+                generateQRCode(`qr-code-${index + 1}`, qrData);
             }
         });
     }
@@ -202,32 +203,44 @@
 
     saveBtn.onclick = function() {
         if (currentClientCard) {
-            var name = document.getElementById("client-name").value;
-            var contact = document.getElementById("client-contact").value;
-            var email = document.getElementById("client-email").value;
-            var petName = document.getElementById("client-pet-name").value;
-
-            currentClientCard.querySelector(
-                ".client-details:nth-child(1) p:nth-child(2)"
-            ).innerText = name;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(2) p:nth-child(2)"
-            ).innerText = contact;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(3) p:nth-child(2)"
-            ).innerText = email;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(4) p:nth-child(2)"
-            ).innerText = petName;
+            var clientData = {
+                name: document.getElementById("client-name").value,
+                contact: document.getElementById("client-contact").value,
+                email: document.getElementById("client-email").value,
+                address: document.getElementById("client-address").value,
+                barangay: document.getElementById("client-barangay").value,
+                petName: document.getElementById("client-pet-name").value,
+                birthdate: document.getElementById("client-birthdate").value,
+                breed: document.getElementById("client-breed").value,
+                gender: document.getElementById("client-gender").value,
+                species: document.getElementById("client-species").value,
+                color: document.getElementById("client-color").value,
+                mark: document.getElementById("client-mark").value,
+                vaccineDue: document.getElementById("client-vaccine-due").value,
+                vaccineGiven: document.getElementById("client-vaccine-given").value,
+                vaccineType: document.getElementById("client-vaccine-type").value,
+            };
 
             var index = Array.from(clientCards).indexOf(currentClientCard);
-            var clientData = {
-                name: name,
-                contact: contact,
-                email: email,
-                petName: petName,
-            };
             localStorage.setItem(`client-${index}`, JSON.stringify(clientData));
+
+            // Update client card details
+            currentClientCard.querySelector(
+                ".client-details:nth-child(1) p:nth-child(2)"
+            ).innerText = clientData.name;
+            currentClientCard.querySelector(
+                ".client-details:nth-child(2) p:nth-child(2)"
+            ).innerText = clientData.contact;
+            currentClientCard.querySelector(
+                ".client-details:nth-child(3) p:nth-child(2)"
+            ).innerText = clientData.email;
+            currentClientCard.querySelector(
+                ".client-details:nth-child(4) p:nth-child(2)"
+            ).innerText = clientData.petName;
+
+            // Regenerate QR code with updated data
+            var qrData = JSON.stringify(clientData);
+            generateQRCode(`qr-code-${index + 1}`, qrData);
 
             clientModal.style.display = "none";
         }
@@ -247,3 +260,31 @@
         }
     });
 </script>
+
+<style>
+    /* Styling for QR code container */
+    .qr-code-container {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .qr-code-container canvas {
+        border: 1px solid #ccc;
+        padding: 10px;
+        background: #fff;
+    }
+
+    .download-qr {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .download-qr:hover {
+        background-color: #0056b3;
+    }
+</style>
