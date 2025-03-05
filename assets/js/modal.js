@@ -73,3 +73,57 @@ $(document).ready(function() {
         }
     });
 });
+
+function openImageModal(mediaSrc, mediaType) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+
+    if (mediaType === 'image') {
+        modalImage.src = mediaSrc;
+        modalImage.style.display = 'block';
+        modalVideo.style.display = 'none';
+    } else if (mediaType === 'video') {
+        modalVideo.src = mediaSrc;
+        modalVideo.style.display = 'block';
+        modalImage.style.display = 'none';
+    }
+
+    modal.style.display = 'flex'; // Show the modal
+}
+
+//image zoom
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+
+    modal.style.display = 'none'; // Hide the modal
+    modalImage.src = ''; // Clear the image source
+    modalVideo.src = ''; // Clear the video source
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const postFeed = document.getElementById('postFeed');
+
+    // Handle clicks on media elements in the post feed
+    postFeed.addEventListener('click', function (event) {
+        const mediaElement = event.target;
+
+        if (mediaElement.tagName === 'IMG') {
+            const fullSizeSrc = mediaElement.dataset.fullSizeSrc || mediaElement.src;
+            openImageModal(fullSizeSrc, 'image');
+        } else if (mediaElement.tagName === 'VIDEO') {
+            const fullSizeSrc = mediaElement.dataset.fullSizeSrc || mediaElement.src;
+            openImageModal(fullSizeSrc, 'video');
+        }
+    });
+
+    // Handle clicks outside the modal to close it
+    const modal = document.getElementById('imageModal');
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeImageModal();
+        }
+    });
+});

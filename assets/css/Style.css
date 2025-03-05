@@ -1338,19 +1338,6 @@ button:hover {
   border-radius: 10px;
 }
 
-.image-modal {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  display: none;
-  z-index: 9999;
-  height: 100vh;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
 .image-modal img {
   max-width: 90%;
   max-height: 90%;
@@ -1512,6 +1499,8 @@ button:hover {
 .image-modal video {
   max-width: 90%;
   max-height: 90vh;
+  width: auto;
+  height: auto;
   margin: 0 auto;
   display: block;
   position: relative;
@@ -1519,6 +1508,8 @@ button:hover {
   transform: translateY(-50%);
   object-fit: contain;
   border-radius: 10px;
+  padding: 0;
+  border: none;
 }
 
 /* Add these new styles after the existing modal styles */
@@ -1611,7 +1602,7 @@ button:hover {
   margin: 20px 0;
   border-radius: 8px;
   background: var(--hover-color);
-  color: var(--text-color);
+  color: black;
 }
 
 #editMediaPreview {
@@ -1716,6 +1707,7 @@ button:hover {
   font-size: 14px;
   padding: 10px 20px;
   margin-right: 10px;
+  margin-bottom: 2px;
   border-radius: 20px;
   display: inline-block;
   color: var(--text-color);
