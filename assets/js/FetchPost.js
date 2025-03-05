@@ -39,11 +39,11 @@ $(document).ready(function () {
                             let videos = media.videos || [];
 
                             mediaContent += images.map(img =>
-                                `<img src="uploads/images/${img}" alt="Post Image" style="max-width: 50%; height: auto; margin: 5px;">`
+                                `<img src="uploads/images/${img}" alt="Post Image" style="max-width: 100%; height: 100%;">`
                             ).join("");
 
                             mediaContent += videos.map(video =>
-                                `<video controls style="max-width: 100%; height: auto; margin: 5px;">
+                                `<video controls style="max-width: 100%; height: auto;">
                                     <source src="uploads/videos/${video}" type="video/mp4">
                                     Your browser does not support the video tag.
                                  </video>`

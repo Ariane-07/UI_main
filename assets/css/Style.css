@@ -1384,6 +1384,7 @@ button:hover {
 
 .action-btn:hover {
   background: var(--hover-color);
+  color: #000;
 }
 
 .liked {

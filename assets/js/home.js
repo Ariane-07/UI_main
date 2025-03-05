@@ -159,9 +159,9 @@ function createMediaContent(files) {
     // Set grid columns based on number of media items
     const totalItems = files.length;
     if (totalItems === 1) {
-        mediaContent.style.gridTemplateColumns = '1fr';
+        mediaContent.style.gridTemplateColumns = '1fr'; 
     } else if (totalItems === 2) {
-        mediaContent.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        mediaContent.style.gridTemplateColumns = 'repeat(2, 1fr)'; 
     } else {
         mediaContent.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
     }
@@ -170,12 +170,14 @@ function createMediaContent(files) {
         if (file.type.startsWith('image/')) {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
+            img.classList.add('uploaded-media');
             img.addEventListener('click', () => showMediaModal(img.src, 'image'));
             mediaContent.appendChild(img);
         } else if (file.type.startsWith('video/')) {
             const video = document.createElement('video');
             video.src = URL.createObjectURL(file);
             video.controls = true;
+            video.classList.add('uploaded-media'); 
             video.addEventListener('click', (e) => {
                 e.preventDefault();
                 showMediaModal(video.src, 'video');
