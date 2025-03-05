@@ -1,8 +1,13 @@
+
+
 <?php 
-if($_SESSION['Role']=="pet_owner"){
-    $Role="Pet Owner";
-}else{
-    $Role=$_SESSION['Role'];
+
+if($_SESSION){
+    if($_SESSION['Role']=="pet_owner"){
+        $Role="Pet Owner";
+    }else{
+        $Role=$_SESSION['Role'];
+    }
 }
 ?>
 

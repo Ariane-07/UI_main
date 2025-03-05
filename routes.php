@@ -7,7 +7,14 @@ $db = new global_class();
 
 
 if (empty($_SESSION)) {
-    $_GET = ['page' => 'LogReg'] + $_GET;
+
+
+    if (isset($_GET['components'])) {
+        header('Location: index.php?page=home');
+    } else {
+        $_GET = ['page' => 'LogReg'] + $_GET;
+    }
+    
 }else{
     
     $UserID=$_SESSION['UserID'];
@@ -67,6 +74,7 @@ if ($vetpage) {
 if ($page !== 'LogReg') {
     loadComponent('Floating');
 }
+
 
 
 if(!empty($_GET['role'])){
