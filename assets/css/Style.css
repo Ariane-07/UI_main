@@ -1499,9 +1499,9 @@ button:hover {
 .delete-modal-content {
   background: var(--nav-color);
   padding: 30px;
-  width: 90%; 
+  width: 90%;
   max-width: 400px; 
-  margin: 20% auto; 
+  margin: 20% auto;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -1739,9 +1739,9 @@ button:hover {
   position: relative;
   background: var(--nav-color);
   padding: 20px;
-  width: 90%; 
-  max-width: 500px;
-  margin: 50px auto; 
+  width: 90%; /* Responsive width */
+  max-width: 500px; /* Maximum width for larger screens */
+  margin: 50px auto; /* Center the modal */
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -1920,7 +1920,7 @@ button:hover {
   display: grid;
   gap: 10px;
   margin: 15px 0;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
 }
 
 /* Media Queries for Modals */
@@ -1936,7 +1936,7 @@ button:hover {
   }
 
   .edit-modal .custom-file-label {
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
   }
 }
 
@@ -1951,7 +1951,7 @@ button:hover {
   }
 
   .delete-modal-actions {
-    flex-direction: column;
+    flex-direction: column; 
     gap: 10px;
   }
 
@@ -1960,6 +1960,7 @@ button:hover {
     width: 100%; 
   }
 }
+
 
 /* ABOUT US CSS */
 *,
@@ -2938,17 +2939,13 @@ input[type="checkbox"] {
   }
 
   .save-btn {
-    right: 30px;
     font-size: 18px;
     position: relative;
-    padding: 0.1rem 0.2rem;
   }
 
   .cancel-btn {
-    right: 30px;
     font-size: 18px;
     position: relative;
-    padding: 0.1rem 0.2rem;
   }
 
   .edit-btn {
@@ -2959,10 +2956,8 @@ input[type="checkbox"] {
   }
 
   .delete-btn {
-    right: 10px;
     font-size: 18px;
     position: relative;
-    padding: 0.1rem 0.2rem;
   }
 
   table,
