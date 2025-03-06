@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2025 at 06:34 AM
+-- Generation Time: Mar 06, 2025 at 06:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,7 +68,7 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 CREATE TABLE `pets_info` (
   `pet_id` int(11) NOT NULL,
   `pet_photo_owner` varchar(255) DEFAULT NULL,
-  `ValidIDName` varchar(255) DEFAULT NULL,
+  `pet_validIDName` varchar(255) DEFAULT NULL,
   `pet_date_application` date NOT NULL,
   `pet_owner_name` varchar(60) NOT NULL,
   `pet_owner_age` int(11) NOT NULL,
@@ -99,14 +99,6 @@ CREATE TABLE `pets_info` (
   `pet_qr_code` varchar(255) DEFAULT NULL,
   `pet_status` varchar(255) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pets_info`
---
-
-INSERT INTO `pets_info` (`pet_id`, `pet_photo_owner`, `ValidIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
-(53, '67c932bc73489.jpg', '67c932bc738aa.jpeg', '2025-03-06', 'Mary Loi Ricalde', 23, 'female', '2003-03-13', '09454454744', 'maryloi@gmail.com', 'sta.rosa 2 marilao bulacan', 'sta.rosa 2', 'Squirtle', '12', 'male', 'turtle', 'water type', '5', 'blue', 'awdawd', '2025-03-06', '2025-03-05', '2025-03-25', NULL, 'Joshua clinic', 'Joshua padilla', 'marilao bulacan', '09454454744', '67c932bc73b9b.png', '2025-03-06', 'PET_53.png', 'pending'),
-(54, '67c9339d951f0.jpg', NULL, '2025-03-06', 'Aj raval', 24, 'female', '2000-03-12', '098955542025', 'aj@gmail.com', 'prenza 1 marilao bulacan', 'prenza', 'pikachu', '12', 'female', 'cat', 'electric type', '3', 'orange', 'awda', '2025-03-11', '2025-03-28', '2025-04-03', NULL, 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67c9339d956bb.png', '2025-03-06', 'PET_54.png', 'pending');
 
 -- --------------------------------------------------------
 
@@ -255,7 +247,7 @@ ALTER TABLE `chat_messages`
 -- AUTO_INCREMENT for table `pets_info`
 --
 ALTER TABLE `pets_info`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `post_comments`
