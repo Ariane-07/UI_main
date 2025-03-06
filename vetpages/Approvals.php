@@ -2,30 +2,64 @@
     <h1 class="heading">Approvals</h1>
     <div class="approval-list">
         <!-- Example Client Card -->
+         <?php 
+        $db = new global_class();
+
+         $status="pending";
+         $fetch_pets = $db->fetch_pending_pets($status);
+
+       
+
+         if (mysqli_num_rows($fetch_pets) > 0): 
+          $count=1;
+              foreach ($fetch_pets as $pets):
+          ?>
+
         <div class="approval-card">
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Name</strong></p>
-                    <p id="approval-name"></p>
+                    <p ><?=$pets['pet_owner_name']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Contact Number</strong></p>
-                    <p id="approval-contact"></p>
+                    <p ><?=$pets['pet_owner_telMobile']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Email</strong></p>
-                    <p id="approval-email"></p>
+                    <p ><?=$pets['pet_owner_email']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Pet Name</strong></p>
-                    <p id="approval-pet-name"></p>
+                    <p ><?=$pets['pet_name']?></p>
                 </div>
             </div>
             <div class="actions">
-                <button class="approval-view-details">VIEW DETAILS</button>
+                <button class="viewApprovalModal approval-view-details"
+                data-pet_date_application='<?=$pets['pet_date_application']?>'
+                data-pet_photo_owner='<?=$pets['pet_photo_owner']?>'
+                data-pet_owner_name='<?=$pets['pet_owner_name']?>'
+                data-pet_owner_age='<?=$pets['pet_owner_age']?>'
+                data-pet_owner_gender='<?=$pets['pet_owner_gender']?>'
+                data-pet_owner_birthday='<?=$pets['pet_owner_birthday']?>'
+                data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
+                data-pet_owner_email='<?=$pets['pet_owner_email']?>'
+                data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
+                >VIEW DETAILS</button>
                 <button class="close-btn">&times;</button>
             </div>
         </div>
+
+        <?php
+          $count++; 
+          endforeach;
+        ?>
+        
+      <?php else: ?>
+          <tr>
+              <td colspan="5" class="p-2">No record found.</td>
+          </tr>
+      <?php endif; ?>
         <!-- Repeat for other clients -->
     </div>
 </section>
@@ -200,95 +234,32 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var approvalModal = document.getElementById("ApprovalModal");
-    var approvalViewDetailsBtns = document.querySelectorAll(".approval-view-details");
-    var approvalCloseModal = document.querySelector(".approval-close");
-    var saveBtn = document.getElementById("approval-saveBtn");
-    var cancelBtn = document.getElementById("approval-cancelBtn");
 
-    // Lightbox functionality
-    var lightboxModal = document.getElementById("imageLightbox");
-    var lightboxImage = document.getElementById("lightboxImage");
-    var lightboxClose = document.querySelector(".lightbox-close");
+$(document).ready(function() {
+    var $approvalModal = $("#ApprovalModal");
+    var $approvalCloseModal = $(".approval-close");
+    var $cancelBtn = $("#approval-cancelBtn");
+    var $saveBtn = $("#approval-saveBtn");
 
-    // Open lightbox when an image is clicked
-    document.querySelectorAll('.clickable-image img').forEach(image => {
-        image.onclick = function() {
-            lightboxModal.style.display = "block";
-            lightboxImage.src = this.src;
-        };
+    // Open modal when "VIEW DETAILS" is clicked
+    $(".approval-view-details").on("click", function() {
+        $approvalModal.fadeIn();
     });
 
-    // Close lightbox
-    lightboxClose.onclick = function() {
-        lightboxModal.style.display = "none";
-    };
-
-    // Close lightbox when clicking outside the image
-    lightboxModal.onclick = function(event) {
-        if (event.target === lightboxModal) {
-            lightboxModal.style.display = "none";
-        }
-    };
-
-    approvalViewDetailsBtns.forEach((btn, index) => {
-        btn.onclick = function() {
-          // Fetch or populate data dynamically here
-            // Example: Fetch data from an API or another source
-            // fetch('/api/approval-data')
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         // Populate modal with fetched data
-            //         document.getElementById("modal-dateApplication").value = data.dateApplication;
-            //         document.getElementById("modal-userPhoto").src = data.userPhoto;
-            //         document.getElementById("modal-userID").src = data.userID;
-            //         document.getElementById("modal-nameApplicant").value = data.nameApplicant;
-            //         document.getElementById("modal-age").value = data.age;
-            //         document.getElementById("modal-gender").value = data.gender;
-            //         document.getElementById("modal-birthday").value = data.birthday;
-            //         document.getElementById("modal-telephone").value = data.telephone;
-            //         document.getElementById("modal-emailApplicant").value = data.emailApplicant;
-            //         document.getElementById("modal-homeAddress").value = data.homeAddress;
-            //         document.getElementById("modal-barangay").value = data.barangay;
-            //         document.getElementById("modal-petName").value = data.petName;
-            //         document.getElementById("modal-petAge").value = data.petAge;
-            //         document.getElementById("modal-petGender").value = data.petGender;
-            //         document.getElementById("modal-species").value = data.species;
-            //         document.getElementById("modal-breed").value = data.breed;
-            //         document.getElementById("modal-petWeight").value = data.petWeight;
-            //         document.getElementById("modal-petColor").value = data.petColor;
-            //         document.getElementById("modal-distinguishingMarks").value = data.distinguishingMarks;
-            //         document.getElementById("modal-petBirthday").value = data.petBirthday;
-            //         document.getElementById("modal-petPhoto").src = data.petPhoto;
-            //         document.getElementById("modal-vaccinationDate").value = data.vaccinationDate;
-            //         document.getElementById("modal-vaccinationExpiry").value = data.vaccinationExpiry;
-            //         document.getElementById("modal-antiRabPic").src = data.antiRabPic;
-            //         document.getElementById("modal-vetClinic").value = data.vetClinic;
-            //         document.getElementById("modal-vetName").value = data.vetName;
-            //         document.getElementById("modal-vetAddress").value = data.vetAddress;
-            //         document.getElementById("modal-vetContact").value = data.vetContact;
-            //         document.getElementById("modal-ownerSignature").src = data.ownerSignature;
-            //         document.getElementById("modal-dateSigned").value = data.dateSigned;
-            //     })
-            //     .catch(error => console.error('Error fetching data:', error));
-
-            approvalModal.style.display = "block";
-        };
+    // Close modal when close button or cancel button is clicked
+    $approvalCloseModal.on("click", function() {
+        $approvalModal.fadeOut();
     });
 
-    approvalCloseModal.onclick = function() {
-        approvalModal.style.display = "none";
-    };
+    $cancelBtn.on("click", function() {
+        $approvalModal.fadeOut();
+    });
 
-    cancelBtn.onclick = function() {
-        approvalModal.style.display = "none";
-    };
-
-    saveBtn.onclick = function() {
+    $saveBtn.on("click", function() {
         // Handle the acceptance logic here
-        approvalModal.style.display = "none";
-    };
+        $approvalModal.fadeOut();
+    });
 });
+
 </script>
 

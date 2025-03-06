@@ -184,9 +184,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Handle file uploads
             $userPhoto = $_FILES['userPhoto'] ?? null;
+            $ValidID = $_FILES['userPhoto'] ?? null;
             $ownerSignature = $_FILES['ownerSignature'] ?? null;
 
             $userPhotoName = $userPhoto ? handleFileUpload($userPhoto, $uploadDir) : null;
+            $ValidIDName = $ValidID ? handleFileUpload($ValidID, $uploadDir) : null;
             $ownerSignatureName = $ownerSignature ? handleFileUpload($ownerSignature, $uploadDir) : null;
 
             // Collect form data
@@ -198,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $telephone = $_POST['telephone'] ?? '';
             $emailApplicant = $_POST['emailApplicant'] ?? '';
             $homeAddress = $_POST['homeAddress'] ?? '';
+            $barangay = $_POST['barangay'] ?? '';
             $petName = $_POST['petName'] ?? '';
             $petAge = $_POST['petAge'] ?? '';
             $petGender = $_POST['petGender'] ?? '';
@@ -218,16 +221,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // ✅ Step 1: Insert pet data and get the returned array
             $petData = $db->petRegistration(
                 $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
-                $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
+                $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,
                 $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
                 $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-                $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, ""
+                $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName,""
             );
 
             // ✅ Extract the pet ID from the returned array
-            if (isset($petData['inserted_id']) && is_numeric($petData['inserted_id'])) {
-                $petID = $petData['inserted_id'];
+            if (isset($petData['PET ID']) && is_numeric($petData['PET ID'])) {
+                $petID = $petData['PET ID'];
             } else {
+                
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'Failed to register pet. Please try again.'

@@ -208,7 +208,7 @@
                 </div>
                 <div>
                     <label for="userID" class="form-label required">Valid ID</label>
-                    <input type="file" class="form-control" id="userID" accept="image/*" required>
+                    <input type="file" class="form-control" id="ValidID" name="ValidID" accept="image/*" required>
                 </div>
 
 
@@ -249,7 +249,7 @@
                 </div>
                 <div>
                     <label for="barangay" class="form-label required">Barangay</label>
-                    <input type="text" class="form-control" id="barangay" required>
+                    <input type="text" class="form-control" id="barangay" name="barangay" required>
                 </div>
 
                 <!-- Pet Information -->

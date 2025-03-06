@@ -18,20 +18,20 @@ class global_class extends db_connect
 
     public function petRegistration(
         $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
-        $emailApplicant, $homeAddress, $petName, $petAge, $petGender, $species,
+        $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,
         $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
         $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-        $vetContact, $dateSigned, $userPhotoName, $ownerSignatureName, $qrCodeFileName
+        $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName, $qrCodeFileName
     ) {
         // Insert Data into Database
         $sql = "INSERT INTO pets_info (
-            pet_photo_owner, pet_date_application, pet_owner_name, pet_owner_age,
+            pet_photo_owner,ValidIDName, pet_date_application, pet_owner_name, pet_owner_age,
             pet_owner_gender, pet_owner_birthday, pet_owner_telMobile, pet_owner_email,
-            pet_owner_home_address, pet_name, pet_age, pet_gender, pet_species, pet_breed,
+            pet_owner_home_address,pet_owner_barangay, pet_name, pet_age, pet_gender, pet_species, pet_breed,
             pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
             pet_antiRabies_expi_date, pet_vet_clinic, pet_vet_name, pet_vet_clinic_address,
             pet_vet_contact_info, pet_owner_signature, pet_date_signed, pet_qr_code
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
@@ -39,19 +39,20 @@ class global_class extends db_connect
         }
     
         $stmt->bind_param(
-            "sssssssssssssssssssssssssss",
-            $userPhotoName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
-            $telephone, $emailApplicant, $homeAddress, $petName, $petAge, $petGender,
+            "sssssssssssssssssssssssssssss", // Should match the number of placeholders in SQL (29)
+            $userPhotoName, $ValidIDName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
+            $telephone, $emailApplicant, $homeAddress, $barangay, $petName, $petAge, $petGender,
             $species, $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
             $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
             $vetContact, $ownerSignatureName, $dateSigned, $qrCodeFileName
         );
+        
     
         if ($stmt->execute()) {
             $insertedId = $this->conn->insert_id; // Get the last inserted pet_id
             $stmt->close();
             return [
-                'inserted id' => $insertedId,
+                'PET ID' => $insertedId,
                 'date application' => $dateApplication,
                 'name applicant' => $nameApplicant,
                 'age' => $age,
@@ -368,6 +369,19 @@ class global_class extends db_connect
 
     
 
+    
+    public function fetch_pending_pets($status)
+    {
+        $query = $this->conn->prepare("SELECT * from pets_info where pet_status='$status'");
+
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+
+
     public function AddComment($UserID, $postId, $commentText)
     {
         // Proceed with insertion if email does not exist
@@ -383,7 +397,6 @@ class global_class extends db_connect
             echo json_encode(array('status' => 'error', 'message' => 'Unable to sent'));
         }
     }
-
 
 
 
