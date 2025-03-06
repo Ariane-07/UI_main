@@ -21,7 +21,7 @@ class global_class extends db_connect
         $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,
         $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
         $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-        $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName, $qrCodeFileName
+        $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName, $qrCodeFileName,$antiRabPic
     ) {
         // Insert Data into Database
         $sql = "INSERT INTO pets_info (
@@ -30,8 +30,8 @@ class global_class extends db_connect
             pet_owner_home_address,pet_owner_barangay, pet_name, pet_age, pet_gender, pet_species, pet_breed,
             pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
             pet_antiRabies_expi_date, pet_vet_clinic, pet_vet_name, pet_vet_clinic_address,
-            pet_vet_contact_info, pet_owner_signature, pet_date_signed, pet_qr_code
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            pet_vet_contact_info, pet_owner_signature, pet_date_signed, pet_qr_code,pet_antiRabPic
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
@@ -39,12 +39,12 @@ class global_class extends db_connect
         }
     
         $stmt->bind_param(
-            "sssssssssssssssssssssssssssss", // Should match the number of placeholders in SQL (29)
+            "ssssssssssssssssssssssssssssss", // Should match the number of placeholders in SQL (29)
             $userPhotoName, $ValidIDName, $dateApplication, $nameApplicant, $age, $gender, $birthday,
             $telephone, $emailApplicant, $homeAddress, $barangay, $petName, $petAge, $petGender,
             $species, $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
             $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-            $vetContact, $ownerSignatureName, $dateSigned, $qrCodeFileName
+            $vetContact, $ownerSignatureName, $dateSigned, $qrCodeFileName,$antiRabPic
         );
         
     

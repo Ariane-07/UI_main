@@ -311,7 +311,7 @@
                 </div>
                 <div>
                     <label for="antiRabPic" class="form-label required">Anti-Rabies Vaccine Photo:</label>
-                    <input type="file" class="form-control" id="antiRabPic" accept="image/*" required>
+                    <input type="file" class="form-control" id="antiRabPic" name="antiRabPic" accept="image/*" required>
                 </div>
 
                 <!-- Veterinarian Information -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2025 at 08:11 AM
+-- Generation Time: Mar 06, 2025 at 06:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,7 +53,11 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 (17, 15, 7, '', NULL, 1),
 (18, 15, 7, '', NULL, 1),
 (19, 15, 8, 'hello', NULL, 1),
-(20, 15, 7, 'test', NULL, 1);
+(20, 15, 7, 'test', NULL, 1),
+(21, 18, 15, 'hi doc', NULL, 1),
+(22, 15, 18, 'hello din', NULL, 1),
+(23, 15, 18, 'hi', NULL, 1),
+(24, 18, 15, 'test oki', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -64,6 +68,7 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 CREATE TABLE `pets_info` (
   `pet_id` int(11) NOT NULL,
   `pet_photo_owner` varchar(255) DEFAULT NULL,
+  `ValidIDName` varchar(255) DEFAULT NULL,
   `pet_date_application` date NOT NULL,
   `pet_owner_name` varchar(60) NOT NULL,
   `pet_owner_age` int(11) NOT NULL,
@@ -72,6 +77,7 @@ CREATE TABLE `pets_info` (
   `pet_owner_telMobile` varchar(60) NOT NULL,
   `pet_owner_email` varchar(60) NOT NULL,
   `pet_owner_home_address` varchar(60) NOT NULL,
+  `pet_owner_barangay` varchar(255) NOT NULL,
   `pet_name` varchar(60) NOT NULL,
   `pet_age` varchar(60) NOT NULL,
   `pet_gender` varchar(60) NOT NULL,
@@ -83,6 +89,7 @@ CREATE TABLE `pets_info` (
   `pet_birthday` date NOT NULL,
   `pet_antiRabies_vac_date` date NOT NULL,
   `pet_antiRabies_expi_date` date NOT NULL,
+  `pet_antiRabPic` varchar(255) DEFAULT NULL,
   `pet_vet_clinic` varchar(255) NOT NULL,
   `pet_vet_name` varchar(60) NOT NULL,
   `pet_vet_clinic_address` varchar(255) NOT NULL,
@@ -97,14 +104,9 @@ CREATE TABLE `pets_info` (
 -- Dumping data for table `pets_info`
 --
 
-INSERT INTO `pets_info` (`pet_id`, `pet_photo_owner`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
-(24, NULL, '2025-03-03', '', 0, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', 'PET_24.png', 'pending'),
-(25, '67c5a3103439d.jpg', '2025-03-03', 'Joshua', 12, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', 'PET_25.png', 'pending'),
-(26, '67c5a51013182.jpg', '2025-03-03', 'Lebron james', 12, 'male', '2000-03-03', '09454454744', 'lebron@gmail.com', 'manila philippines', 'pikachu', '1', 'male', 'pokemon', 'electric', '3', 'yellow', 'sefsef', '2025-03-03', '2025-03-03', '2025-03-03', 'joshua clinick', 'joshua padilla', 'marilao bulacan', '094544744', '67c5a51013c77.png', '2025-03-03', 'PET_26.png', 'pending'),
-(27, NULL, '2025-03-03', 'joshua', 12, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', '', 'pending'),
-(28, NULL, '2025-03-03', '', 0, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', '', 'pending'),
-(29, NULL, '2025-03-03', '', 0, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', 'PET_29.png', 'pending'),
-(30, '67c5a6c50f0e8.jpg', '2025-03-03', 'bini maloi', 12, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', '', '', '', '', NULL, '2025-03-03', 'PET_30.png', 'pending');
+INSERT INTO `pets_info` (`pet_id`, `pet_photo_owner`, `ValidIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
+(53, '67c932bc73489.jpg', '67c932bc738aa.jpeg', '2025-03-06', 'Mary Loi Ricalde', 23, 'female', '2003-03-13', '09454454744', 'maryloi@gmail.com', 'sta.rosa 2 marilao bulacan', 'sta.rosa 2', 'Squirtle', '12', 'male', 'turtle', 'water type', '5', 'blue', 'awdawd', '2025-03-06', '2025-03-05', '2025-03-25', NULL, 'Joshua clinic', 'Joshua padilla', 'marilao bulacan', '09454454744', '67c932bc73b9b.png', '2025-03-06', 'PET_53.png', 'pending'),
+(54, '67c9339d951f0.jpg', NULL, '2025-03-06', 'Aj raval', 24, 'female', '2000-03-12', '098955542025', 'aj@gmail.com', 'prenza 1 marilao bulacan', 'prenza', 'pikachu', '12', 'female', 'cat', 'electric type', '3', 'orange', 'awda', '2025-03-11', '2025-03-28', '2025-04-03', NULL, 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67c9339d956bb.png', '2025-03-06', 'PET_54.png', 'pending');
 
 -- --------------------------------------------------------
 
@@ -161,7 +163,9 @@ INSERT INTO `post_content` (`post_id`, `post_date`, `post_user_id`, `post_conten
 (58, '2025-03-04 04:46:10', 15, 'pets', '{\"images\":[\"img_67c685920c63d.png\",\"img_67c685920ca60.webp\",\"img_67c685920ccaa.jpg\"],\"videos\":[]}', 1),
 (59, '2025-03-04 05:28:57', 15, '', NULL, 0),
 (60, '2025-03-04 05:29:44', 6, 'wadawd', '{\"images\":[\"img_67c68fc89e6b9.jpg\"],\"videos\":[]}', 1),
-(61, '2025-03-04 05:29:56', 6, 'hfthtrfhtf', '{\"images\":[\"img_67c68fd49df15.jpeg\"],\"videos\":[]}', 1);
+(61, '2025-03-04 05:29:56', 6, 'hfthtrfhtf', '{\"images\":[\"img_67c68fd49df15.jpeg\"],\"videos\":[]}', 1),
+(62, '2025-03-04 14:36:19', 18, '', '{\"images\":[\"img_67c70fe3642e2.jpg\"],\"videos\":[]}', 1),
+(63, '2025-03-04 14:37:30', 15, 'test ', '{\"images\":[\"img_67c7102a44aa0.png\"],\"videos\":[]}', 1);
 
 -- --------------------------------------------------------
 
@@ -199,7 +203,8 @@ INSERT INTO `users` (`UserID`, `Name`, `Username`, `Gender`, `Email`, `Password`
 (14, NULL, 'andy', '', 'andy@gmail.com', '6177321eac992341d1ad0823a07e76bfc4ee6909db120e377ea303fdc216756c', NULL, NULL, NULL, NULL, NULL, 'lgu'),
 (15, 'dawd', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet'),
 (16, NULL, 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
-(17, NULL, 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner');
+(17, NULL, 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
+(18, NULL, 'andersonandy046', '', 'andersonandy04@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', NULL, NULL, NULL, NULL, NULL, 'pet_owner');
 
 --
 -- Indexes for dumped tables
@@ -244,13 +249,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `pets_info`
 --
 ALTER TABLE `pets_info`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `post_comments`
@@ -262,13 +267,13 @@ ALTER TABLE `post_comments`
 -- AUTO_INCREMENT for table `post_content`
 --
 ALTER TABLE `post_content`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

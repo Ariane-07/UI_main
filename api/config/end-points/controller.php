@@ -153,9 +153,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             function handleFileUpload($file, $uploadDir) {
                 $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-                $maxFileSize = 2 * 1024 * 1024; // 2MB
+                $maxFileSize = 10 * 1024 * 1024; // 10MB
             
                 if ($file['error'] !== UPLOAD_ERR_OK) {
+                    return null;
+                }
+            
+                // Ensure the temp file exists before checking MIME type
+                if (!file_exists($file['tmp_name'])) {
                     return null;
                 }
             
@@ -175,21 +180,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 return null;
             }
+            
             if (!is_dir($qrCodeDir)) {
                 mkdir($qrCodeDir, 0777, true);
             }
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-
+          
+           
             // Handle file uploads
             $userPhoto = $_FILES['userPhoto'] ?? null;
-            $ValidID = $_FILES['userPhoto'] ?? null;
+            $ValidID = $_FILES['antiRabPic'] ?? null;
             $ownerSignature = $_FILES['ownerSignature'] ?? null;
+            $antiRabPic = $_FILES['antiRabPic'] ?? null;
 
             $userPhotoName = $userPhoto ? handleFileUpload($userPhoto, $uploadDir) : null;
             $ValidIDName = $ValidID ? handleFileUpload($ValidID, $uploadDir) : null;
             $ownerSignatureName = $ownerSignature ? handleFileUpload($ownerSignature, $uploadDir) : null;
+            $antiRabPicName = $antiRabPic ? handleFileUpload($antiRabPic, $uploadDir) : null;
 
             // Collect form data
             $dateApplication = $_POST['dateApplication'] ?? '';
@@ -224,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,
                 $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
                 $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-                $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName,""
+                $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName,"",$antiRabPicName
             );
 
             // ✅ Extract the pet ID from the returned array
