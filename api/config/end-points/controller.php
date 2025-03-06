@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            
             // Handle file uploads
             $userPhoto = $_FILES['userPhoto'] ?? null;
-            $ValidID = $_FILES['antiRabPic'] ?? null;
+            $ValidID = $_FILES['ValidID'] ?? null;
             $ownerSignature = $_FILES['ownerSignature'] ?? null;
             $antiRabPic = $_FILES['antiRabPic'] ?? null;
 

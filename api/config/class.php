@@ -25,7 +25,7 @@ class global_class extends db_connect
     ) {
         // Insert Data into Database
         $sql = "INSERT INTO pets_info (
-            pet_photo_owner,ValidIDName, pet_date_application, pet_owner_name, pet_owner_age,
+            pet_photo_owner,pet_validIDName, pet_date_application, pet_owner_name, pet_owner_age,
             pet_owner_gender, pet_owner_birthday, pet_owner_telMobile, pet_owner_email,
             pet_owner_home_address,pet_owner_barangay, pet_name, pet_age, pet_gender, pet_species, pet_breed,
             pet_weight, pet_color, pet_marks, pet_birthday, pet_antiRabies_vac_date,
