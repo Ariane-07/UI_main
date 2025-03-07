@@ -1,6 +1,40 @@
 $(document).ready(function () {
 
 
+    $("#frmUpdatePetStatus").submit(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        formData.append('requestType', 'UpdatePetStatus');
+        formData.append('status', 'accept_by_vet');
+
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('.spinner').hide();
+                $('#send-message').prop('disabled', false);
+    
+                if (response.status == "success") {
+                    alertify.success('Accept Successfully');
+                    
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                  
+                } else {
+                    alertify.error('Error');
+                }
+            }
+        });
+        
+    });
+
    
 
     
@@ -175,7 +209,9 @@ $(document).ready(function () {
                 if (response.status == "success") {
                     alertify.success('Pet Registered Successfully');
                     setTimeout(function () {
-                        location.reload();
+                        window.location.href = 'index.php?page=MyPets';
+
+
                     }, 2000);
                 } else {
                     alertify.error('Sending failed, please try again.');

@@ -1,36 +1,90 @@
+
+
 <section>
     <h1 class="heading">My <span>Pets</span></h1>
     <div class="client-list">
+
+    <?php 
+        $db = new global_class();
+
+        $UserID=$_SESSION['UserID'];
+        
+         $fetch_pets = $db->fetch_pets_info($UserID);
+
+       
+
+         if (mysqli_num_rows($fetch_pets) > 0): 
+          $count=1;
+              foreach ($fetch_pets as $pets):
+
+
+                $QRCODE = '
+                <div class="qr-code-container" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <div id="qr-code-1" class="qr-placeholder" 
+                        style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;">
+                        <img src="qrcodes/' . $pets['pet_qr_code'] . '" alt="QR Code Placeholder" style="max-width: 100%; height: auto;">
+                    </div>
+                    <button class="download-qr" 
+                        style="padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;"
+                        onmouseover="this.style.backgroundColor=\'#0056b3\'" 
+                        onmouseout="this.style.backgroundColor=\'#007bff\'">
+                        Download QR Code
+                    </button>
+                </div>
+                ';
+
+          ?>
         <div class="client-card">
             <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <!-- QR Code Container -->
-                <div class="qr-code-container">
-                    <div id="qr-code-1"></div>
-                    <button class="download-qr">Download QR Code</button>
-                </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
-        </div>
+                    <div class="client-details">
+                        <p><strong>Name</strong></p>
+                        <p><?=$pets['pet_owner_name']?></p> <!-- Empty by default -->
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Contact Number</strong></p>
+                        <p><?=$pets['pet_owner_telMobile']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Email</strong></p>
+                        <p><?=$pets['pet_owner_email']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Pet Name</strong></p>
+                        <p><?=$pets['pet_name']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Status</strong></p>
+                        <p>
+                        <?php 
+                            echo ($pets['pet_status'] ?? '') === "accept_by_lgu" ? "Accept" : "Pending";
+                            ?>
+                        </p>
+                    </div>
 
+                    <?php 
+                    echo ($pets['pet_status'] ?? '') === "accept_by_lgu" ? $QRCODE : '';
+                    ?>
+
+                   
+                    <!-- QR Code Container -->
+                   
+
+                </div>
+                <div class="actions">
+                    <button class="view-details">VIEW DETAILS</button>
+                    <button class="close-btn">&times;</button>
+                </div>
+        </div>
+        <?php
+          $count++; 
+          endforeach;
+        ?>
+        
+      <?php else: ?>
+          <tr>
+              <td colspan="5" class="p-2">No record found.</td>
+          </tr>
+      <?php endif; ?>
         <!-- Repeat for other client cards -->
     </div>
 </section>
@@ -94,8 +148,7 @@
     </div>
 </div>
 
-<!-- Include QRCode.js library -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
 
 <script>
     var clientModal = document.getElementById("clientModal");

@@ -17,7 +17,16 @@ $db = new global_class();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['requestType'])) {
-        if ($_POST['requestType'] == 'PostContent') {
+        if($_POST['requestType'] == 'UpdatePetStatus'){
+
+            
+            $pet_id=$_POST['modal-pet_id'];
+            $status=$_POST['status'];
+
+            echo $db->UpdatePetStatus($pet_id,$status);
+           
+            
+        }else if ($_POST['requestType'] == 'PostContent') {
 
             $post_user_id = $_POST['UserID'] ?? null;
             $postInput = $_POST['postInput'] ?? null;
@@ -227,13 +236,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $vetContact = $_POST['vetContact'] ?? '';
             $dateSigned = $_POST['dateSigned'] ?? '';
 
+            session_start();
+            $UserID=$_SESSION['UserID'];
+
                     // ✅ Step 1: Insert pet data and get the returned array
             $petData = $db->petRegistration(
                 $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
                 $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,
                 $breed, $petWeight, $petColor, $distinguishingMarks, $petBirthday,
                 $vaccinationDate, $vaccinationExpiry, $vetClinic, $vetName, $vetAddress,
-                $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName,"",$antiRabPicName
+                $vetContact, $dateSigned, $userPhotoName,$ValidIDName, $ownerSignatureName,"",$antiRabPicName,$UserID
             );
 
             // ✅ Extract the pet ID from the returned array

@@ -1,82 +1,76 @@
 <section>
     <h1 class="heading">My <span>Clients</span></h1>
     <div class="client-list">
+    <?php 
+        $db = new global_class();
+
+         $fetch_pets = $db->fetch_all_pets_info();
+
+       
+
+         if (mysqli_num_rows($fetch_pets) > 0): 
+          $count=1;
+              foreach ($fetch_pets as $pets):
+        ?>
+        
         <div class="client-card">
             <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
+                    <div class="client-details">
+                        <p><strong>Name</strong></p>
+                        <p><?=$pets['pet_owner_name']?></p> <!-- Empty by default -->
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Contact Number</strong></p>
+                        <p><?=$pets['pet_owner_telMobile']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Email</strong></p>
+                        <p><?=$pets['pet_owner_email']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Pet Name</strong></p>
+                        <p><?=$pets['pet_name']?></p>
+                    </div>
+                    <div class="client-details">
+                        <p><strong>Status</strong></p>
+                        <p>
+                        
+                        <?php 
+                            if ($pets['pet_status']=== "accept_by_lgu") {
+                                echo "Accept";
+                            } else {
+                                echo "Pending";
+                            }
+                            ?>
+
+
+                            
+                        </p>
+                    </div>
+
+                 
+
+                   
+                    <!-- QR Code Container -->
+                   
+
                 </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
+                <div class="actions">
+                    <button class="view-details">VIEW DETAILS</button>
+                    <button class="close-btn">&times;</button>
                 </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
         </div>
 
-        <div class="client-card">
-            <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
-        </div>
-
-        <div class="client-card">
-            <div class="client-info">
-                <div class="client-details">
-                    <p><strong>Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Contact Number</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Email</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-                <div class="client-details">
-                    <p><strong>Pet Name</strong></p>
-                    <p></p> <!-- Empty by default -->
-                </div>
-            </div>
-            <div class="actions">
-                <button class="view-details">VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
-            </div>
-        </div>
-    </div>
-</section>
+   <?php
+          $count++; 
+          endforeach;
+        ?>
+        
+      <?php else: ?>
+          <tr>
+              <td colspan="5" class="p-2">No record found.</td>
+          </tr>
+      <?php endif; ?>
 
 <div id="clientModal" class="client-modal">
     <div class="client-modal-content">

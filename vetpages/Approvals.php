@@ -38,6 +38,7 @@
 
             <div class="actions">
                 <button class="approval-view-details"
+                data-pet_id ='<?=$pets['pet_id']?>'
                 data-pet_date_application='<?=$pets['pet_date_application']?>'
                 data-pet_photo_owner='<?=$pets['pet_photo_owner']?>'
                 data-pet_validIDName='<?=$pets['pet_validIDName']?>'
@@ -60,7 +61,7 @@
                 data-pet_birthday='<?=$pets['pet_birthday']?>'
                 data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
                 data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
-                data-pet_antiRabPic='<?=$pets['pet_antiRabiespet_antiRabPic_expi_date']?>'
+                data-pet_antiRabPic='<?=$pets['pet_antiRabPic']?>'
                 data-pet_vet_clinic='<?=$pets['pet_vet_clinic']?>'
                 data-pet_vet_name='<?=$pets['pet_vet_name']?>'
                 data-pet_vet_clinic_address='<?=$pets['pet_vet_clinic_address']?>'
@@ -94,8 +95,11 @@
       <span class="approval-close">&times;</span>
     </div>
     <div class="approval-modal-body">
+      
       <!-- Application Details -->
       <div class="approval-section-header">Application Details</div>
+      
+      
       <div>
         <label>Date of Application</label>
         <input type="text" id="modal-dateApplication" readonly>
@@ -243,8 +247,11 @@
       </div>
     </div>
     <div class="approval-modal-footer">
-      <button id="approval-saveBtn" class="approval-view-details">Accept</button>
-      <button id="approval-cancelBtn" class="approval-view-details">Decline</button>
+    <form id="frmUpdatePetStatus">
+      <input hidden type="text" id="modal-pet_id" name="modal-pet_id">
+      <button type="submit" id="approval-saveBtn" class="" name="status_accept">Accept</button>
+      <button type="button" id="approval-cancelBtn" class="" name="status_decline">Decline</button>
+    </form>
     </div>
   </div>
 </div>
@@ -258,6 +265,7 @@
 <script>
 $(document).ready(function() {
     var $approvalModal = $("#ApprovalModal");
+    
     var $approvalCloseModal = $(".approval-close");
     var $cancelBtn = $("#approval-cancelBtn");
     var $saveBtn = $("#approval-saveBtn");
@@ -281,6 +289,7 @@ $(document).ready(function() {
         $("#modal-barangay").val($this.data("pet_owner_barangay"));
 
         // Pet Information
+        $("#modal-pet_id").val($this.data("pet_id"));
         $("#modal-petName").val($this.data("pet_name"));
         $("#modal-petAge").val($this.data("pet_age"));
         $("#modal-petGender").val($this.data("pet_gender"));
@@ -297,6 +306,7 @@ $(document).ready(function() {
         $("#modal-vaccinationExpiry").val($this.data("pet_antirabies_expi_date"));
         $("#modal-antiRabPic").attr("src", imagePath + $this.data("pet_antirabpic"));
 
+        
         // Veterinarian Information
         $("#modal-vetClinic").val($this.data("pet_vet_clinic"));
         $("#modal-vetName").val($this.data("pet_vet_name"));
@@ -320,10 +330,10 @@ $(document).ready(function() {
         $approvalModal.fadeOut();
     });
 
-    $saveBtn.on("click", function() {
-        // Handle the acceptance logic here
-        $approvalModal.fadeOut();
-    });
+    // $saveBtn.on("click", function() {
+    //     // Handle the acceptance logic here
+    //     $approvalModal.fadeOut();
+    // });
 });
 
 </script>
