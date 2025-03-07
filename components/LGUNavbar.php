@@ -8,10 +8,10 @@
                 <i class="bx bx-x sidebarClose"></i>
             </div>
             <ul class="nav-links">
-                <li><a href="index.php?lgupage=lguhome">Home</a></li>
-                <li><a href="index.php?lgupage=registeredpets">Registered Pets</a></li>
-                <li><a href="index.php?lgupage=impounded">Impounded</a></li>
-                <li><a href="index.php?lgupage=lguapprovals">Approvals</a></li>
+                <li><a href="index.php?lgupages=lguhome">Home</a></li>
+                <li><a href="index.php?lgupages=registeredpets">Registered Pets</a></li>
+                <li><a href="index.php?lgupages=impounded">Impounded</a></li>
+                <li><a href="index.php?lgupages=lguapprovals">Approvals</a></li>
             </ul>
         </div>
         <div class="darkLight-searchBox">
