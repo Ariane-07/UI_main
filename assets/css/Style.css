@@ -2654,19 +2654,26 @@ body {
 .approval-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Agwat sa pagitan ng bawat item */
+  gap: 10px; 
 }
 
 .approval-details {
-  flex: 1; /* Pantay na lapad */
-  min-width: 200px; /* Para hindi masyadong lumiit */
-  text-align: left; /* I-align ang text kung kinakailangan */
+  flex: 1;
+  min-width: 200px;
+  text-align: left;
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  white-space: normal; 
 }
 
 .approval-details p {
   margin: 5px 0;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
 }
-
 
 .approval-details strong {
   color: var(--text-color);
