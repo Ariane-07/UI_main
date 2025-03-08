@@ -18,21 +18,20 @@
               foreach ($fetch_pets as $pets):
 
 
-                $QRCODE = '
-                <div class="qr-code-container" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                    <div id="qr-code-1" class="qr-placeholder" 
-                        style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;">
-                        <img src="qrcodes/' . $pets['pet_qr_code'] . '" alt="QR Code Placeholder" style="max-width: 100%; height: auto;">
+                $QRCODE = "
+                <div class='qr-code-container' style='display: flex; flex-direction: column; align-items: center; gap: 10px;'>
+                    <div id='qr-code-1' class='qr-placeholder' 
+                        style='width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;'>
+                        <img id='qr-image' src='qrcodes/{$pets['pet_qr_code']}' alt='QR Code' style='max-width: 100%; height: auto;'>
                     </div>
-                    <button class="download-qr" 
-                        style="padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;"
-                        onmouseover="this.style.backgroundColor=\'#0056b3\'" 
-                        onmouseout="this.style.backgroundColor=\'#007bff\'">
+            
+                    <a id='download-qr' href='qrcodes/{$pets['pet_qr_code']}' download='{$pets['pet_qr_code']}' target='_blank'
+                        style='padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; text-align: center;'>
                         Download QR Code
-                    </button>
+                    </a>
                 </div>
-                ';
-
+            ";
+            
           ?>
         <div class="client-card">
             <div class="client-info">
