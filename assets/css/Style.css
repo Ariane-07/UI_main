@@ -2632,6 +2632,15 @@ body {
   flex-direction: column;
 }
 
+.btn_approval{
+  gap: 10px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .approval-card {
   width: 100%;
   display: flex;
