@@ -2,7 +2,7 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <!-- Sign In Form -->
-                <form id="frmLogin" class="sign-in-form">
+                <form id="frmLogin" class="sign-in-form" >
                     <div id="spinner" class="spinner" style="display:none;"></div>
                     <h2 class="title">Sign In</h2>
                    

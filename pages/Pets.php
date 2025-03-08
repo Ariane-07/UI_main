@@ -189,7 +189,7 @@
         </div>
 
         <!-- <form id="petRegistrationForm" class="petForm" novalidate> -->
-        <form id="petRegistrationForm" class="petForm" >
+        <form id="petRegistrationForm" class="petForm" novalidate>
              <!-- Spinner -->
         
                 <div class="form-grid">
