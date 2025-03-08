@@ -71,7 +71,7 @@ $(document).ready(function () {
                 $('#send-message').prop('disabled', false);
     
                 if (response.status == "success") {
-                    alertify.success('Sent Successfully');
+                    // alertify.success('Sent Successfully');
 
                     $("#file-upload").val("");
                     $("#message-input").val("");
