@@ -19,18 +19,35 @@ if (empty($_SESSION)) {
     
 }else{
     
-    $UserID=$_SESSION['UserID'];
-    $session_data = $db->check_account($UserID);
-    $_SESSION['name']=$session_data[0]['Name'];
-    $_SESSION['email']=$session_data[0]['Email'];
-    $_SESSION['username']=$session_data[0]['Username'];
-    $_SESSION['ProfilePic']=$session_data[0]['ProfilePic'];
-    $_SESSION['Role']=$session_data[0]['Role'];
-    $_SESSION['BirthDate']=$session_data[0]['BirthDate'];
-    $_SESSION['Contact']=$session_data[0]['Contact'];
-    $_SESSION['Address']=$session_data[0]['Address'];
-    $_SESSION['Gender']=$session_data[0]['Gender'];
-    $_SESSION['Link_address']=$session_data[0]['Link_address'];
+    $UserID = $_SESSION['UserID'] ?? null;
+
+    if ($UserID) {
+        $session_data = $db->check_account($UserID);
+    
+        if (!empty($session_data) && is_array($session_data) && isset($session_data[0])) {
+            $_SESSION['name'] = $session_data[0]['Name'] ?? '';
+            $_SESSION['email'] = $session_data[0]['Email'] ?? '';
+            $_SESSION['username'] = $session_data[0]['Username'] ?? '';
+            $_SESSION['ProfilePic'] = $session_data[0]['ProfilePic'] ?? '';
+            $_SESSION['Role'] = $session_data[0]['Role'] ?? '';
+            $_SESSION['BirthDate'] = $session_data[0]['BirthDate'] ?? '';
+            $_SESSION['Contact'] = $session_data[0]['Contact'] ?? '';
+            $_SESSION['Address'] = $session_data[0]['Address'] ?? '';
+            $_SESSION['Gender'] = $session_data[0]['Gender'] ?? '';
+            $_SESSION['Link_address'] = $session_data[0]['Link_address'] ?? '';
+        } else {
+            // Handle invalid session data
+            session_destroy();
+            header('Location: index.php?page=LogReg');
+            exit();
+        }
+    } else {
+        // Redirect to login if no UserID is found
+        session_destroy();
+        header('Location: index.php?page=LogReg');
+        exit();
+    }
+    
 
     
    
