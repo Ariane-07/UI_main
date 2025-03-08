@@ -3242,6 +3242,32 @@ body {
   }
 }
 
+/* Add Pet Button */
+.imp-add-pet-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Add Pet Modal Footer */
+.imp-modal-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid #dee2e6;
+}
+
+.imp-cancel-button {
+  background-color: #ff4d4d;
+  border-color: #ff4d4d;
+  color: white;
+}
+
+.imp-cancel-button:hover {
+  background-color: #ff1a1a;
+  border-color: #ff1a1a;
+}
+
 /* RESPONSIVE CSS FOR MOBILE */
 @media (max-width: 790px) {
   nav .navbar .sidebarOpen {

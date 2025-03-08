@@ -1,31 +1,14 @@
 <section>
     <h1 class="heading"><span>Impounded Pets</span></h1>
-    <div class="imp-gallery">
-        <div class="imp-card">
-            <img id="pet1-image" src="/api/placeholder/400/300" alt="Golden Retriever" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet1')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet2-image" src="/api/placeholder/400/300" alt="Shih Tzu Mix" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet2')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet3-image" src="/api/placeholder/400/300" alt="German Shepherd" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet3')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet4-image" src="/api/placeholder/400/300" alt="Mixed Breed" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet4')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
+    <!-- Add Pet Button -->
+    <div class="imp-add-pet-container">
+        <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
     </div>
+    <!-- Pet Gallery -->
+    <div class="imp-gallery" id="imp-gallery">
+        <!-- Pet cards will be dynamically added here -->
+    </div>
+    <!-- Pet Details Modal -->
     <div id="petModal" class="imp-modal">
         <div class="imp-modal-content">
             <div class="imp-modal-header">
@@ -38,7 +21,7 @@
             </div>
             <div class="imp-modal-body">
                 <div class="imp-modal-image-container">
-                    <img src="/api/placeholder/400/300" alt="Pet" class="imp-modal-image" id="petImage">
+                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
                     <label class="imp-image-upload-label">
                         CHANGE IMAGE
                         <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
@@ -64,125 +47,204 @@
             </div>
         </div>
     </div>
-
+    <!-- Add Pet Modal -->
+    <div id="addPetModal" class="imp-modal">
+        <div class="imp-modal-content">
+            <div class="imp-modal-header">
+                <h2>Add New Pet</h2>
+                <button class="imp-modal-close" onclick="closeAddPetModal()">×</button>
+            </div>
+            <div class="imp-modal-body">
+                <div class="imp-modal-image-container">
+                    <img src="" alt="Pet" class="imp-modal-image" id="addPetImage">
+                    <label class="imp-image-upload-label">
+                        UPLOAD IMAGE
+                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)">
+                    </label>
+                </div>
+                <div class="imp-info-grid">
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Date Caught</div>
+                        <input type="date" class="imp-info-input" id="addDateCaught">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Location Found</div>
+                        <input type="text" class="imp-info-input" id="addLocationFound">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Impound Location</div>
+                        <input type="text" class="imp-info-input" id="addImpoundLocation">
+                    </div>
+                    <div class="imp-days-remaining">
+                        Days Remaining: <input type="number" class="imp-days-input" id="addDaysRemaining">
+                    </div>
+                </div>
+            </div>
+            <div class="imp-modal-footer">
+                <button onclick="saveNewPet()" class="imp-button">SAVE</button>
+                <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+    <!-- Notification -->
     <div class="imp-notification" id="notification">Changes Saved Successfully!</div>
 </section>
 
 <script>
-    const modal = document.getElementById("petModal");
-    const notification = document.getElementById("notification");
-    let currentPetId = null;
-    let isEditMode = false;
+   const modal = document.getElementById("petModal");
+const addPetModal = document.getElementById("addPetModal");
+const notification = document.getElementById("notification");
+const impGallery = document.getElementById("imp-gallery");
+let currentPetId = null;
+let isEditMode = false;
+let newPetImageUrl = "";
 
-    const petData = {
-        pet1: {
-            dateCaught: "2024-10-15",
-            locationFound: "Central Park",
-            impoundLocation: "City Animal Shelter",
-            daysRemaining: 5,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet2: {
-            dateCaught: "2024-10-18",
-            locationFound: "Downtown Plaza",
-            impoundLocation: "Local Vet Clinic",
-            daysRemaining: 7,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet3: {
-            dateCaught: "2024-10-20",
-            locationFound: "Green Hills Park",
-            impoundLocation: "Shelter #2",
-            daysRemaining: 3,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet4: {
-            dateCaught: "2024-10-25",
-            locationFound: "Main Street",
-            impoundLocation: "City Animal Center",
-            daysRemaining: 9,
-            imageUrl: "/api/placeholder/400/300",
-        },
+let petData = {}; // Empty object to store pet data
+
+// Function to open the "Add Pet" modal
+function openAddPetModal() {
+    addPetModal.classList.add("imp-active");
+}
+
+// Function to close the "Add Pet" modal
+function closeAddPetModal() {
+    addPetModal.classList.remove("imp-active");
+    // Clear input fields
+    document.getElementById("addDateCaught").value = "";
+    document.getElementById("addLocationFound").value = "";
+    document.getElementById("addImpoundLocation").value = "";
+    document.getElementById("addDaysRemaining").value = "";
+    document.getElementById("addPetImage").src = "";
+}
+
+// Function to handle image upload for new pets
+function handleAddPetImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            newPetImageUrl = e.target.result;
+            document.getElementById("addPetImage").src = newPetImageUrl;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Function to save a new pet
+function saveNewPet() {
+    const newPetId = `pet${Object.keys(petData).length + 1}`;
+    const newPet = {
+        dateCaught: document.getElementById("addDateCaught").value,
+        locationFound: document.getElementById("addLocationFound").value,
+        impoundLocation: document.getElementById("addImpoundLocation").value,
+        daysRemaining: parseInt(document.getElementById("addDaysRemaining").value),
+        imageUrl: newPetImageUrl,
     };
 
-    function openModal(petId) {
-        currentPetId = petId;
-        const pet = petData[petId];
+    petData[newPetId] = newPet;
 
-        document.getElementById("dateCaught").value = pet.dateCaught;
-        document.getElementById("locationFound").value = pet.locationFound;
-        document.getElementById("impoundLocation").value = pet.impoundLocation;
-        document.getElementById("daysRemaining").value = pet.daysRemaining;
-        document.getElementById("petImage").src = pet.imageUrl;
+    // Add new pet card to the gallery
+    const newCard = document.createElement("div");
+    newCard.classList.add("imp-card");
+    newCard.innerHTML = `
+        <img id="${newPetId}-image" src="${newPetImageUrl}" alt="New Pet" class="imp-card-image">
+        <div class="imp-card-content">
+            <button onclick="openModal('${newPetId}')" class="imp-button">DETAILS</button>
+        </div>
+    `;
+    impGallery.appendChild(newCard);
 
-        modal.classList.add("imp-active");
-        isEditMode = false;
-        updateEditMode();
-    }
+    closeAddPetModal();
+    notification.classList.add("imp-show");
+    setTimeout(() => {
+        notification.classList.remove("imp-show");
+    }, 3000);
+}
 
-    function closeModal() {
-        modal.classList.remove("imp-active");
-        currentPetId = null;
-    }
+// Function to open the pet details modal
+function openModal(petId) {
+    currentPetId = petId;
+    const pet = petData[petId];
 
-    function toggleEditMode() {
-        isEditMode = !isEditMode;
-        updateEditMode();
-    }
+    document.getElementById("dateCaught").value = pet.dateCaught;
+    document.getElementById("locationFound").value = pet.locationFound;
+    document.getElementById("impoundLocation").value = pet.impoundLocation;
+    document.getElementById("daysRemaining").value = pet.daysRemaining;
+    document.getElementById("petImage").src = pet.imageUrl;
 
-    function updateEditMode() {
-        const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
-        inputs.forEach((input) => {
-            input.disabled = !isEditMode;
-        });
+    modal.classList.add("imp-active");
+    isEditMode = false;
+    updateEditMode();
+}
 
-        document.querySelector(".imp-image-upload-label").style.display = isEditMode ?
-            "block" :
-            "none";
+// Function to close the pet details modal
+function closeModal() {
+    modal.classList.remove("imp-active");
+    currentPetId = null;
+}
 
-        document.querySelector(".imp-save-button").style.display = isEditMode ?
-            "block" :
-            "none";
+// Function to toggle edit mode
+function toggleEditMode() {
+    isEditMode = !isEditMode;
+    updateEditMode();
+}
 
-        document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ?
-            "CANCEL" :
-            "EDIT";
-    }
+// Function to update edit mode UI
+function updateEditMode() {
+    const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
+    inputs.forEach((input) => {
+        input.disabled = !isEditMode;
+    });
 
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newImageUrl = e.target.result;
-                document.getElementById("petImage").src = newImageUrl;
+    document.querySelector(".imp-image-upload-label").style.display = isEditMode ?
+        "block" :
+        "none";
 
-                if (currentPetId) {
-                    document.getElementById(`${currentPetId}-image`).src = newImageUrl;
-                    petData[currentPetId].imageUrl = newImageUrl;
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    }
+    document.querySelector(".imp-save-button").style.display = isEditMode ?
+        "block" :
+        "none";
 
-    function saveChanges() {
-        if (!currentPetId) return;
+    document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ?
+        "CANCEL" :
+        "EDIT";
+}
 
-        petData[currentPetId] = {
-            ...petData[currentPetId],
-            dateCaught: document.getElementById("dateCaught").value,
-            locationFound: document.getElementById("locationFound").value,
-            impoundLocation: document.getElementById("impoundLocation").value,
-            daysRemaining: parseInt(document.getElementById("daysRemaining").value),
+// Function to handle image upload for existing pets
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const newImageUrl = e.target.result;
+            document.getElementById("petImage").src = newImageUrl;
+
+            if (currentPetId) {
+                document.getElementById(`${currentPetId}-image`).src = newImageUrl;
+                petData[currentPetId].imageUrl = newImageUrl;
+            }
         };
-
-        notification.classList.add("imp-show");
-        setTimeout(() => {
-            notification.classList.remove("imp-show");
-        }, 3000);
-
-        isEditMode = false;
-        updateEditMode();
+        reader.readAsDataURL(file);
     }
+}
+
+// Function to save changes to a pet
+function saveChanges() {
+    if (!currentPetId) return;
+
+    petData[currentPetId] = {
+        ...petData[currentPetId],
+        dateCaught: document.getElementById("dateCaught").value,
+        locationFound: document.getElementById("locationFound").value,
+        impoundLocation: document.getElementById("impoundLocation").value,
+        daysRemaining: parseInt(document.getElementById("daysRemaining").value),
+    };
+
+    notification.classList.add("imp-show");
+    setTimeout(() => {
+        notification.classList.remove("imp-show");
+    }, 3000);
+
+    isEditMode = false;
+    updateEditMode();
+}
 </script>
