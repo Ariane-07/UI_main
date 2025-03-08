@@ -247,7 +247,7 @@
       </div>
     </div>
     <div class="approval-modal-footer">
-    <form id="frmUpdatePetStatus">
+    <form class="btn_approval"id="frmUpdatePetStatus">
       <input hidden type="text" id="modal-pet_id" name="modal-pet_id">
       <button type="submit" id="approval-saveBtn" class="" name="status_accept">Accept</button>
       <button type="button" id="approval-cancelBtn" class="" name="status_decline">Decline</button>

@@ -12,6 +12,8 @@
                 <li><a href="index.php?lgupages=registeredpets">Registered Pets</a></li>
                 <li><a href="index.php?lgupages=impounded">Impounded</a></li>
                 <li><a href="index.php?lgupages=lguapprovals">Approvals</a></li>
+                <li><a href="index.php?lgupages=AboutUs">About Us</a></li>
+
             </ul>
         </div>
         <div class="darkLight-searchBox">
