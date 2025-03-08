@@ -34,7 +34,9 @@
                         <?php 
                             if ($pets['pet_status']=== "accept_by_lgu") {
                                 echo "Accept";
-                            } else {
+                            } else if($pets['pet_status']=== "declined_by_vet"){
+                                echo "Decline";
+                            }else {
                                 echo "Pending";
                             }
                             ?>
@@ -44,7 +46,22 @@
                     <!-- QR Code Container -->
                 </div>
                 <div class="actions">
-                    <button class="view-details">VIEW DETAILS</button>
+                    <button class="view-details"
+                    data-petOwner='<?=$pets['pet_owner_name']?>'
+                    data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
+                    data-pet_owner_email='<?=$pets['pet_owner_email']?>'
+                    data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
+                    data-pet_owner_barangay='<?=$pets['pet_owner_barangay']?>'
+                    data-pet_name='<?=$pets['pet_name']?>'
+                    data-pet_birthday='<?=$pets['pet_birthday']?>'
+                    data-pet_breed='<?=$pets['pet_breed']?>'
+                    data-pet_gender='<?=$pets['pet_gender']?>'
+                    data-pet_species='<?=$pets['pet_species']?>'
+                    data-pet_color='<?=$pets['pet_color']?>'
+                    data-pet_marks='<?=$pets['pet_marks']?>'
+                    data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
+                    data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
+                    >VIEW DETAILS</button>
                     <button class="close-btn">&times;</button>
                 </div>
         </div>
@@ -67,7 +84,7 @@
         <div class="client-modal-content">
             <div class="client-modal-header">
                 <h2>Client Information</h2>
-                <span class="client-close">&times;</span>
+                <span class="client-close close-clientModal">&times;</span>
             </div>
             <div class="client-modal-body">
                 <label for="client-name">Name</label>
@@ -111,111 +128,62 @@
 
                 <label for="client-vaccine-given">Vaccination Date Given</label>
                 <input type="date" id="client-vaccine-given">
-
-                <label for="client-vaccine-type">Vaccine Type</label>
-                <input type="text" id="client-vaccine-type">
             </div>
             <div class="client-modal-footer">
                 <button id="client-saveBtn" class="view-details">Save</button>
-                <button id="client-cancelBtn" class="view-details">Cancel</button>
+                <button id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
             </div>
         </div>
     </div>
 
 
 <script>
-    var clientModal = document.getElementById("clientModal");
+  $(".view-details").click(function (e) { 
+    e.preventDefault();
+    $("#clientModal").fadeIn();
 
-    var clientViewDetailsBtns = document.querySelectorAll(".view-details");
+    let petOwner = $(this).attr('data-petOwner');
+    let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
+    let petOwnerEmail = $(this).attr('data-pet_owner_email');
+    let petOwnerAddress = $(this).attr('data-pet_owner_home_address');
+    let petOwnerBarangay = $(this).attr('data-pet_owner_barangay');
+    let petName = $(this).attr('data-pet_name');
+    let petBirthday = $(this).attr('data-pet_birthday');
+    let petBreed = $(this).attr('data-pet_breed');
+    let petGender = $(this).attr('data-pet_gender');
+    let petSpecies = $(this).attr('data-pet_species');
+    let petColor = $(this).attr('data-pet_color');
+    let petMarks = $(this).attr('data-pet_marks');
+    let petVaccineDue = $(this).attr('data-pet_antiRabies_expi_date');
+    let petVaccineGiven = $(this).attr('data-pet_antiRabies_vac_date');
 
-    var clientCloseModal = document.querySelector(".client-close");
+    // Set values to input fields
+    $("#client-name").val(petOwner);
+    $("#client-contact").val(petOwnerTel);
+    $("#client-email").val(petOwnerEmail);
+    $("#client-address").val(petOwnerAddress);
+    $("#client-barangay").val(petOwnerBarangay);
+    $("#client-pet-name").val(petName);
+    $("#client-birthdate").val(petBirthday);
+    $("#client-breed").val(petBreed);
+    $("#client-gender").val(petGender);
+    $("#client-species").val(petSpecies);
+    $("#client-color").val(petColor);
+    $("#client-mark").val(petMarks);
+    $("#client-vaccine-due").val(petVaccineDue);
+    $("#client-vaccine-given").val(petVaccineGiven);
 
-    var saveBtn = document.getElementById("client-saveBtn");
-    var cancelBtn = document.getElementById("client-cancelBtn");
+    console.log("Pet Owner:", petOwner);
+});
 
-    var currentClientCard = null;
 
-    var clientCards = document.querySelectorAll(".client-card");
 
-    function loadClientData() {
-        clientCards.forEach((card, index) => {
-            var savedClient = localStorage.getItem(`client-${index}`);
-            if (savedClient) {
-                var clientData = JSON.parse(savedClient);
-                card.querySelector(
-                    ".client-details:nth-child(1) p:nth-child(2)"
-                ).innerText = clientData.name;
-                card.querySelector(
-                    ".client-details:nth-child(2) p:nth-child(2)"
-                ).innerText = clientData.contact;
-                card.querySelector(
-                    ".client-details:nth-child(3) p:nth-child(2)"
-                ).innerText = clientData.email;
-                card.querySelector(
-                    ".client-details:nth-child(4) p:nth-child(2)"
-                ).innerText = clientData.petName;
-            }
-        });
-    }
 
-    window.onload = loadClientData;
-
-    clientViewDetailsBtns.forEach((btn, index) => {
-        btn.onclick = function() {
-            currentClientCard = btn.closest(".client-card");
-
-            var name = currentClientCard.querySelector(
-                ".client-details:nth-child(1) p:nth-child(2)"
-            ).innerText;
-            var contact = currentClientCard.querySelector(
-                ".client-details:nth-child(2) p:nth-child(2)"
-            ).innerText;
-            var email = currentClientCard.querySelector(
-                ".client-details:nth-child(3) p:nth-child(2)"
-            ).innerText;
-            var petName = currentClientCard.querySelector(
-                ".client-details:nth-child(4) p:nth-child(2)"
-            ).innerText;
-
-            document.getElementById("client-name").value = name;
-            document.getElementById("client-contact").value = contact;
-            document.getElementById("client-email").value = email;
-            document.getElementById("client-pet-name").value = petName;
-
-            clientModal.style.display = "block";
-        };
-    });
-
-    saveBtn.onclick = function() {
-        if (currentClientCard) {
-            var vaccineDue = document.getElementById("client-vaccine-due").value;
-            var vaccineGiven = document.getElementById("client-vaccine-given").value;
-
-            var index = Array.from(clientCards).indexOf(currentClientCard);
-            var clientData = JSON.parse(localStorage.getItem(`client-${index}`)) || {};
-
-            clientData.vaccineDue = vaccineDue;
-            clientData.vaccineGiven = vaccineGiven;
-
-            localStorage.setItem(`client-${index}`, JSON.stringify(clientData));
-
-            clientModal.style.display = "none";
-        }
-    };
-
-    cancelBtn.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    clientCloseModal.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            document.getElementById("clientModal").style.display = "none";
-        }
-    });
+  $(".close-clientModal").click(function (e) { 
+    e.preventDefault();
+    $("#clientModal").fadeOut();
+    
+  });
 </script>
 
 

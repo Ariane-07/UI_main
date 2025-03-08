@@ -1,13 +1,26 @@
 $(document).ready(function () {
 
 
+    
+
+
+
+    $("#frmUpdatePetStatus button[type=submit]").click(function() {
+        // Store the clicked button's value in a variable
+        var statusValue = $(this).val();
+        $("#frmUpdatePetStatus").data("status", statusValue);
+    });
+    
     $("#frmUpdatePetStatus").submit(function (e) {
         e.preventDefault();
-
+    
         var formData = new FormData(this);
         formData.append('requestType', 'UpdatePetStatus');
-        formData.append('status', 'accept_by_vet');
-
+    
+        // Get the stored status value (Accept or Decline)
+        var status = $("#frmUpdatePetStatus").data("status") || 'accept_by_vet';
+        formData.append('status', status);
+    
         $.ajax({
             type: "POST",
             url: "api/config/end-points/controller.php",
@@ -21,19 +34,23 @@ $(document).ready(function () {
                 $('#send-message').prop('disabled', false);
     
                 if (response.status == "success") {
-                    alertify.success('Accept Successfully');
-                    
+                    if (status === "accept_by_vet") {
+                        alertify.success('Accepted Successfully');
+                    } else {
+                        alertify.success('Declined Successfully');
+                    }
+    
                     setTimeout(function () {
                         location.reload();
                     }, 2000);
-                  
+    
                 } else {
                     alertify.error('Error');
                 }
             }
         });
-        
     });
+    
 
    
 

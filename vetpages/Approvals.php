@@ -247,11 +247,13 @@
       </div>
     </div>
     <div class="approval-modal-footer">
-    <form class="btn_approval"id="frmUpdatePetStatus">
-      <input hidden type="text" id="modal-pet_id" name="modal-pet_id">
-      <button type="submit" id="approval-saveBtn" class="" name="status_accept">Accept</button>
-      <button type="button" id="approval-cancelBtn" class="" name="status_decline">Decline</button>
+    <form class="btn_approval" id="frmUpdatePetStatus" method="post">
+      <input type="hidden" id="modal-pet_id" name="modal-pet_id" value="">
+
+      <button type="submit" id="approval-saveBtn" name="status" value="accept_by_vet">Accept</button>
+      <button type="submit" id="approval-cancelBtn" name="status" value="declined_by_vet">Decline</button>
     </form>
+
     </div>
   </div>
 </div>
