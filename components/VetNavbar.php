@@ -11,6 +11,8 @@
                 <li><a href="index.php?vetpages=vethome">Home</a></li>
                 <li><a href="index.php?vetpages=clients">Clients</a></li>
                 <li><a href="index.php?vetpages=approvals">Approvals</a></li>
+                <li><a href="index.php?vetpages=AboutUs">About Us</a></li>
+
             </ul>
         </div>
         <div class="darkLight-searchBox">
