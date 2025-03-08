@@ -3,11 +3,7 @@
     <div class="client-list">
     <?php 
         $db = new global_class();
-
          $fetch_pets = $db->fetch_all_pets_info();
-
-       
-
          if (mysqli_num_rows($fetch_pets) > 0): 
           $count=1;
               foreach ($fetch_pets as $pets):
@@ -43,17 +39,9 @@
                             }
                             ?>
 
-
-                            
                         </p>
                     </div>
-
-                 
-
-                   
                     <!-- QR Code Container -->
-                   
-
                 </div>
                 <div class="actions">
                     <button class="view-details">VIEW DETAILS</button>
@@ -72,64 +60,68 @@
           </tr>
       <?php endif; ?>
 
-<div id="clientModal" class="client-modal">
-    <div class="client-modal-content">
-        <div class="client-modal-header">
-            <h2>Client Information</h2>
-            <span class="client-close">&times;</span>
-        </div>
-        <div class="client-modal-body">
-            <label for="client-name">Name</label>
-            <input type="text" id="client-name" readonly>
+      </div>
+</section>
 
-            <label for="client-contact">Contact Number</label>
-            <input type="text" id="client-contact" readonly>
+    <div id="clientModal" class="approval-modal">
+        <div class="client-modal-content">
+            <div class="client-modal-header">
+                <h2>Client Information</h2>
+                <span class="client-close">&times;</span>
+            </div>
+            <div class="client-modal-body">
+                <label for="client-name">Name</label>
+                <input type="text" id="client-name" readonly>
 
-            <label for="client-email">Email</label>
-            <input type="email" id="client-email" readonly>
+                <label for="client-contact">Contact Number</label>
+                <input type="text" id="client-contact" readonly>
 
-            <label for="client-address">Address</label>
-            <input type="text" id="client-address" readonly>
+                <label for="client-email">Email</label>
+                <input type="email" id="client-email" readonly>
 
-            <label for="client-barangay">Barangay</label>
-            <input type="text" id="client-barangay" readonly>
+                <label for="client-address">Address</label>
+                <input type="text" id="client-address" readonly>
 
-            <label for="client-pet-name">Pet Name</label>
-            <input type="text" id="client-pet-name" readonly>
+                <label for="client-barangay">Barangay</label>
+                <input type="text" id="client-barangay" readonly>
 
-            <label for="client-birthdate">Birthdate</label>
-            <input type="date" id="client-birthdate" readonly>
+                <label for="client-pet-name">Pet Name</label>
+                <input type="text" id="client-pet-name" readonly>
 
-            <label for="client-breed">Breed</label>
-            <input type="text" id="client-breed" readonly>
+                <label for="client-birthdate">Birthdate</label>
+                <input type="date" id="client-birthdate" readonly>
 
-            <label for="client-gender">Gender of Pet</label>
-            <input type="text" id="client-gender" readonly>
+                <label for="client-breed">Breed</label>
+                <input type="text" id="client-breed" readonly>
 
-            <label for="client-species">Species</label>
-            <input type="text" id="client-species" readonly>
+                <label for="client-gender">Gender of Pet</label>
+                <input type="text" id="client-gender" readonly>
 
-            <label for="client-color">Color of Pet</label>
-            <input type="text" id="client-color" readonly>
+                <label for="client-species">Species</label>
+                <input type="text" id="client-species" readonly>
 
-            <label for="client-mark">Distinguishing Marks of Pet</label>
-            <input type="text" id="client-mark" readonly>
+                <label for="client-color">Color of Pet</label>
+                <input type="text" id="client-color" readonly>
 
-            <label for="client-vaccine-due">Vaccination Due Date</label>
-            <input type="date" id="client-vaccine-due">
+                <label for="client-mark">Distinguishing Marks of Pet</label>
+                <input type="text" id="client-mark" readonly>
 
-            <label for="client-vaccine-given">Vaccination Date Given</label>
-            <input type="date" id="client-vaccine-given">
+                <label for="client-vaccine-due">Vaccination Due Date</label>
+                <input type="date" id="client-vaccine-due">
 
-            <label for="client-vaccine-type">Vaccine Type</label>
-            <input type="text" id="client-vaccine-type">
-        </div>
-        <div class="client-modal-footer">
-            <button id="client-saveBtn" class="view-details">Save</button>
-            <button id="client-cancelBtn" class="view-details">Cancel</button>
+                <label for="client-vaccine-given">Vaccination Date Given</label>
+                <input type="date" id="client-vaccine-given">
+
+                <label for="client-vaccine-type">Vaccine Type</label>
+                <input type="text" id="client-vaccine-type">
+            </div>
+            <div class="client-modal-footer">
+                <button id="client-saveBtn" class="view-details">Save</button>
+                <button id="client-cancelBtn" class="view-details">Cancel</button>
+            </div>
         </div>
     </div>
-</div>
+
 
 <script>
     var clientModal = document.getElementById("clientModal");
@@ -225,3 +217,7 @@
         }
     });
 </script>
+
+
+
+
