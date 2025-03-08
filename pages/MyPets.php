@@ -71,7 +71,22 @@
 
                 </div>
                 <div class="actions">
-                    <button class="view-details">VIEW DETAILS</button>
+                    <button class="view-details"
+                    data-petOwner='<?=$pets['pet_owner_name']?>'
+                    data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
+                    data-pet_owner_email='<?=$pets['pet_owner_email']?>'
+                    data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
+                    data-pet_owner_barangay='<?=$pets['pet_owner_barangay']?>'
+                    data-pet_name='<?=$pets['pet_name']?>'
+                    data-pet_birthday='<?=$pets['pet_birthday']?>'
+                    data-pet_breed='<?=$pets['pet_breed']?>'
+                    data-pet_gender='<?=$pets['pet_gender']?>'
+                    data-pet_species='<?=$pets['pet_species']?>'
+                    data-pet_color='<?=$pets['pet_color']?>'
+                    data-pet_marks='<?=$pets['pet_marks']?>'
+                    data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
+                    data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
+                    >VIEW DETAILS</button>
                     <button class="close-btn">&times;</button>
                 </div>
         </div>
@@ -89,229 +104,110 @@
     </div>
 </section>
 
-<div id="clientModal" class="client-modal">
-    <div class="client-modal-content">
-        <div class="client-modal-header">
-            <h2>Client Information</h2>
-            <span class="client-close">&times;</span>
-        </div>
-        <div class="client-modal-body">
-            <label for="client-name">Name</label>
-            <input type="text" id="client-name" readonly>
+<div id="clientModal" class="approval-modal">
+        <div class="client-modal-content">
+            <div class="client-modal-header">
+                <h2>Pet Information</h2>
+                <span class="client-close close-clientModal">&times;</span>
+            </div>
+            <div class="client-modal-body">
+                <label for="client-name">Name</label>
+                <input type="text" id="client-name" readonly>
 
-            <label for="client-contact">Contact Number</label>
-            <input type="text" id="client-contact">
+                <label for="client-contact">Contact Number</label>
+                <input type="text" id="client-contact" readonly>
 
-            <label for="client-email">Email</label>
-            <input type="email" id="client-email">
+                <label for="client-email">Email</label>
+                <input type="email" id="client-email" readonly>
 
-            <label for="client-address">Address</label>
-            <input type="text" id="client-address">
+                <label for="client-address">Address</label>
+                <input type="text" id="client-address" readonly>
 
-            <label for="client-barangay">Barangay</label>
-            <input type="text" id="client-barangay">
+                <label for="client-barangay">Barangay</label>
+                <input type="text" id="client-barangay" readonly>
 
-            <label for="client-pet-name">Pet Name</label>
-            <input type="text" id="client-pet-name" readonly>
+                <label for="client-pet-name">Pet Name</label>
+                <input type="text" id="client-pet-name" readonly>
 
-            <label for="client-birthdate">Birthdate</label>
-            <input type="date" id="client-birthdate" readonly>
+                <label for="client-birthdate">Birthdate</label>
+                <input type="date" id="client-birthdate" readonly>
 
-            <label for="client-breed">Breed</label>
-            <input type="text" id="client-breed" readonly>
+                <label for="client-breed">Breed</label>
+                <input type="text" id="client-breed" readonly>
 
-            <label for="client-gender">Gender of Pet</label>
-            <input type="text" id="client-gender" readonly>
+                <label for="client-gender">Gender of Pet</label>
+                <input type="text" id="client-gender" readonly>
 
-            <label for="client-species">Species</label>
-            <input type="text" id="client-species" readonly>
+                <label for="client-species">Species</label>
+                <input type="text" id="client-species" readonly>
 
-            <label for="client-color">Color of Pet</label>
-            <input type="text" id="client-color" readonly>
+                <label for="client-color">Color of Pet</label>
+                <input type="text" id="client-color" readonly>
 
-            <label for="client-mark">Distinguishing Marks of Pet</label>
-            <input type="text" id="client-mark" readonly>
+                <label for="client-mark">Distinguishing Marks of Pet</label>
+                <input type="text" id="client-mark" readonly>
 
-            <label for="client-vaccine-due">Vaccination Due Date</label>
-            <input type="date" id="client-vaccine-due">
+                <label for="client-vaccine-due">Vaccination Due Date</label>
+                <input type="date" id="client-vaccine-due">
 
-            <label for="client-vaccine-given">Vaccination Date Given</label>
-            <input type="date" id="client-vaccine-given">
-
-            <label for="client-vaccine-type">Vaccine Type</label>
-            <input type="text" id="client-vaccine-type">
-        </div>
-        <div class="client-modal-footer">
-            <button id="client-saveBtn" class="view-details">Save</button>
-            <button id="client-cancelBtn" class="view-details">Cancel</button>
+                <label for="client-vaccine-given">Vaccination Date Given</label>
+                <input type="date" id="client-vaccine-given">
+            </div>
+            <div class="client-modal-footer">
+                <button id="client-saveBtn" class="view-details">Save</button>
+                <button id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
+            </div>
         </div>
     </div>
-</div>
-
 
 
 <script>
-    var clientModal = document.getElementById("clientModal");
+  $(".view-details").click(function (e) { 
+    e.preventDefault();
+    $("#clientModal").fadeIn();
 
-    var clientViewDetailsBtns = document.querySelectorAll(".view-details");
+    let petOwner = $(this).attr('data-petOwner');
+    let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
+    let petOwnerEmail = $(this).attr('data-pet_owner_email');
+    let petOwnerAddress = $(this).attr('data-pet_owner_home_address');
+    let petOwnerBarangay = $(this).attr('data-pet_owner_barangay');
+    let petName = $(this).attr('data-pet_name');
+    let petBirthday = $(this).attr('data-pet_birthday');
+    let petBreed = $(this).attr('data-pet_breed');
+    let petGender = $(this).attr('data-pet_gender');
+    let petSpecies = $(this).attr('data-pet_species');
+    let petColor = $(this).attr('data-pet_color');
+    let petMarks = $(this).attr('data-pet_marks');
+    let petVaccineDue = $(this).attr('data-pet_antiRabies_expi_date');
+    let petVaccineGiven = $(this).attr('data-pet_antiRabies_vac_date');
 
-    var clientCloseModal = document.querySelector(".client-close");
+    // Set values to input fields
+    $("#client-name").val(petOwner);
+    $("#client-contact").val(petOwnerTel);
+    $("#client-email").val(petOwnerEmail);
+    $("#client-address").val(petOwnerAddress);
+    $("#client-barangay").val(petOwnerBarangay);
+    $("#client-pet-name").val(petName);
+    $("#client-birthdate").val(petBirthday);
+    $("#client-breed").val(petBreed);
+    $("#client-gender").val(petGender);
+    $("#client-species").val(petSpecies);
+    $("#client-color").val(petColor);
+    $("#client-mark").val(petMarks);
+    $("#client-vaccine-due").val(petVaccineDue);
+    $("#client-vaccine-given").val(petVaccineGiven);
 
-    var saveBtn = document.getElementById("client-saveBtn");
-    var cancelBtn = document.getElementById("client-cancelBtn");
+    console.log("Pet Owner:", petOwner);
+});
 
-    var currentClientCard = null;
 
-    var clientCards = document.querySelectorAll(".client-card");
 
-    // Function to generate QR code
-    function generateQRCode(containerId, data) {
-        var qrContainer = document.getElementById(containerId);
-        qrContainer.innerHTML = ""; // Clear previous QR code
-        new QRCode(qrContainer, {
-            text: data,
-            width: 128,
-            height: 128,
-        });
 
-        // Remove the inline display: block style
-        var canvas = qrContainer.querySelector("canvas");
-        canvas.style.display = ""; // Reset to default
-    }
-
-    // Function to download QR code as an image
-    function downloadQRCode(containerId, fileName) {
-        var qrContainer = document.getElementById(containerId);
-        var canvas = qrContainer.querySelector("canvas");
-        var link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = fileName || "qrcode.png";
-        link.click();
-    }
-
-    // Generate QR codes for all client cards
-    clientCards.forEach((card, index) => {
-        var qrContainer = card.querySelector(".qr-code-container");
-        var downloadButton = card.querySelector(".download-qr");
-
-        // Add download functionality
-        downloadButton.addEventListener("click", function () {
-            downloadQRCode(`qr-code-${index + 1}`, `client-${index + 1}-qrcode.png`);
-        });
-    });
-
-    // Function to load client data and generate QR code
-    function loadClientData() {
-        clientCards.forEach((card, index) => {
-            var savedClient = localStorage.getItem(`client-${index}`);
-            if (savedClient) {
-                var clientData = JSON.parse(savedClient);
-                card.querySelector(
-                    ".client-details:nth-child(1) p:nth-child(2)"
-                ).innerText = clientData.name;
-                card.querySelector(
-                    ".client-details:nth-child(2) p:nth-child(2)"
-                ).innerText = clientData.contact;
-                card.querySelector(
-                    ".client-details:nth-child(3) p:nth-child(2)"
-                ).innerText = clientData.email;
-                card.querySelector(
-                    ".client-details:nth-child(4) p:nth-child(2)"
-                ).innerText = clientData.petName;
-
-                // Generate QR code with all details
-                var qrData = JSON.stringify(clientData);
-                generateQRCode(`qr-code-${index + 1}`, qrData);
-            }
-        });
-    }
-
-    window.onload = loadClientData;
-
-    clientViewDetailsBtns.forEach((btn, index) => {
-        btn.onclick = function() {
-            currentClientCard = btn.closest(".client-card");
-
-            var name = currentClientCard.querySelector(
-                ".client-details:nth-child(1) p:nth-child(2)"
-            ).innerText;
-            var contact = currentClientCard.querySelector(
-                ".client-details:nth-child(2) p:nth-child(2)"
-            ).innerText;
-            var email = currentClientCard.querySelector(
-                ".client-details:nth-child(3) p:nth-child(2)"
-            ).innerText;
-            var petName = currentClientCard.querySelector(
-                ".client-details:nth-child(4) p:nth-child(2)"
-            ).innerText;
-
-            document.getElementById("client-name").value = name;
-            document.getElementById("client-contact").value = contact;
-            document.getElementById("client-email").value = email;
-            document.getElementById("client-pet-name").value = petName;
-
-            clientModal.style.display = "block";
-        };
-    });
-
-    saveBtn.onclick = function() {
-        if (currentClientCard) {
-            var clientData = {
-                name: document.getElementById("client-name").value,
-                contact: document.getElementById("client-contact").value,
-                email: document.getElementById("client-email").value,
-                address: document.getElementById("client-address").value,
-                barangay: document.getElementById("client-barangay").value,
-                petName: document.getElementById("client-pet-name").value,
-                birthdate: document.getElementById("client-birthdate").value,
-                breed: document.getElementById("client-breed").value,
-                gender: document.getElementById("client-gender").value,
-                species: document.getElementById("client-species").value,
-                color: document.getElementById("client-color").value,
-                mark: document.getElementById("client-mark").value,
-                vaccineDue: document.getElementById("client-vaccine-due").value,
-                vaccineGiven: document.getElementById("client-vaccine-given").value,
-                vaccineType: document.getElementById("client-vaccine-type").value,
-            };
-
-            var index = Array.from(clientCards).indexOf(currentClientCard);
-            localStorage.setItem(`client-${index}`, JSON.stringify(clientData));
-
-            // Update client card details
-            currentClientCard.querySelector(
-                ".client-details:nth-child(1) p:nth-child(2)"
-            ).innerText = clientData.name;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(2) p:nth-child(2)"
-            ).innerText = clientData.contact;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(3) p:nth-child(2)"
-            ).innerText = clientData.email;
-            currentClientCard.querySelector(
-                ".client-details:nth-child(4) p:nth-child(2)"
-            ).innerText = clientData.petName;
-
-            // Regenerate QR code with updated data
-            var qrData = JSON.stringify(clientData);
-            generateQRCode(`qr-code-${index + 1}`, qrData);
-
-            clientModal.style.display = "none";
-        }
-    };
-
-    cancelBtn.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    clientCloseModal.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            document.getElementById("clientModal").style.display = "none";
-        }
-    });
+  $(".close-clientModal").click(function (e) { 
+    e.preventDefault();
+    $("#clientModal").fadeOut();
+    
+  });
 </script>
 
 <style>

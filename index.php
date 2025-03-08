@@ -35,4 +35,5 @@
 <script src="assets/js/Script.js"></script>
 <script src="assets/js/App.js"></script>
 <script src="assets/js/FetchAllusers.js"></script>
+<script src="assets/js/notification.js"></script>
 </html>

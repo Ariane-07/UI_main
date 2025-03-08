@@ -8,7 +8,7 @@
         </span>
         <span class="float-element" id="bell-icon">
             <i class='bx bxs-bell noti'></i>
-            <span class="notification-count">3</span> <!-- Example notification count -->
+            <span class="notification-count">0</span> <!-- Example notification count -->
         </span>
         <span class="float-element" id="message-icon">
             <i class='bx bxs-message-dots'></i>
@@ -22,12 +22,11 @@
         <span class="close">&times;</span>
         <h2 class="noti-title">NOTIFICATIONS</h2>
         <ul class="notification-list">
-            <li>You have a new follower!</li>
-            <li>Your post was liked by Jane.</li>
-            <li>Reminder: Your appointment is tomorrow at 3 PM.</li><!-- This can be dynamically filled -->
+            <li>Loading notifications...</li> <!-- Will be replaced dynamically -->
         </ul>
     </div>
 </div>
+
 
 
 

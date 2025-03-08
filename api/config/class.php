@@ -408,6 +408,73 @@ class global_class extends db_connect
     }
 
 
+    public function getNotificationCount($UserID)
+{
+    $query = $this->conn->prepare("
+        SELECT  
+            COUNT(CASE WHEN DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3 THEN 1 END) AS total_soon_to_expi,
+            COUNT(CASE WHEN pet_antiRabies_expi_date < CURDATE() THEN 1 END) AS totalexpi
+        FROM pets_info
+        WHERE pets_UserID = ?
+    ");
+    
+    $query->bind_param("i", $UserID);
+
+    if ($query->execute()) {
+        $result = $query->get_result()->fetch_assoc();
+    } else {
+        echo json_encode(["error" => "Query execution failed"]);
+        return;
+    }
+
+    // Get pet names for soon-to-expire vaccinations
+    $query2 = $this->conn->prepare("
+        SELECT pet_name 
+        FROM pets_info 
+        WHERE pets_UserID = ? AND DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3
+    ");
+    
+    $query2->bind_param("i", $UserID);
+    $soon_to_expire_pets = [];
+
+    if ($query2->execute()) {
+        $result2 = $query2->get_result();
+        while ($row = $result2->fetch_assoc()) {
+            $soon_to_expire_pets[] = $row['pet_name'];
+        }
+    }
+
+    // Get pet names for expired vaccinations
+    $query3 = $this->conn->prepare("
+        SELECT pet_name 
+        FROM pets_info 
+        WHERE pets_UserID = ? AND pet_antiRabies_expi_date < CURDATE()
+    ");
+    
+    $query3->bind_param("i", $UserID);
+    $expired_pets = [];
+
+    if ($query3->execute()) {
+        $result3 = $query3->get_result();
+        while ($row = $result3->fetch_assoc()) {
+            $expired_pets[] = $row['pet_name'];
+        }
+    }
+
+    // Combine results
+    echo json_encode([
+        "total_soon_to_expi" => $result['total_soon_to_expi'],
+        "totalexpi" => $result['totalexpi'],
+        "total_notifications" => (int)$result['total_soon_to_expi'] + (int)$result['totalexpi'],
+        "soon_to_expire_pets" => $soon_to_expire_pets,
+        "expired_pets" => $expired_pets
+    ]);
+}
+
+    
+    
+
+
     public function fetch_pets_info($UserID)
     {
         $query = $this->conn->prepare("SELECT * from pets_info where pets_UserID='$UserID' ORDER BY `pet_id` DESC");
