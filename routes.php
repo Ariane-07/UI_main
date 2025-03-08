@@ -93,6 +93,7 @@ if(!empty($_GET['role'])){
 // Determine which page to load
 if ($component) {
     loadComponent(ucfirst($component)); 
+    loadComponent('Floating');
 } elseif ($vetpage) {
     loadComponent('Floating');
     loadPage('vetpages', $vetpage);
@@ -101,4 +102,5 @@ if ($component) {
     loadPage('lgupages', $lgupage);
 } else {
     loadPage('pages', ucfirst($page)); 
+    
 }
