@@ -7,6 +7,10 @@ include('../class.php');
 
 
     
-
-    $result = $db->getNotificationCount($UserID);
+    if($_SESSION['Role']=="pet_owner"){
+        $result = $db->getNotificationCount($UserID);
+    }else{
+        $result = $db->getAllNotificationCount();
+    }
+    
    

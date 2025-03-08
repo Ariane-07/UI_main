@@ -408,72 +408,137 @@ class global_class extends db_connect
     }
 
 
-    public function getNotificationCount($UserID)
-    {
-        $query = $this->conn->prepare("
-            SELECT  
-                COUNT(CASE WHEN DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3 THEN 1 END) AS total_soon_to_expi,
-                COUNT(CASE WHEN pet_antiRabies_expi_date < CURDATE() THEN 1 END) AS totalexpi
-            FROM pets_info
-            WHERE pets_UserID = ?
-        ");
-        
-        $query->bind_param("i", $UserID);
+  public function getNotificationCount($UserID)
+{
+    $query = $this->conn->prepare("
+        SELECT  
+            COUNT(CASE WHEN DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3 THEN 1 END) AS total_soon_to_expi,
+            COUNT(CASE WHEN pet_antiRabies_expi_date < CURDATE() THEN 1 END) AS totalexpi
+        FROM pets_info
+        WHERE pets_UserID = ?
+    ");
     
-        if ($query->execute()) {
-            $result = $query->get_result()->fetch_assoc();
-        } else {
-            echo json_encode(["error" => "Query execution failed"]);
-            return;
-        }
-    
-        // Get pet names and expiration dates for soon-to-expire vaccinations
-        $query2 = $this->conn->prepare("
-            SELECT pet_name, pet_antiRabies_expi_date
-            FROM pets_info 
-            WHERE pets_UserID = ? AND DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3
-        ");
-        
-        $query2->bind_param("i", $UserID);
-        $soon_to_expire_pets = [];
-    
-        if ($query2->execute()) {
-            $result2 = $query2->get_result();
-            while ($row = $result2->fetch_assoc()) {
-                $soon_to_expire_pets[] = [
-                    "name" => $row['pet_name'],
-                    "expiry_date" => $row['pet_antiRabies_expi_date']
-                ];
-            }
-        }
-    
-        // Get pet names for expired vaccinations
-        $query3 = $this->conn->prepare("
-            SELECT pet_name 
-            FROM pets_info 
-            WHERE pets_UserID = ? AND pet_antiRabies_expi_date < CURDATE()
-        ");
-        
-        $query3->bind_param("i", $UserID);
-        $expired_pets = [];
-    
-        if ($query3->execute()) {
-            $result3 = $query3->get_result();
-            while ($row = $result3->fetch_assoc()) {
-                $expired_pets[] = $row['pet_name'];
-            }
-        }
-    
-        // Combine results
-        echo json_encode([
-            "total_soon_to_expi" => $result['total_soon_to_expi'],
-            "totalexpi" => $result['totalexpi'],
-            "total_notifications" => (int)$result['total_soon_to_expi'] + (int)$result['totalexpi'],
-            "soon_to_expire_pets" => $soon_to_expire_pets,
-            "expired_pets" => $expired_pets
-        ]);
+    $query->bind_param("i", $UserID);
+
+    if ($query->execute()) {
+        $result = $query->get_result()->fetch_assoc();
+    } else {
+        echo json_encode(["error" => "Query execution failed"]);
+        return;
     }
+
+    // Get pet names and expiration dates for soon-to-expire vaccinations
+    $query2 = $this->conn->prepare("
+        SELECT pet_name, pet_antiRabies_expi_date
+        FROM pets_info 
+        WHERE pets_UserID = ? AND DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3
+    ");
     
+    $query2->bind_param("i", $UserID);
+    $soon_to_expire_pets = [];
+
+    if ($query2->execute()) {
+        $result2 = $query2->get_result();
+        while ($row = $result2->fetch_assoc()) {
+            $soon_to_expire_pets[] = [
+                "name" => $row['pet_name'],
+                "expiry_date" => $row['pet_antiRabies_expi_date']
+            ];
+        }
+    }
+
+    // Get pet names for expired vaccinations
+    $query3 = $this->conn->prepare("
+        SELECT pet_name 
+        FROM pets_info 
+        WHERE pets_UserID = ? AND pet_antiRabies_expi_date < CURDATE()
+    ");
+    
+    $query3->bind_param("i", $UserID);
+    $expired_pets = [];
+
+    if ($query3->execute()) {
+        $result3 = $query3->get_result();
+        while ($row = $result3->fetch_assoc()) {
+            $expired_pets[] = $row['pet_name'];
+        }
+    }
+
+    // Combine results
+    echo json_encode([
+        "total_soon_to_expi" => $result['total_soon_to_expi'],
+        "totalexpi" => $result['totalexpi'],
+        "total_notifications" => (int)$result['total_soon_to_expi'] + (int)$result['totalexpi'],
+        "soon_to_expire_pets" => $soon_to_expire_pets,
+        "expired_pets" => $expired_pets
+    ]);
+}
+
+
+
+public function getAllNotificationCount()
+{
+    // Query to count soon-to-expire and expired vaccinations
+    $query = $this->conn->prepare("
+        SELECT  
+            COUNT(CASE WHEN DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3 THEN 1 END) AS total_soon_to_expi,
+            COUNT(CASE WHEN pet_antiRabies_expi_date < CURDATE() THEN 1 END) AS totalexpi
+        FROM pets_info
+    ");
+
+    if (!$query->execute()) {
+        echo json_encode(["error" => "Query execution failed"]);
+        return;
+    }
+
+    $result = $query->get_result()->fetch_assoc();
+
+    // Get pet names and expiration dates for soon-to-expire vaccinations
+    $query2 = $this->conn->prepare("
+        SELECT pet_name, pet_antiRabies_expi_date
+        FROM pets_info 
+        WHERE DATEDIFF(pet_antiRabies_expi_date, CURDATE()) BETWEEN 0 AND 3
+    ");
+
+    $soon_to_expire_pets = [];
+
+    if ($query2->execute()) {
+        $result2 = $query2->get_result();
+        while ($row = $result2->fetch_assoc()) {
+            $soon_to_expire_pets[] = [
+                "name" => $row['pet_name'],
+                "expiry_date" => $row['pet_antiRabies_expi_date']
+            ];
+        }
+    }
+
+    // Get pet names for expired vaccinations
+    $query3 = $this->conn->prepare("
+        SELECT pet_name 
+        FROM pets_info 
+        WHERE pet_antiRabies_expi_date < CURDATE()
+    ");
+
+    $expired_pets = [];
+
+    if ($query3->execute()) {
+        $result3 = $query3->get_result();
+        while ($row = $result3->fetch_assoc()) {
+            $expired_pets[] = $row['pet_name'];
+        }
+    }
+
+    // Combine results
+    echo json_encode([
+        "total_soon_to_expi" => $result['total_soon_to_expi'],
+        "totalexpi" => $result['totalexpi'],
+        "total_notifications" => (int)$result['total_soon_to_expi'] + (int)$result['totalexpi'],
+        "soon_to_expire_pets" => $soon_to_expire_pets,
+        "expired_pets" => $expired_pets
+    ]);
+}
+
+
 
     
     

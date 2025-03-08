@@ -177,7 +177,14 @@
         }
     </style>
 </head>
+
 <body>
+
+<input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
+<input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
+<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+
+
     <div class="certificate-container">
         <div class="certificate-header">
             <h2 class="text">PET REGISTRATION CERTIFICATE</h2>

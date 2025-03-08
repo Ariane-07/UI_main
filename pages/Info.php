@@ -119,6 +119,13 @@
         }
     }
 </style>
+
+<input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
+<input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
+<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+
+
+
 <div class="info-container">
     <div class="card-grid-space">
         <div class="card">
