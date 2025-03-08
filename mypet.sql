@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2025 at 06:57 AM
+-- Generation Time: Mar 08, 2025 at 02:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,7 +57,11 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 (21, 18, 15, 'hi doc', NULL, 1),
 (22, 15, 18, 'hello din', NULL, 1),
 (23, 15, 18, 'hi', NULL, 1),
-(24, 18, 15, 'test oki', NULL, 1);
+(24, 18, 15, 'test oki', NULL, 1),
+(25, 15, 6, 'test', NULL, 1),
+(26, 15, 6, 'hello', NULL, 1),
+(27, 18, 15, 'yyyyy', NULL, 1),
+(28, 18, 15, 'fesf', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -67,6 +71,7 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 
 CREATE TABLE `pets_info` (
   `pet_id` int(11) NOT NULL,
+  `pets_UserID` int(11) NOT NULL,
   `pet_photo_owner` varchar(255) DEFAULT NULL,
   `pet_validIDName` varchar(255) DEFAULT NULL,
   `pet_date_application` date NOT NULL,
@@ -99,6 +104,16 @@ CREATE TABLE `pets_info` (
   `pet_qr_code` varchar(255) DEFAULT NULL,
   `pet_status` varchar(255) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pets_info`
+--
+
+INSERT INTO `pets_info` (`pet_id`, `pets_UserID`, `pet_photo_owner`, `pet_validIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
+(59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-03-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'accept_by_vet'),
+(60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'awdaw', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-04-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'pending'),
+(61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'awdaw', 2323, 'male', '2025-03-25', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-14', '2025-03-14', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'pending'),
+(62, 18, NULL, NULL, '2025-03-07', '', 0, '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '0000-00-00', '0000-00-00', NULL, '', '', '', '', NULL, '2025-03-07', 'PET_62.png', 'pending');
 
 -- --------------------------------------------------------
 
@@ -241,13 +256,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `pets_info`
 --
 ALTER TABLE `pets_info`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `post_comments`
