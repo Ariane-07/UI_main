@@ -44,18 +44,18 @@
             <div class="imp-info-grid">
                 <div class="imp-info-item">
                     <div class="imp-info-label">Date Caught</div>
-                    <input type="date" class="imp-info-input" id="dateCaught" disabled>
+                    <input type="date" class="imp-info-input" id="dateCaught" >
                 </div>
                 <div class="imp-info-item">
                     <div class="imp-info-label">Location Found</div>
-                    <input type="text" class="imp-info-input" id="locationFound" disabled>
+                    <input type="text" class="imp-info-input" id="locationFound" >
                 </div>
                 <div class="imp-info-item">
                     <div class="imp-info-label">Impound Location</div>
-                    <input type="text" class="imp-info-input" id="impoundLocation" disabled>
+                    <input type="text" class="imp-info-input" id="impoundLocation" >
                 </div>
                 <div class="imp-days-remaining">
-                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" disabled>
+                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" >
                 </div>
             </div>
         </div>
@@ -120,7 +120,14 @@ let petData = {}; // Empty object to store pet data
 // Function to open the "Add Pet" modal
 function openAddPetModal() {
     addPetModal.classList.add("imp-active");
+
+    // Ensure input fields are enabled
+    document.getElementById("addDateCaught").disabled = false;
+    document.getElementById("addLocationFound").disabled = false;
+    document.getElementById("addImpoundLocation").disabled = false;
+    document.getElementById("addDaysRemaining").disabled = false;
 }
+
 
 // Function to close the "Add Pet" modal
 function closeAddPetModal() {
@@ -199,10 +206,15 @@ function closeModal() {
     currentPetId = null;
 }
 
-// Function to toggle edit mode
-function toggleEditMode() {
-    isEditMode = !isEditMode;
-    updateEditMode();
+function updateEditMode() {
+    const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
+    inputs.forEach((input) => {
+        input.disabled = !isEditMode;
+    });
+
+    document.querySelector(".imp-image-upload-label").style.display = isEditMode ? "block" : "none";
+    document.querySelector(".imp-save-button").style.display = isEditMode ? "block" : "none";
+    document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ? "CANCEL" : "EDIT";
 }
 
 // Function to update edit mode UI
