@@ -3073,8 +3073,10 @@ body {
 }
 
 .imp-modal-actions {
-  gap: 1rem;
+  gap: 0.5rem; /* Reduce gap between buttons */
   display: flex;
+  align-items: center; /* Align buttons vertically */
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
 .imp-modal-close {
@@ -3462,6 +3464,28 @@ body {
 .imp-sorting-controls button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
+}
+
+/* Delete Button Styles */
+.imp-delete-button {
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 5px;
+  font-size: 1.2rem;
+  border-radius: 4rem;
+  padding: 0.2rem 1rem;
+  text-decoration: none;
+  display: inline-block;
+  color: white; /* White text */
+  transition: all 0.3s ease;
+  background-color: #ff4d4d; /* Red background */
+  border: 2px solid #ff4d4d; /* Red border */
+}
+
+.imp-delete-button:hover {
+  transform: scale(1.03);
+  background-color: #ff1a1a; /* Darker red on hover */
+  border-color: #ff1a1a;
 }
 
 /* RESPONSIVE CSS FOR MOBILE */

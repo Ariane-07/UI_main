@@ -22,45 +22,45 @@
         <!-- Pet cards will be dynamically added here -->
     </div>
     <!-- Pet Details Modal -->
-    <div id="petModal" class="imp-modal">
-        <div class="imp-modal-content">
-            <div class="imp-modal-header">
-                <h2>Pet Details</h2>
-                <div class="imp-modal-actions">
-                    <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
-                    <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
-                    <button class="imp-modal-close" onclick="closeModal()">×</button>
-                </div>
+<div id="petModal" class="imp-modal">
+    <div class="imp-modal-content">
+        <div class="imp-modal-header">
+            <h2>Pet Details</h2>
+            <div class="imp-modal-actions">
+                <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
+                <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
+                <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
+                <button class="imp-modal-close" onclick="closeModal()">×</button>
             </div>
-            <div class="imp-modal-body">
-                <div class="imp-modal-image-container">
-                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
-                    <label class="imp-image-upload-label">
-                        CHANGE IMAGE
-                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-                    </label>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-modal-image-container">
+                <img src="" alt="Pet" class="imp-modal-image" id="petImage">
+                <label class="imp-image-upload-label">
+                    CHANGE IMAGE
+                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                </label>
+            </div>
+            <div class="imp-info-grid">
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Date Caught</div>
+                    <input type="date" class="imp-info-input" id="dateCaught" disabled>
                 </div>
-                <div class="imp-info-grid">
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Date Caught</div>
-                        <input type="date" class="imp-info-input" id="dateCaught" disabled>
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Location Found</div>
-                        <input type="text" class="imp-info-input" id="locationFound" disabled>
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Impound Location</div>
-                        <input type="text" class="imp-info-input" id="impoundLocation" disabled>
-                    </div>
-                    <div class="imp-days-remaining">
-                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" disabled>
-                    </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Location Found</div>
+                    <input type="text" class="imp-info-input" id="locationFound" disabled>
+                </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Impound Location</div>
+                    <input type="text" class="imp-info-input" id="impoundLocation" disabled>
+                </div>
+                <div class="imp-days-remaining">
+                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" disabled>
                 </div>
             </div>
         </div>
     </div>
-    
+</div>
   <!-- Add Pet Modal -->
 <div id="addPetModal" class="imp-modal">
     <div class="imp-modal-content">
@@ -309,6 +309,38 @@ function sortPets() {
         `;
         impGallery.appendChild(newCard);
     });
+}
+
+// Function to confirm deletion
+function confirmDelete() {
+    const isConfirmed = confirm("Are you sure you want to delete this pet?");
+    if (isConfirmed) {
+        deletePet();
+    }
+}
+
+// Function to delete the pet
+function deletePet() {
+    if (!currentPetId) return;
+
+    // Remove the pet from the data
+    delete petData[currentPetId];
+
+    // Remove the pet card from the gallery
+    const petCard = document.getElementById(`${currentPetId}-image`).closest(".imp-card");
+    if (petCard) {
+        petCard.remove();
+    }
+
+    // Close the modal
+    closeModal();
+
+    // Show a notification
+    notification.textContent = "Pet deleted successfully!";
+    notification.classList.add("imp-show");
+    setTimeout(() => {
+        notification.classList.remove("imp-show");
+    }, 3000);
 }
 
 </script>
