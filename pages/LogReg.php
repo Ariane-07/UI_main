@@ -40,11 +40,11 @@
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
-                        <input type="text" placeholder="Username" name="username" required>
+                        <input type="text" placeholder="Username" id="username" name="username" required>
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-lock'></i>
-                        <input type="password" placeholder="Password" name="password" required>
+                        <input type="password" placeholder="Password" id="password" name="password" required>
                     </div>
 
                     <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">

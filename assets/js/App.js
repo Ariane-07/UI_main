@@ -291,6 +291,28 @@ $(document).ready(function () {
     $("#FrmRegister").submit(function (e) {
         e.preventDefault();
     
+
+        var password = $("#password").val();
+
+        function validatePassword(password) {
+            // Regular expression to check for:
+            // At least one uppercase letter, one lowercase letter, one number, and one special character
+            var strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (strongPasswordPattern.test(password)) {
+                return "Strong password";
+            } else {
+                return "Password must contain at least 8 characters, one uppercase letter, one number, and one special character (e.g. @, $, !, %).";
+            }
+        }
+
+        var passwordStrength = validatePassword(password);
+
+        if (passwordStrength === "Password must contain at least 8 characters, one uppercase letter, one number, and one special character (e.g. @, $, !, %).") {
+            alertify.error(passwordStrength);
+            return;
+        }
+
         $('.spinner').show();
         $('#btnRegister').prop('disabled', true);
         
