@@ -1,9 +1,22 @@
 <section>
-    <h1 class="heading"><span>Impounded Pets</span></h1>
-    <!-- Add Pet Button -->
-    <div class="imp-add-pet-container">
-        <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
-    </div>
+    <h1 class="imp_heading"><span>Impounded Pets</span></h1>
+    <!-- Sorting Controls with Add Pet Button -->
+<div class="imp-sorting-controls">
+    <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
+    <select id="sortCriteria">
+        <option value="dateCaught">Date Caught</option>
+        <option value="locationFound">Location Found</option>
+        <option value="impoundLocation">Impound Location</option>
+        <option value="daysRemaining">Days Remaining</option>
+    </select>
+    <select id="sortOrder">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </select>
+    <button onclick="sortPets()" class="imp-button">GO</button>
+</div>
+
+
     <!-- Pet Gallery -->
     <div class="imp-gallery" id="imp-gallery">
         <!-- Pet cards will be dynamically added here -->
@@ -47,45 +60,48 @@
             </div>
         </div>
     </div>
-    <!-- Add Pet Modal -->
-    <div id="addPetModal" class="imp-modal">
-        <div class="imp-modal-content">
-            <div class="imp-modal-header">
-                <h2>Add New Pet</h2>
-                <button class="imp-modal-close" onclick="closeAddPetModal()">×</button>
+    
+  <!-- Add Pet Modal -->
+<div id="addPetModal" class="imp-modal">
+    <div class="imp-modal-content">
+        <div class="imp-modal-header">
+            <h2>Add New Pet</h2>
+            <button class="imp-modal-close" onclick="closeAddPetModal()">×</button>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-modal-image-container">
+                <img src="" alt="Pet" class="imp-modal-image" id="addPetImage">
+                <label class="imp-image-upload-label">
+                    UPLOAD IMAGE
+                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)" required>
+                </label>
             </div>
-            <div class="imp-modal-body">
-                <div class="imp-modal-image-container">
-                    <img src="" alt="Pet" class="imp-modal-image" id="addPetImage">
-                    <label class="imp-image-upload-label">
-                        UPLOAD IMAGE
-                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)">
-                    </label>
+            <div class="imp-info-grid">
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Date Caught</div>
+                    <input type="date" class="imp-info-input" id="addDateCaught" required>
                 </div>
-                <div class="imp-info-grid">
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Date Caught</div>
-                        <input type="date" class="imp-info-input" id="addDateCaught">
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Location Found</div>
-                        <input type="text" class="imp-info-input" id="addLocationFound">
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Impound Location</div>
-                        <input type="text" class="imp-info-input" id="addImpoundLocation">
-                    </div>
-                    <div class="imp-days-remaining">
-                        Days Remaining: <input type="number" class="imp-days-input" id="addDaysRemaining">
-                    </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Location Found</div>
+                    <input type="text" class="imp-info-input" id="addLocationFound" required>
                 </div>
-            </div>
-            <div class="imp-modal-footer">
-                <button onclick="saveNewPet()" class="imp-button">SAVE</button>
-                <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Impound Location</div>
+                    <input type="text" class="imp-info-input" id="addImpoundLocation" required>
+                </div>
+                <div class="imp-days-remaining">
+                    Days Remaining: <input type="number" class="imp-days-input" id="addDaysRemaining" required>
+                </div>
             </div>
         </div>
+        <div class="imp-modal-footer">
+            <button onclick="saveNewPet()" class="imp-button">SAVE</button>
+            <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
+        </div>
     </div>
+</div>
+
+
     <!-- Notification -->
     <div class="imp-notification" id="notification">Changes Saved Successfully!</div>
 </section>
@@ -247,4 +263,52 @@ function saveChanges() {
     isEditMode = false;
     updateEditMode();
 }
+
+// Function to sort pets
+function sortPets() {
+    const sortCriteria = document.getElementById("sortCriteria").value;
+    const sortOrder = document.getElementById("sortOrder").value;
+
+    // Convert petData object to an array for sorting
+    const petsArray = Object.entries(petData).map(([id, pet]) => ({ id, ...pet }));
+
+    // Sort the array based on the selected criteria and order
+    petsArray.sort((a, b) => {
+        let valueA, valueB;
+
+        if (sortCriteria === "dateCaught") {
+            valueA = new Date(a.dateCaught);
+            valueB = new Date(b.dateCaught);
+        } else if (sortCriteria === "daysRemaining") {
+            valueA = a.daysRemaining;
+            valueB = b.daysRemaining;
+        } else {
+            valueA = a[sortCriteria].toLowerCase();
+            valueB = b[sortCriteria].toLowerCase();
+        }
+
+        if (sortOrder === "asc") {
+            return valueA > valueB ? 1 : -1;
+        } else {
+            return valueA < valueB ? 1 : -1;
+        }
+    });
+
+    // Clear the gallery
+    impGallery.innerHTML = "";
+
+    // Rebuild the gallery with sorted pets
+    petsArray.forEach((pet) => {
+        const newCard = document.createElement("div");
+        newCard.classList.add("imp-card");
+        newCard.innerHTML = `
+            <img id="${pet.id}-image" src="${pet.imageUrl}" alt="Pet" class="imp-card-image">
+            <div class="imp-card-content">
+                <button onclick="openModal('${pet.id}')" class="imp-button">DETAILS</button>
+            </div>
+        `;
+        impGallery.appendChild(newCard);
+    });
+}
+
 </script>

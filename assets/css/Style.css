@@ -175,6 +175,8 @@ nav .navbar .sidebarOpen {
   position: relative;
   text-decoration: none;
   color: var(--text-color);
+  display: block;
+  text-align: center;
 }
 
 .nav-links li a::before {
@@ -2884,6 +2886,71 @@ body {
 }
 
 /* IMPOUNDED PETS CSS */
+.imp-image-upload-label:hover {
+  transform: scale(1.03);
+  color: var(--text-color);
+}
+
+.imp-image-upload {
+  display: none;
+}
+
+.imp-days-remaining {
+  padding: 1rem;
+  text-align: center;
+  grid-column: 1 / -1;
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  border: 1px solid #393838;
+  background: var(--body-color);
+}
+
+.imp-days-input {
+  width: 60px;
+  margin: 0 0.5rem;
+  padding: 0.25rem;
+  text-align: center;
+  border-radius: 0.25rem;
+  background-color: white;
+  border: 1px solid #393838;
+}
+
+.imp-days-input:focus {
+  outline: none;
+  border: 1px solid #393838;
+}
+
+.imp-save-button:hover {
+  transform: scale(1.03);
+  color: var(--text-color);
+}
+
+.imp-edit-mode-toggle {
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 5px;
+  font-size: 1.2rem;
+  border-radius: 4rem;
+  padding: 0.2rem 1rem;
+  text-decoration: none;
+  display: inline-block;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: 2px solid var(--text-color);
+}
+
+.imp-edit-mode-toggle:hover {
+  transform: scale(1.03);
+  color: var(--text-color);
+}
+
+.imp_heading {
+  font-size: 4rem;
+  text-align: center;
+  justify-content: center;
+}
+
 .imp-gallery {
   gap: 2rem;
   width: 100%;
@@ -2894,11 +2961,16 @@ body {
 }
 
 .imp-card {
+  width: 100%; /* Ensure it follows the image width */
+  max-width: 250px; /* Adjust this based on your image size */
   overflow: hidden;
   border-radius: 1rem;
   background: var(--nav-color);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  margin: 0 auto; 
+  flex-direction: column; /* Aligns content below the image */
 }
 
 .imp-card:hover {
@@ -2939,6 +3011,22 @@ body {
   color: var(--text-color);
 }
 
+.imp-image-upload-label {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 4rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: inline-block;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: 2px solid var(--text-color);
+}
+
+/* Modal Styles */
 .imp-modal {
   top: 0;
   left: 0;
@@ -2955,17 +3043,19 @@ body {
 .imp-modal.imp-active {
   opacity: 1;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .imp-modal-content {
   width: 90%;
+  max-width: 600px;
   margin: auto;
   overflow: hidden;
-  max-width: 600px;
   position: relative;
   border-radius: 1rem;
-  transform: scale(0.8);
   background: var(--nav-color);
+  transform: scale(0.8);
   transition: transform 0.3s ease;
 }
 
@@ -2998,45 +3088,26 @@ body {
 
 .imp-modal-body {
   padding: 1.5rem;
+  max-height: 60vh; 
+  overflow-y: auto; 
 }
 
 .imp-modal-image-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 1.5rem;
 }
 
 .imp-modal-image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
   border-radius: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.imp-image-upload-label {
-  cursor: pointer;
-  font-weight: 600;
-  margin-right: 5px;
-  font-size: 1.2rem;
-  text-align: center;
-  border-radius: 4rem;
-  padding: 0.2rem 1rem;
-  text-decoration: none;
-  display: inline-block;
-  color: var(--text-color);
-  transition: all 0.3s ease;
-  background-color: transparent;
-  border: 2px solid var(--text-color);
-}
-
-.imp-image-upload-label:hover {
-  transform: scale(1.03);
-  color: var(--text-color);
-}
-
-.imp-image-upload {
-  display: none;
-}
-
+/* Form Inputs */
 .imp-info-grid {
   gap: 1rem;
   display: grid;
@@ -3071,71 +3142,27 @@ body {
   border: 1px solid #393838;
 }
 
-.imp-days-remaining {
-  padding: 1rem;
-  text-align: center;
-  grid-column: 1 / -1;
-  border-radius: 0.5rem;
-  color: var(--text-color);
-  border: 1px solid #393838;
-  background: var(--body-color);
+/* Footer */
+.imp-modal-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid #dee2e6;
 }
 
-.imp-days-input {
-  width: 60px;
-  margin: 0 0.5rem;
-  padding: 0.25rem;
-  text-align: center;
-  border-radius: 0.25rem;
-  background-color: white;
-  border: 1px solid #393838;
+.imp-cancel-button {
+  background-color: #ff4d4d;
+  border-color: #ff4d4d;
+  color: white;
 }
 
-.imp-days-input:focus {
-  outline: none;
-  border: 1px solid #393838;
+.imp-cancel-button:hover {
+  background-color: #ff1a1a;
+  border-color: #ff1a1a;
 }
 
-.imp-save-button {
-  cursor: pointer;
-  font-weight: 600;
-  margin-right: 5px;
-  font-size: 1.2rem;
-  border-radius: 4rem;
-  padding: 0.2rem 1rem;
-  text-decoration: none;
-  display: inline-block;
-  color: var(--text-color);
-  transition: all 0.3s ease;
-  background-color: transparent;
-  border: 2px solid var(--text-color);
-}
-
-.imp-save-button:hover {
-  transform: scale(1.03);
-  color: var(--text-color);
-}
-
-.imp-edit-mode-toggle {
-  cursor: pointer;
-  font-weight: 600;
-  margin-right: 5px;
-  font-size: 1.2rem;
-  border-radius: 4rem;
-  padding: 0.2rem 1rem;
-  text-decoration: none;
-  display: inline-block;
-  color: var(--text-color);
-  transition: all 0.3s ease;
-  background-color: transparent;
-  border: 2px solid var(--text-color);
-}
-
-.imp-edit-mode-toggle:hover {
-  transform: scale(1.03);
-  color: var(--text-color);
-}
-
+/* Notification */
 .imp-notification {
   top: 1rem;
   right: 1rem;
@@ -3153,11 +3180,16 @@ body {
   transform: translateX(0);
 }
 
+/* Responsive Styles */
 @media screen and (max-width: 768px) {
+   .imp-heading {
+    text-align: center;
+  } 
+
   .imp-gallery {
     gap: 1rem;
     padding: 1rem;
-    overflow: hidden;
+    grid-template-columns: 1fr;
   }
 
   .imp-card-image {
@@ -3166,18 +3198,26 @@ body {
 
   .imp-modal-content {
     width: 95%;
-    margin: 1rem auto;
+    padding: 1rem;
   }
 
   .imp-modal-header {
-    gap: 1rem;
-    text-align: center;
     flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
   }
 
   .imp-modal-actions {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .imp-modal-body {
+    padding: 1rem;
+  }
+
+  .imp-modal-image {
+    max-height: 150px;
   }
 
   .imp-info-grid {
@@ -3192,7 +3232,6 @@ body {
 
 @media screen and (max-width: 480px) {
   .imp-gallery {
-    overflow: hidden;
     grid-template-columns: 1fr;
   }
 
@@ -3200,35 +3239,32 @@ body {
     height: 200px;
   }
 
-  .imp-modal-image {
-    height: 200px;
+  .imp-modal-content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
   }
 
-  .imp-card-content {
+  .imp-modal-header {
     padding: 1rem;
   }
 
-  .imp-modal-header h2 {
-    font-size: 1.25rem;
+  .imp-modal-body {
+    padding: 1rem;
   }
 
-  .imp-button {
+  .imp-modal-image {
+    height: 120px;
+  }
+
+  .imp-button, .imp-image-upload-label {
     font-size: 0.9rem;
-    padding: 0.2rem 0.7rem;
+    padding: 0.4rem 0.8rem;
   }
 
-  .imp-image-upload-label {
-    font-size: 0.9rem;
-    padding: 0.2rem 0.7rem;
-  }
-
-  .imp-info-label {
-    font-size: 0.8rem;
-  }
-
-  .imp-info-input {
-    padding: 0.4rem;
-    font-size: 0.9rem;
+  .imp-modal-footer {
+    flex-direction: column;
+    align-items: center;
   }
 
   .imp-days-remaining {
@@ -3240,12 +3276,6 @@ body {
     width: 50px;
     font-size: 0.9rem;
   }
-}
-
-/* Add Pet Button */
-.imp-add-pet-container {
-  text-align: center;
-  margin: 2rem 0;
 }
 
 /* Add Pet Modal Footer */
@@ -3266,6 +3296,172 @@ body {
 .imp-cancel-button:hover {
   background-color: #ff1a1a;
   border-color: #ff1a1a;
+}
+
+.imp-sorting-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.imp-sorting-controls select {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--text-color);
+  background: var(--body-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.imp-sorting-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+   .imp-heading {
+    text-align: center;
+  } 
+
+  .imp-gallery {
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .imp-card-image {
+    height: 250px;
+  }
+
+  .imp-modal-content {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .imp-modal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .imp-modal-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .imp-modal-body {
+    padding: 1rem;
+  }
+
+  .imp-modal-image {
+    max-height: 150px;
+  }
+
+  .imp-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .imp-button {
+    font-size: 1rem;
+    padding: 0.2rem 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .imp-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .imp-card-image {
+    height: 200px;
+  }
+
+  .imp-modal-content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .imp-modal-header {
+    padding: 1rem;
+  }
+
+  .imp-modal-body {
+    padding: 1rem;
+  }
+
+  .imp-modal-image {
+    height: 120px;
+  }
+
+  .imp-button, .imp-image-upload-label {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .imp-modal-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .imp-days-remaining {
+    padding: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .imp-days-input {
+    width: 50px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Add Pet Modal Footer */
+.imp-modal-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid #dee2e6;
+}
+
+.imp-cancel-button {
+  background-color: #ff4d4d;
+  border-color: #ff4d4d;
+  color: white;
+}
+
+.imp-cancel-button:hover {
+  background-color: #ff1a1a;
+  border-color: #ff1a1a;
+}
+
+.imp-sorting-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.imp-sorting-controls select {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--text-color);
+  background: var(--body-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.imp-sorting-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
 }
 
 /* RESPONSIVE CSS FOR MOBILE */
