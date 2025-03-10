@@ -295,23 +295,50 @@ $(document).ready(function () {
         var password = $("#password").val();
 
         function validatePassword(password) {
-            // Regular expression to check for:
-            // At least one uppercase letter, one lowercase letter, one number, and one special character
-            var strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            var messages = [];
 
-            if (strongPasswordPattern.test(password)) {
+            // Check if password contains at least one lowercase letter
+            if (!/(?=.*[a-z])/.test(password)) {
+                messages.push("Password must contain at least one lowercase letter.");
+            }
+
+            // Check if password contains at least one uppercase letter
+            if (!/(?=.*[A-Z])/.test(password)) {
+                messages.push("Password must contain at least one uppercase letter.");
+            }
+
+            // Check if password contains at least one number
+            if (!/(?=.*\d)/.test(password)) {
+                messages.push("Password must contain at least one number.");
+            }
+
+            // Check if password contains at least one special character
+            if (!/(?=.*[@$!%*?&])/.test(password)) {
+                messages.push("Password must contain at least one special character (e.g., @, $, !, %, etc.).");
+            }
+
+            // Check if password is at least 8 characters long
+            if (password.length < 8) {
+                messages.push("Password must be at least 8 characters long.");
+            }
+
+            // Return messages or a success message
+            if (messages.length === 0) {
                 return "Strong password";
             } else {
-                return "Password must contain at least 8 characters, one uppercase letter, one number, and one special character (e.g. @, $, !, %).";
+                return messages.join(" ");
             }
         }
 
         var passwordStrength = validatePassword(password);
 
-        if (passwordStrength === "Password must contain at least 8 characters, one uppercase letter, one number, and one special character (e.g. @, $, !, %).") {
+        if (passwordStrength === "Strong password") {
+            alertify.success(passwordStrength);
+        } else {
             alertify.error(passwordStrength);
             return;
         }
+
 
         $('.spinner').show();
         $('#btnRegister').prop('disabled', true);
