@@ -21,7 +21,7 @@
             $count = 1;
             foreach ($fetch_pets as $pets):
         ?>
-        <div class="client-card" data-status="<?= ($pets['pet_status'] === 'accept_by_lgu') ? 'approved' : 'declined' ?>">
+       <div class="client-card" data-status="<?= ($pets['pet_status'] === 'accept_by_lgu') ? 'approved' : 'declined' ?>">
     <div class="client-info">
         <div class="client-details">
             <p><strong>Name</strong></p>
@@ -47,7 +47,23 @@
         </div>
     </div>
     <div class="actions">
-        <button class="view-details">VIEW DETAILS</button>
+        <button class="view-details"
+            data-petOwner='<?= $pets['pet_owner_name'] ?>'
+            data-pet_owner_telMobile='<?= $pets['pet_owner_telMobile'] ?>'
+            data-pet_owner_email='<?= $pets['pet_owner_email'] ?>'
+            data-pet_owner_home_address='<?= $pets['pet_owner_home_address'] ?>'
+            data-pet_owner_barangay='<?= $pets['pet_owner_barangay'] ?>'
+            data-pet_name='<?= $pets['pet_name'] ?>'
+            data-pet_birthday='<?= $pets['pet_birthday'] ?>'
+            data-pet_breed='<?= $pets['pet_breed'] ?>'
+            data-pet_gender='<?= $pets['pet_gender'] ?>'
+            data-pet_species='<?= $pets['pet_species'] ?>'
+            data-pet_color='<?= $pets['pet_color'] ?>'
+            data-pet_marks='<?= $pets['pet_marks'] ?>'
+            data-pet_antiRabies_expi_date='<?= $pets['pet_antiRabies_expi_date'] ?>'
+            data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
+            data-pet_date_application='<?= $pets['pet_date_application'] ?>' <!-- Add this line -->
+        VIEW DETAILS</button>
         <button class="close-btn">&times;</button>
     </div>
 </div>
@@ -63,13 +79,18 @@
           </tr>
       <?php endif; ?>
 
-<div id="clientModal" class="client-modal">
+      <div id="clientModal" class="client-modal">
     <div class="client-modal-content">
         <div class="client-modal-header">
             <h2>Client Information</h2>
             <span class="client-close">&times;</span>
         </div>
         <div class="client-modal-body">
+            <!-- Add Date of Application Field -->
+            <label for="client-date-application">Date of Application</label>
+            <input type="text" id="client-date-application" readonly>
+
+            <!-- Existing Fields -->
             <label for="client-name">Name</label>
             <input type="text" id="client-name" readonly>
 
@@ -123,100 +144,102 @@
 </div>
 
 <script>
-    var clientModal = document.getElementById("clientModal");
+  var clientModal = document.getElementById("clientModal");
 
-    var clientViewDetailsBtns = document.querySelectorAll(".view-details");
+var clientViewDetailsBtns = document.querySelectorAll(".view-details");
 
-    var clientCloseModal = document.querySelector(".client-close");
+var clientCloseModal = document.querySelector(".client-close");
 
-    var saveBtn = document.getElementById("client-saveBtn");
-    var cancelBtn = document.getElementById("client-cancelBtn");
+var saveBtn = document.getElementById("client-saveBtn");
+var cancelBtn = document.getElementById("client-cancelBtn");
 
-    var currentClientCard = null;
+var currentClientCard = null;
 
-    var clientCards = document.querySelectorAll(".client-card");
+var clientCards = document.querySelectorAll(".client-card");
 
-    function loadClientData() {
-        clientCards.forEach((card, index) => {
-            var savedClient = localStorage.getItem(`client-${index}`);
-            if (savedClient) {
-                var clientData = JSON.parse(savedClient);
-                card.querySelector(
-                    ".client-details:nth-child(1) p:nth-child(2)"
-                ).innerText = clientData.name;
-                card.querySelector(
-                    ".client-details:nth-child(2) p:nth-child(2)"
-                ).innerText = clientData.contact;
-                card.querySelector(
-                    ".client-details:nth-child(3) p:nth-child(2)"
-                ).innerText = clientData.email;
-                card.querySelector(
-                    ".client-details:nth-child(4) p:nth-child(2)"
-                ).innerText = clientData.petName;
-            }
-        });
-    }
-
-    window.onload = loadClientData;
-
-    clientViewDetailsBtns.forEach((btn, index) => {
-        btn.onclick = function() {
-            currentClientCard = btn.closest(".client-card");
-
-            var name = currentClientCard.querySelector(
+function loadClientData() {
+    clientCards.forEach((card, index) => {
+        var savedClient = localStorage.getItem(`client-${index}`);
+        if (savedClient) {
+            var clientData = JSON.parse(savedClient);
+            card.querySelector(
                 ".client-details:nth-child(1) p:nth-child(2)"
-            ).innerText;
-            var contact = currentClientCard.querySelector(
+            ).innerText = clientData.name;
+            card.querySelector(
                 ".client-details:nth-child(2) p:nth-child(2)"
-            ).innerText;
-            var email = currentClientCard.querySelector(
+            ).innerText = clientData.contact;
+            card.querySelector(
                 ".client-details:nth-child(3) p:nth-child(2)"
-            ).innerText;
-            var petName = currentClientCard.querySelector(
+            ).innerText = clientData.email;
+            card.querySelector(
                 ".client-details:nth-child(4) p:nth-child(2)"
-            ).innerText;
-
-            document.getElementById("client-name").value = name;
-            document.getElementById("client-contact").value = contact;
-            document.getElementById("client-email").value = email;
-            document.getElementById("client-pet-name").value = petName;
-
-            clientModal.style.display = "block";
-        };
-    });
-
-    saveBtn.onclick = function() {
-        if (currentClientCard) {
-            var vaccineDue = document.getElementById("client-vaccine-due").value;
-            var vaccineGiven = document.getElementById("client-vaccine-given").value;
-
-            var index = Array.from(clientCards).indexOf(currentClientCard);
-            var clientData = JSON.parse(localStorage.getItem(`client-${index}`)) || {};
-
-            clientData.vaccineDue = vaccineDue;
-            clientData.vaccineGiven = vaccineGiven;
-
-            localStorage.setItem(`client-${index}`, JSON.stringify(clientData));
-
-            clientModal.style.display = "none";
-        }
-    };
-
-    cancelBtn.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    clientCloseModal.onclick = function() {
-        clientModal.style.display = "none";
-    };
-
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            document.getElementById("clientModal").style.display = "none";
+            ).innerText = clientData.petName;
         }
     });
+}
 
-    document.getElementById('goButton').addEventListener('click', function() {
+window.onload = loadClientData;
+
+clientViewDetailsBtns.forEach((btn, index) => {
+    btn.onclick = function() {
+        currentClientCard = btn.closest(".client-card");
+
+        var name = currentClientCard.querySelector(
+            ".client-details:nth-child(1) p:nth-child(2)"
+        ).innerText;
+        var contact = currentClientCard.querySelector(
+            ".client-details:nth-child(2) p:nth-child(2)"
+        ).innerText;
+        var email = currentClientCard.querySelector(
+            ".client-details:nth-child(3) p:nth-child(2)"
+        ).innerText;
+        var petName = currentClientCard.querySelector(
+            ".client-details:nth-child(4) p:nth-child(2)"
+        ).innerText;
+        var petDateApplication = btn.getAttribute("data-pet_date_application"); // Get Date of Application
+
+        document.getElementById("client-name").value = name;
+        document.getElementById("client-contact").value = contact;
+        document.getElementById("client-email").value = email;
+        document.getElementById("client-pet-name").value = petName;
+        document.getElementById("client-date-application").value = petDateApplication; // Set Date of Application
+
+        clientModal.style.display = "block";
+    };
+});
+
+saveBtn.onclick = function() {
+    if (currentClientCard) {
+        var vaccineDue = document.getElementById("client-vaccine-due").value;
+        var vaccineGiven = document.getElementById("client-vaccine-given").value;
+
+        var index = Array.from(clientCards).indexOf(currentClientCard);
+        var clientData = JSON.parse(localStorage.getItem(`client-${index}`)) || {};
+
+        clientData.vaccineDue = vaccineDue;
+        clientData.vaccineGiven = vaccineGiven;
+
+        localStorage.setItem(`client-${index}`, JSON.stringify(clientData));
+
+        clientModal.style.display = "none";
+    }
+};
+
+cancelBtn.onclick = function() {
+    clientModal.style.display = "none";
+};
+
+clientCloseModal.onclick = function() {
+    clientModal.style.display = "none";
+};
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        document.getElementById("clientModal").style.display = "none";
+    }
+});
+
+document.getElementById('goButton').addEventListener('click', function() {
     const searchQuery = document.getElementById('searchBox').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
 

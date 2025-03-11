@@ -21,62 +21,60 @@
               foreach ($fetch_pets as $pets):
         ?>
         
-        <div class="client-card">
-            <div class="client-info">
-                    <div class="client-details">
-                        <p><strong>Name</strong></p>
-                        <p><?=$pets['pet_owner_name']?></p> <!-- Empty by default -->
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Contact Number</strong></p>
-                        <p><?=$pets['pet_owner_telMobile']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Email</strong></p>
-                        <p><?=$pets['pet_owner_email']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Pet Name</strong></p>
-                        <p><?=$pets['pet_name']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Status</strong></p>
-                        <p>
-                        
-                        <?php 
-                             if ($pets['pet_status'] === "accept_by_lgu") {
-                                echo "Approved";
-                            } elseif ($pets['pet_status'] === "pending") {
-                                echo "Pending";
-                            } else {
-                                echo "Declined";
-                            }
-                            ?>
-
-                        </p>
-                    </div>
-                    <!-- QR Code Container -->
-                </div>
-                <div class="actions">
-                    <button class="view-details"
-                    data-petOwner='<?=$pets['pet_owner_name']?>'
-                    data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
-                    data-pet_owner_email='<?=$pets['pet_owner_email']?>'
-                    data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
-                    data-pet_owner_barangay='<?=$pets['pet_owner_barangay']?>'
-                    data-pet_name='<?=$pets['pet_name']?>'
-                    data-pet_birthday='<?=$pets['pet_birthday']?>'
-                    data-pet_breed='<?=$pets['pet_breed']?>'
-                    data-pet_gender='<?=$pets['pet_gender']?>'
-                    data-pet_species='<?=$pets['pet_species']?>'
-                    data-pet_color='<?=$pets['pet_color']?>'
-                    data-pet_marks='<?=$pets['pet_marks']?>'
-                    data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
-                    data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
-                    >VIEW DETAILS</button>
-                    <button class="close-btn">&times;</button>
-                </div>
+        <div class="client-card" data-status="<?= ($pets['pet_status'] === 'accept_by_lgu') ? 'approved' : ($pets['pet_status'] === 'pending' ? 'pending' : 'declined') ?>">
+    <div class="client-info">
+        <div class="client-details">
+            <p><strong>Name</strong></p>
+            <p><?= $pets['pet_owner_name'] ?></p>
         </div>
+        <div class="client-details">
+            <p><strong>Contact Number</strong></p>
+            <p><?= $pets['pet_owner_telMobile'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Email</strong></p>
+            <p><?= $pets['pet_owner_email'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Pet Name</strong></p>
+            <p><?= $pets['pet_name'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Status</strong></p>
+            <p>
+                <?php
+                if ($pets['pet_status'] === "accept_by_lgu") {
+                    echo "Approved";
+                } elseif ($pets['pet_status'] === "pending") {
+                    echo "Pending";
+                } else {
+                    echo "Declined";
+                }
+                ?>
+            </p>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="view-details"
+            data-petOwner='<?= $pets['pet_owner_name'] ?>'
+            data-pet_owner_telMobile='<?= $pets['pet_owner_telMobile'] ?>'
+            data-pet_owner_email='<?= $pets['pet_owner_email'] ?>'
+            data-pet_owner_home_address='<?= $pets['pet_owner_home_address'] ?>'
+            data-pet_owner_barangay='<?= $pets['pet_owner_barangay'] ?>'
+            data-pet_name='<?= $pets['pet_name'] ?>'
+            data-pet_birthday='<?= $pets['pet_birthday'] ?>'
+            data-pet_breed='<?= $pets['pet_breed'] ?>'
+            data-pet_gender='<?= $pets['pet_gender'] ?>'
+            data-pet_species='<?= $pets['pet_species'] ?>'
+            data-pet_color='<?= $pets['pet_color'] ?>'
+            data-pet_marks='<?= $pets['pet_marks'] ?>'
+            data-pet_antiRabies_expi_date='<?= $pets['pet_antiRabies_expi_date'] ?>'
+            data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
+            data-pet_date_application='<?= $pets['pet_date_application'] ?>'
+        >VIEW DETAILS</button>
+        <button class="close-btn">&times;</button>
+    </div>
+</div>
 
    <?php
           $count++; 
@@ -99,6 +97,9 @@
                 <span class="client-close close-clientModal">&times;</span>
             </div>
             <div class="client-modal-body">
+                <label for="client-date-application">Date of Application</label>
+                <input type="text" id="client-date-application" readonly>
+
                 <label for="client-name">Name</label>
                 <input type="text" id="client-name" readonly>
 
@@ -150,10 +151,11 @@
 
 
 <script>
-  $(".view-details").click(function (e) { 
+ $(".view-details").click(function (e) {
     e.preventDefault();
     $("#clientModal").fadeIn();
 
+    // Get data attributes from the clicked button
     let petOwner = $(this).attr('data-petOwner');
     let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
     let petOwnerEmail = $(this).attr('data-pet_owner_email');
@@ -168,6 +170,7 @@
     let petMarks = $(this).attr('data-pet_marks');
     let petVaccineDue = $(this).attr('data-pet_antiRabies_expi_date');
     let petVaccineGiven = $(this).attr('data-pet_antiRabies_vac_date');
+    let petDateApplication = $(this).attr('data-pet_date_application'); // Get Date of Application
 
     // Set values to input fields
     $("#client-name").val(petOwner);
@@ -184,10 +187,11 @@
     $("#client-mark").val(petMarks);
     $("#client-vaccine-due").val(petVaccineDue);
     $("#client-vaccine-given").val(petVaccineGiven);
+    $("#client-date-application").val(petDateApplication); // Set Date of Application
 
     console.log("Pet Owner:", petOwner);
+    console.log("Date of Application:", petDateApplication); // Debugging
 });
-
 
 
 
@@ -208,15 +212,15 @@
         const petName = card.querySelector('.client-details:nth-child(4) p:nth-child(2)').innerText.toLowerCase();
         const email = card.querySelector('.client-details:nth-child(3) p:nth-child(2)').innerText.toLowerCase();
         const contact = card.querySelector('.client-details:nth-child(2) p:nth-child(2)').innerText.toLowerCase();
-        const status = card.getAttribute('data-status');
+        const status = card.getAttribute('data-status'); // Get the status from the data-status attribute
 
         const matchesSearch = name.includes(searchQuery) || petName.includes(searchQuery) || email.includes(searchQuery) || contact.includes(searchQuery);
         const matchesStatus = statusFilter === 'all' || status === statusFilter;
 
         if (matchesSearch && matchesStatus) {
-            card.style.display = 'flex';
+            card.style.display = 'flex'; // Show the card
         } else {
-            card.style.display = 'none';
+            card.style.display = 'none'; // Hide the card
         }
     });
 });

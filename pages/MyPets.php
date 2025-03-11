@@ -51,68 +51,80 @@
             ";
             
           ?>
-        <div class="client-card">
-            <div class="client-info">
-                    <div class="client-details">
-                        <p><strong>Name</strong></p>
-                        <p><?=$pets['pet_owner_name']?></p> <!-- Empty by default -->
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Contact Number</strong></p>
-                        <p><?=$pets['pet_owner_telMobile']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Email</strong></p>
-                        <p><?=$pets['pet_owner_email']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Pet Name</strong></p>
-                        <p><?=$pets['pet_name']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Status</strong></p>
-                        <p>
-                          <?php 
-                             if ($pets['pet_status'] === "accept_by_lgu") {
-                                echo "Approved";
-                            } elseif ($pets['pet_status'] === "pending") {
-                                echo "Pending";
-                            } else {
-                                echo "Declined";
-                            }
-                            ?>
-                        </p>
-                    </div>
+       <div class="client-card">
+    <div class="client-info">
 
-                    <?php 
-                    echo ($pets['pet_status'] ?? '') === "accept_by_lgu" ? $QRCODE : '';
-                    ?>
-
-                   
-                    <!-- QR Code Container -->
-                   
-
-                </div>
-                <div class="actions">
-                    <button class="view-details"
-                    data-petOwner='<?=$pets['pet_owner_name']?>'
-                    data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
-                    data-pet_owner_email='<?=$pets['pet_owner_email']?>'
-                    data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
-                    data-pet_owner_barangay='<?=$pets['pet_owner_barangay']?>'
-                    data-pet_name='<?=$pets['pet_name']?>'
-                    data-pet_birthday='<?=$pets['pet_birthday']?>'
-                    data-pet_breed='<?=$pets['pet_breed']?>'
-                    data-pet_gender='<?=$pets['pet_gender']?>'
-                    data-pet_species='<?=$pets['pet_species']?>'
-                    data-pet_color='<?=$pets['pet_color']?>'
-                    data-pet_marks='<?=$pets['pet_marks']?>'
-                    data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
-                    data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
-                    >VIEW DETAILS</button>
-                    <button class="close-btn">&times;</button>
-                </div>
+        <!-- Name -->
+        <div class="client-details">
+            <p><strong>Name</strong></p>
+            <p><?= $pets['pet_owner_name'] ?></p>
         </div>
+
+        <!-- Contact Number -->
+        <div class="client-details">
+            <p><strong>Contact Number</strong></p>
+            <p><?= $pets['pet_owner_telMobile'] ?></p>
+        </div>
+
+        <!-- Email -->
+        <div class="client-details">
+            <p><strong>Email</strong></p>
+            <p><?= $pets['pet_owner_email'] ?></p>
+        </div>
+
+        <!-- Pet Name -->
+        <div class="client-details">
+            <p><strong>Pet Name</strong></p>
+            <p><?= $pets['pet_name'] ?></p>
+        </div>
+
+        <!-- Status -->
+        <div class="client-details">
+            <p><strong>Status</strong></p>
+            <p>
+                <?php
+                if ($pets['pet_status'] === "accept_by_lgu") {
+                    echo "Approved";
+                } elseif ($pets['pet_status'] === "pending") {
+                    echo "Pending";
+                } else {
+                    echo "Declined";
+                }
+                ?>
+            </p>
+        </div>
+
+        <!-- QR Code (if approved) -->
+        <?php
+        if (($pets['pet_status'] ?? '') === "accept_by_lgu") {
+            echo $QRCODE;
+        }
+        ?>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+        <button class="view-details"
+            data-petOwner='<?= $pets['pet_owner_name'] ?>'
+            data-pet_owner_telMobile='<?= $pets['pet_owner_telMobile'] ?>'
+            data-pet_owner_email='<?= $pets['pet_owner_email'] ?>'
+            data-pet_owner_home_address='<?= $pets['pet_owner_home_address'] ?>'
+            data-pet_owner_barangay='<?= $pets['pet_owner_barangay'] ?>'
+            data-pet_name='<?= $pets['pet_name'] ?>'
+            data-pet_birthday='<?= $pets['pet_birthday'] ?>'
+            data-pet_breed='<?= $pets['pet_breed'] ?>'
+            data-pet_gender='<?= $pets['pet_gender'] ?>'
+            data-pet_species='<?= $pets['pet_species'] ?>'
+            data-pet_color='<?= $pets['pet_color'] ?>'
+            data-pet_marks='<?= $pets['pet_marks'] ?>'
+            data-pet_antiRabies_expi_date='<?= $pets['pet_antiRabies_expi_date'] ?>'
+            data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
+            data-pet_date_application='<?= $pets['pet_date_application'] ?>' <!-- Add this line -->
+        VIEW DETAILS</button>
+        <button class="close-btn">&times;</button>
+    </div>
+</div>
+
         <?php
           $count++; 
           endforeach;
@@ -134,6 +146,9 @@
                 <span class="client-close close-clientModal">&times;</span>
             </div>
             <div class="client-modal-body">
+                <label for="client-date-application">Date of Application</label>
+                <input type="text" id="client-date-application" readonly>
+
                 <label for="client-name">Name</label>
                 <input type="text" id="client-name" readonly>
 
@@ -185,10 +200,11 @@
 
 
 <script>
-  $(".view-details").click(function (e) { 
+  $(".view-details").click(function (e) {
     e.preventDefault();
     $("#clientModal").fadeIn();
 
+    // Get data attributes from the clicked button
     let petOwner = $(this).attr('data-petOwner');
     let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
     let petOwnerEmail = $(this).attr('data-pet_owner_email');
@@ -203,6 +219,7 @@
     let petMarks = $(this).attr('data-pet_marks');
     let petVaccineDue = $(this).attr('data-pet_antiRabies_expi_date');
     let petVaccineGiven = $(this).attr('data-pet_antiRabies_vac_date');
+    let petDateApplication = $(this).attr('data-pet_date_application'); // Add this line
 
     // Set values to input fields
     $("#client-name").val(petOwner);
@@ -221,10 +238,8 @@
     $("#client-vaccine-given").val(petVaccineGiven);
 
     console.log("Pet Owner:", petOwner);
+    console.log("Date of Application:", petDateApplication); // Debugging
 });
-
-
-
 
   $(".close-clientModal").click(function (e) { 
     e.preventDefault();
