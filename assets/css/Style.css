@@ -2958,9 +2958,9 @@ body {
 
 .owner-card-content {
   display: flex;
-  padding: 1.5rem;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 1.5rem;
 }
 
 .owner-button {
@@ -3240,56 +3240,8 @@ body {
   color: #fff;
 }
 
-.owner-card {
-  width: 100%;
-  max-width: 250px;
-  overflow: hidden;
-  border-radius: 1rem;
-  background: var(--nav-color);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-}
 
-.owner-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-}
 
-.owner-card-image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-}
-
-.owner-card-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem;
-}
-
-.owner-button {
-  cursor: pointer;
-  font-weight: 600;
-  margin-right: 5px;
-  font-size: 1.2rem;
-  border-radius: 4rem;
-  padding: 0.2rem 1rem;
-  text-decoration: none;
-  display: inline-block;
-  color: var(--text-color);
-  transition: all 0.3s ease;
-  background-color: transparent;
-  border: 2px solid var(--text-color);
-}
-
-.owner-button:hover {
-  transform: scale(1.03);
-  color: var(--text-color);
-}
 
 /* IMPOUNDED PETS CSS */
 .imp-image-upload-label:hover {
@@ -3367,16 +3319,16 @@ body {
 }
 
 .imp-card {
-  width: 100%; /* Ensure it follows the image width */
-  max-width: 250px; /* Adjust this based on your image size */
+  width: 100%;
+  max-width: 250px;
   overflow: hidden;
   border-radius: 1rem;
   background: var(--nav-color);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
-  margin: 0 auto; 
-  flex-direction: column; /* Aligns content below the image */
+  margin: 0 auto;
+  flex-direction: column;
 }
 
 .imp-card:hover {
@@ -3392,9 +3344,9 @@ body {
 
 .imp-card-content {
   display: flex;
-  padding: 1.5rem;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 1.5rem;
 }
 
 .imp-button {
@@ -3892,6 +3844,26 @@ body {
   transform: scale(1.03);
   background-color: #ff1a1a; /* Darker red on hover */
   border-color: #ff1a1a;
+}
+
+.imp-pet-status {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin: 0.5rem auto;
+  width: fit-content;
+}
+
+.imp-pet-status.unclaimed {
+  background-color: #ffcc00; /* Yellow for Unclaimed */
+  color: #000;
+}
+
+.imp-pet-status.claimed {
+  background-color: #28a745; /* Green for Claimed */
+  color: #fff;
 }
 
 /* RESPONSIVE CSS FOR MOBILE */

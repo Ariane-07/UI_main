@@ -1,106 +1,112 @@
 <section>
     <h1 class="imp_heading"><span>Impounded Pets</span></h1>
     <!-- Sorting Controls with Add Pet Button -->
-<div class="imp-sorting-controls">
-    <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
-    <select id="sortCriteria">
-        <option value="dateCaught">Date Caught</option>
-        <option value="locationFound">Location Found</option>
-        <option value="impoundLocation">Impound Location</option>
-        <option value="daysRemaining">Days Remaining</option>
-    </select>
-    <select id="sortOrder">
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-    </select>
-    <button onclick="sortPets()" class="imp-button">GO</button>
-</div>
-
+    <div class="imp-sorting-controls">
+        <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
+        <select id="sortCriteria">
+            <option value="dateCaught">Date Caught</option>
+            <option value="locationFound">Location Found</option>
+            <option value="impoundLocation">Impound Location</option>
+            <option value="daysRemaining">Days Remaining</option>
+            <option value="status">Status</option> <!-- New option for status -->
+        </select>
+        <select id="sortStatus">
+            <option value="all">All</option>
+            <option value="unclaimed">Unclaimed</option>
+            <option value="claimed">Claimed</option>
+        </select>
+        <select id="sortOrder">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+        <button onclick="sortPets()" class="imp-button">GO</button>
+    </div>
 
     <!-- Pet Gallery -->
     <div class="imp-gallery" id="imp-gallery">
         <!-- Pet cards will be dynamically added here -->
     </div>
-    <!-- Pet Details Modal -->
-<div id="petModal" class="imp-modal">
-    <div class="imp-modal-content">
-        <div class="imp-modal-header">
-            <h2>Pet Details</h2>
-            <div class="imp-modal-actions">
-                <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
-                <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
-                <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
-                <button class="imp-modal-close" onclick="closeModal()">×</button>
-            </div>
-        </div>
-        <div class="imp-modal-body">
-            <div class="imp-modal-image-container">
-                <img src="" alt="Pet" class="imp-modal-image" id="petImage">
-                <label class="imp-image-upload-label">
-                    CHANGE IMAGE
-                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-                </label>
-            </div>
-            <div class="imp-info-grid">
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Date Caught</div>
-                    <input type="date" class="imp-info-input" id="dateCaught" >
-                </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Location Found</div>
-                    <input type="text" class="imp-info-input" id="locationFound" >
-                </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Impound Location</div>
-                    <input type="text" class="imp-info-input" id="impoundLocation" >
-                </div>
-                <div class="imp-days-remaining">
-                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" >
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-  <!-- Add Pet Modal -->
-<div id="addPetModal" class="imp-modal">
-    <div class="imp-modal-content">
-        <div class="imp-modal-header">
-            <h2>Add New Pet</h2>
-            <button class="imp-modal-close" onclick="closeAddPetModal()">×</button>
-        </div>
-        <div class="imp-modal-body">
-            <div class="imp-modal-image-container">
-                <img src="" alt="Pet" class="imp-modal-image" id="addPetImage">
-                <label class="imp-image-upload-label">
-                    UPLOAD IMAGE
-                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)" required>
-                </label>
-            </div>
-            <div class="imp-info-grid">
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Date Caught</div>
-                    <input type="date" class="imp-info-input" id="addDateCaught" required>
-                </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Location Found</div>
-                    <input type="text" class="imp-info-input" id="addLocationFound" required>
-                </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Impound Location</div>
-                    <input type="text" class="imp-info-input" id="addImpoundLocation" required>
-                </div>
-                <div class="imp-days-remaining">
-                    Days Remaining: <input type="number" class="imp-days-input" id="addDaysRemaining" required>
-                </div>
-            </div>
-        </div>
-        <div class="imp-modal-footer">
-            <button onclick="saveNewPet()" class="imp-button">SAVE</button>
-            <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
-        </div>
-    </div>
-</div>
 
+    <!-- Pet Details Modal -->
+    <div id="petModal" class="imp-modal">
+        <div class="imp-modal-content">
+            <div class="imp-modal-header">
+                <h2>Pet Details</h2>
+                <div class="imp-modal-actions">
+                    <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
+                    <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
+                    <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
+                    <button class="imp-modal-close" onclick="closeModal()">×</button>
+                </div>
+            </div>
+            <div class="imp-modal-body">
+                <div class="imp-modal-image-container">
+                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
+                    <label class="imp-image-upload-label">
+                        CHANGE IMAGE
+                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                    </label>
+                </div>
+                <div class="imp-info-grid">
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Date Caught</div>
+                        <input type="date" class="imp-info-input" id="dateCaught">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Location Found</div>
+                        <input type="text" class="imp-info-input" id="locationFound">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Impound Location</div>
+                        <input type="text" class="imp-info-input" id="impoundLocation">
+                    </div>
+                    <div class="imp-days-remaining">
+                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Pet Modal -->
+    <div id="addPetModal" class="imp-modal">
+        <div class="imp-modal-content">
+            <div class="imp-modal-header">
+                <h2>Add New Pet</h2>
+                <button class="imp-modal-close" onclick="closeAddPetModal()">×</button>
+            </div>
+            <div class="imp-modal-body">
+                <div class="imp-modal-image-container">
+                    <img src="" alt="Pet" class="imp-modal-image" id="addPetImage">
+                    <label class="imp-image-upload-label">
+                        UPLOAD IMAGE
+                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)" required>
+                    </label>
+                </div>
+                <div class="imp-info-grid">
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Date Caught</div>
+                        <input type="date" class="imp-info-input" id="addDateCaught" required>
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Location Found</div>
+                        <input type="text" class="imp-info-input" id="addLocationFound" required>
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Impound Location</div>
+                        <input type="text" class="imp-info-input" id="addImpoundLocation" required>
+                    </div>
+                    <div class="imp-days-remaining">
+                        Days Remaining: <input type="number" class="imp-days-input" id="addDaysRemaining" required>
+                    </div>
+                </div>
+            </div>
+            <div class="imp-modal-footer">
+                <button onclick="saveNewPet()" class="imp-button">SAVE</button>
+                <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Notification -->
     <div class="imp-notification" id="notification">Changes Saved Successfully!</div>
@@ -170,6 +176,7 @@ function saveNewPet() {
         impoundLocation: document.getElementById("addImpoundLocation").value,
         daysRemaining: parseInt(document.getElementById("addDaysRemaining").value),
         imageUrl: newPetImageUrl,
+        status: "Unclaimed", // Default status for new pets
     };
 
     petData[newPetId] = newPet;
@@ -180,6 +187,7 @@ function saveNewPet() {
     newCard.innerHTML = `
         <img id="${newPetId}-image" src="${newPetImageUrl}" alt="New Pet" class="imp-card-image">
         <div class="imp-card-content">
+            <div class="imp-pet-status ${newPet.status.toLowerCase()}">${newPet.status}</div>
             <button onclick="openModal('${newPetId}')" class="imp-button">DETAILS</button>
         </div>
     `;
@@ -290,6 +298,9 @@ function sortPets() {
         } else if (sortCriteria === "daysRemaining") {
             valueA = a.daysRemaining;
             valueB = b.daysRemaining;
+        } else if (sortCriteria === "status") {
+            valueA = a.status.toLowerCase();
+            valueB = b.status.toLowerCase();
         } else {
             valueA = a[sortCriteria].toLowerCase();
             valueB = b[sortCriteria].toLowerCase();
@@ -312,11 +323,32 @@ function sortPets() {
         newCard.innerHTML = `
             <img id="${pet.id}-image" src="${pet.imageUrl}" alt="Pet" class="imp-card-image">
             <div class="imp-card-content">
+                <div class="imp-pet-status ${pet.status.toLowerCase()}">${pet.status}</div>
                 <button onclick="openModal('${pet.id}')" class="imp-button">DETAILS</button>
             </div>
         `;
         impGallery.appendChild(newCard);
     });
+}
+
+// Function to apply sorting/filtering
+function applySort() {
+    const sortStatus = document.getElementById("sortStatus").value;
+    let filteredPets = {};
+
+    if (sortStatus === "all") {
+        filteredPets = petData; // Show all pets
+    } else {
+        // Filter pets based on the selected status
+        Object.entries(petData).forEach(([petId, pet]) => {
+            if (pet.status.toLowerCase() === sortStatus) {
+                filteredPets[petId] = pet;
+            }
+        });
+    }
+
+    // Render the filtered pets
+    renderPets(filteredPets);
 }
 
 // Function to confirm deletion
