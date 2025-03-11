@@ -119,7 +119,7 @@
             data-pet_marks='<?= $pets['pet_marks'] ?>'
             data-pet_antiRabies_expi_date='<?= $pets['pet_antiRabies_expi_date'] ?>'
             data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
-            data-pet_date_application='<?= $pets['pet_date_application'] ?>' <!-- Add this line -->
+            data-pet_date_application='<?= $pets['pet_date_application'] ?>'>
         VIEW DETAILS</button>
         <button class="close-btn">&times;</button>
     </div>
@@ -236,6 +236,7 @@
     $("#client-mark").val(petMarks);
     $("#client-vaccine-due").val(petVaccineDue);
     $("#client-vaccine-given").val(petVaccineGiven);
+    $("#client-date-application").val(petDateApplication);
 
     console.log("Pet Owner:", petOwner);
     console.log("Date of Application:", petDateApplication); // Debugging
@@ -246,29 +247,7 @@
     $("#clientModal").fadeOut();
     
   });
-  document.getElementById('goButton').addEventListener('click', function() {
-    const searchQuery = document.getElementById('searchBox').value.toLowerCase();
-    const statusFilter = document.getElementById('statusFilter').value;
-
-    const clientCards = document.querySelectorAll('.client-card');
-
-    clientCards.forEach(card => {
-        const name = card.querySelector('.client-details:nth-child(1) p:nth-child(2)').innerText.toLowerCase();
-        const petName = card.querySelector('.client-details:nth-child(4) p:nth-child(2)').innerText.toLowerCase();
-        const email = card.querySelector('.client-details:nth-child(3) p:nth-child(2)').innerText.toLowerCase();
-        const contact = card.querySelector('.client-details:nth-child(2) p:nth-child(2)').innerText.toLowerCase();
-        const status = card.getAttribute('data-status');
-
-        const matchesSearch = name.includes(searchQuery) || petName.includes(searchQuery) || email.includes(searchQuery) || contact.includes(searchQuery);
-        const matchesStatus = statusFilter === 'all' || status === statusFilter;
-
-        if (matchesSearch && matchesStatus) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-});
+  
 
 </script>
 
