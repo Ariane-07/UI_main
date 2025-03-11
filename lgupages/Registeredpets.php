@@ -1,5 +1,5 @@
 <section>
-    <h1 class="heading">Registered <span>Pets</span></h1>
+    <h1 class="heading">Pets <span>Information</span></h1>
 
     <!-- Search and Sort Section -->
     <div class="search-sort-container">

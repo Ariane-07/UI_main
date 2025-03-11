@@ -5,6 +5,7 @@
         align-items: center;
         justify-content: center;
         gap: 1rem;
+        margin: 100px;
     }
 
     .card {
