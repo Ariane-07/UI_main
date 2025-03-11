@@ -3289,9 +3289,6 @@ body {
   color: #fff;
 }
 
-
-
-
 /* IMPOUNDED PETS CSS */
 .imp-image-upload-label:hover {
   transform: scale(1.03);
@@ -3497,7 +3494,7 @@ body {
 
 .imp-modal-body {
   padding: 1.5rem;
-  max-height: 60vh; 
+  max-height: 70vh; 
   overflow-y: auto; 
 }
 
@@ -3927,6 +3924,34 @@ body {
 }
 
 #petStatus:focus {
+  outline: none;
+  border: 1px solid #393838;
+}
+
+.imp-note-container {
+  margin-bottom: 1.5rem;
+}
+
+.imp-note-container label {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.imp-note-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+  background-color: var(--nav-color);
+  color: var(--text-color);
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 100px; /* Set a minimum height */
+}
+
+.imp-note-input:focus {
   outline: none;
   border: 1px solid #393838;
 }

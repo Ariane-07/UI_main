@@ -26,52 +26,57 @@
     </div>
 
     <!-- Pet Details Modal -->
-    <div id="petModal" class="imp-modal">
-        <div class="imp-modal-content">
-            <div class="imp-modal-header">
-                <h2>Pet Details</h2>
-                <div class="imp-modal-actions">
-                    <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
-                    <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
-                    <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
-                    <button class="imp-modal-close" onclick="closeModal()">×</button>
-                </div>
+<div id="petModal" class="imp-modal">
+    <div class="imp-modal-content">
+        <div class="imp-modal-header">
+            <h2>Pet Details</h2>
+            <div class="imp-modal-actions">
+                <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
+                <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
+                <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
+                <button class="imp-modal-close" onclick="closeModal()">×</button>
             </div>
-            <div class="imp-modal-body">
-                <div class="imp-modal-image-container">
-                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
-                    <label class="imp-image-upload-label">
-                        CHANGE IMAGE
-                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-                    </label>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-modal-image-container">
+                <img src="" alt="Pet" class="imp-modal-image" id="petImage">
+                <label class="imp-image-upload-label">
+                    CHANGE IMAGE
+                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                </label>
+            </div>
+            <!-- Add the note input here -->
+            <div class="imp-note-container">
+                <label for="petNote">Notes:</label>
+                <textarea id="petNote" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
+            </div>
+            <div class="imp-info-grid">
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Date Caught</div>
+                    <input type="date" class="imp-info-input" id="dateCaught">
                 </div>
-                <div class="imp-info-grid">
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Date Caught</div>
-                        <input type="date" class="imp-info-input" id="dateCaught">
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Location Found</div>
-                        <input type="text" class="imp-info-input" id="locationFound">
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Impound Location</div>
-                        <input type="text" class="imp-info-input" id="impoundLocation">
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Status</div>
-                        <select class="imp-info-input" id="petStatus">
-                            <option value="Unclaimed">Unclaimed</option>
-                            <option value="Claimed">Claimed</option>
-                        </select>
-                    </div>
-                    <div class="imp-days-remaining">
-                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
-                    </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Location Found</div>
+                    <input type="text" class="imp-info-input" id="locationFound">
+                </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Impound Location</div>
+                    <input type="text" class="imp-info-input" id="impoundLocation">
+                </div>
+                <div class="imp-info-item">
+                    <div class="imp-info-label">Status</div>
+                    <select class="imp-info-input" id="petStatus">
+                        <option value="Unclaimed">Unclaimed</option>
+                        <option value="Claimed">Claimed</option>
+                    </select>
+                </div>
+                <div class="imp-days-remaining">
+                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Add Pet Modal -->
     <div id="addPetModal" class="imp-modal">
@@ -224,6 +229,7 @@ function openModal(petId) {
     document.getElementById("daysRemaining").value = pet.daysRemaining;
     document.getElementById("petImage").src = pet.imageUrl;
     document.getElementById("petStatus").value = pet.status; // Populate status
+    document.getElementById("petNote").value = pet.note || ""; // Populate note
 
     modal.classList.add("imp-active");
     isEditMode = false; // Reset edit mode when opening the modal
@@ -284,6 +290,7 @@ function saveChanges() {
         impoundLocation: document.getElementById("impoundLocation").value,
         daysRemaining: parseInt(document.getElementById("daysRemaining").value),
         status: document.getElementById("petStatus").value, // Save the edited status
+        note: document.getElementById("petNote").value, // Save the note
     };
 
     // Update the status in the gallery card
