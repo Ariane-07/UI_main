@@ -205,6 +205,21 @@ function loadChatHistory(username) {
   chatMessages.innerHTML = `<p>Chatting with ${username}...</p>`;
 }
 
+// FILTER CHAT
+document.getElementById('search-bar').addEventListener('input', function () {
+  const searchTerm = this.value.toLowerCase();
+  const chatUsers = document.querySelectorAll('.chat-user');
+
+  chatUsers.forEach(user => {
+      const username = user.getAttribute('data-username').toLowerCase();
+      if (username.includes(searchTerm)) {
+          user.style.display = 'block';
+      } else {
+          user.style.display = 'none';
+      }
+  });
+});
+
 /* REGISTERED PETS JS */
 function addNewRow() {
   const tbody = document.getElementById("petTableBody");

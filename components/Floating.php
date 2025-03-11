@@ -40,13 +40,16 @@
         <span class="chat-close">&times;</span>
         <div class="chat-sidebar">
             <h3>Chat List</h3>
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search names..." />
+                <i class='bx bx-search'></i> <!-- Search icon -->
+            </div>
             <ul class="chat-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
                 <li class="chat-user" data-username="John">John</li>
                 <li class="chat-user" data-username="Jane">Jane</li>
                 <li class="chat-user" data-username="Doe">Doe</li>
                 <!-- Add dynamically as needed -->
             </ul>
-
         </div>
 
 

@@ -704,6 +704,33 @@ body.dark .search-field i {
   }
 }
 
+.search-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#search-bar {
+  width: 100%;
+  padding: 10px 10px 10px 35px; /* Add padding for the icon */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: var(--nav-color);
+  color: var(--text-color);
+}
+
+#search-bar::placeholder {
+  color: #999;
+}
+
+.search-container i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none; /* Ensure the icon doesn't interfere with input clicks */
+}
+
 /* PROFILE */
 .profile-container {
   width: 800px;
