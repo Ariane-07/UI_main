@@ -107,7 +107,7 @@
 </section>
 
 <script>
-   const modal = document.getElementById("petModal");
+const modal = document.getElementById("petModal");
 const addPetModal = document.getElementById("addPetModal");
 const notification = document.getElementById("notification");
 const impGallery = document.getElementById("imp-gallery");
@@ -116,6 +116,15 @@ let isEditMode = false;
 let newPetImageUrl = "";
 
 let petData = {}; // Empty object to store pet data
+
+// Function to calculate days remaining
+function calculateDaysRemaining(dateCaught, daysRemaining) {
+    const caughtDate = new Date(dateCaught);
+    const currentDate = new Date();
+    const timeDifference = currentDate - caughtDate;
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysRemaining - daysDifference;
+}
 
 // Function to open the "Add Pet" modal
 function openAddPetModal() {
@@ -127,7 +136,6 @@ function openAddPetModal() {
     document.getElementById("addImpoundLocation").disabled = false;
     document.getElementById("addDaysRemaining").disabled = false;
 }
-
 
 // Function to close the "Add Pet" modal
 function closeAddPetModal() {
@@ -192,11 +200,11 @@ function openModal(petId) {
     document.getElementById("dateCaught").value = pet.dateCaught;
     document.getElementById("locationFound").value = pet.locationFound;
     document.getElementById("impoundLocation").value = pet.impoundLocation;
-    document.getElementById("daysRemaining").value = pet.daysRemaining;
+    document.getElementById("daysRemaining").value = pet.daysRemaining; // Use the stored value, not calculated
     document.getElementById("petImage").src = pet.imageUrl;
 
     modal.classList.add("imp-active");
-    isEditMode = false;
+    isEditMode = false; // Reset edit mode when opening the modal
     updateEditMode();
 }
 
@@ -206,15 +214,10 @@ function closeModal() {
     currentPetId = null;
 }
 
-function updateEditMode() {
-    const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
-    inputs.forEach((input) => {
-        input.disabled = !isEditMode;
-    });
-
-    document.querySelector(".imp-image-upload-label").style.display = isEditMode ? "block" : "none";
-    document.querySelector(".imp-save-button").style.display = isEditMode ? "block" : "none";
-    document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ? "CANCEL" : "EDIT";
+// Function to toggle edit mode
+function toggleEditMode() {
+    isEditMode = !isEditMode; // Toggle edit mode
+    updateEditMode();
 }
 
 // Function to update edit mode UI
@@ -224,17 +227,9 @@ function updateEditMode() {
         input.disabled = !isEditMode;
     });
 
-    document.querySelector(".imp-image-upload-label").style.display = isEditMode ?
-        "block" :
-        "none";
-
-    document.querySelector(".imp-save-button").style.display = isEditMode ?
-        "block" :
-        "none";
-
-    document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ?
-        "CANCEL" :
-        "EDIT";
+    document.querySelector(".imp-image-upload-label").style.display = isEditMode ? "block" : "none";
+    document.querySelector(".imp-save-button").style.display = isEditMode ? "block" : "none";
+    document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ? "CANCEL" : "EDIT";
 }
 
 // Function to handle image upload for existing pets
@@ -259,12 +254,13 @@ function handleImageUpload(event) {
 function saveChanges() {
     if (!currentPetId) return;
 
+    // Save the edited values
     petData[currentPetId] = {
         ...petData[currentPetId],
         dateCaught: document.getElementById("dateCaught").value,
         locationFound: document.getElementById("locationFound").value,
         impoundLocation: document.getElementById("impoundLocation").value,
-        daysRemaining: parseInt(document.getElementById("daysRemaining").value),
+        daysRemaining: parseInt(document.getElementById("daysRemaining").value), // Save the edited value
     };
 
     notification.classList.add("imp-show");
@@ -354,5 +350,4 @@ function deletePet() {
         notification.classList.remove("imp-show");
     }, 3000);
 }
-
 </script>
