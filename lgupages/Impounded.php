@@ -5,8 +5,6 @@
         <button onclick="openAddPetModal()" class="imp-button">ADD PET</button>
         <select id="sortCriteria">
             <option value="dateCaught">Date Caught</option>
-            <option value="locationFound">Location Found</option>
-            <option value="impoundLocation">Impound Location</option>
             <option value="daysRemaining">Days Remaining</option>
             <option value="status">Status</option>
         </select>
