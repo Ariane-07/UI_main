@@ -3866,6 +3866,22 @@ body {
   color: #fff;
 }
 
+#petStatus {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: var(--text-color);
+  border: 1px solid #dee2e6;
+  background-color: var(--nav-color);
+  transition: border-color 0.3s ease;
+}
+
+#petStatus:focus {
+  outline: none;
+  border: 1px solid #393838;
+}
+
 /* RESPONSIVE CSS FOR MOBILE */
 @media (max-width: 790px) {
   nav .navbar .sidebarOpen {

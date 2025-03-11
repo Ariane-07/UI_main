@@ -8,7 +8,7 @@
             <option value="locationFound">Location Found</option>
             <option value="impoundLocation">Impound Location</option>
             <option value="daysRemaining">Days Remaining</option>
-            <option value="status">Status</option> <!-- New option for status -->
+            <option value="status">Status</option>
         </select>
         <select id="sortStatus">
             <option value="all">All</option>
@@ -59,6 +59,13 @@
                     <div class="imp-info-item">
                         <div class="imp-info-label">Impound Location</div>
                         <input type="text" class="imp-info-input" id="impoundLocation">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Status</div>
+                        <select class="imp-info-input" id="petStatus">
+                            <option value="Unclaimed">Unclaimed</option>
+                            <option value="Claimed">Claimed</option>
+                        </select>
                     </div>
                     <div class="imp-days-remaining">
                         Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
@@ -122,15 +129,6 @@ let isEditMode = false;
 let newPetImageUrl = "";
 
 let petData = {}; // Empty object to store pet data
-
-// Function to calculate days remaining
-function calculateDaysRemaining(dateCaught, daysRemaining) {
-    const caughtDate = new Date(dateCaught);
-    const currentDate = new Date();
-    const timeDifference = currentDate - caughtDate;
-    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    return daysRemaining - daysDifference;
-}
 
 // Function to open the "Add Pet" modal
 function openAddPetModal() {
@@ -208,8 +206,9 @@ function openModal(petId) {
     document.getElementById("dateCaught").value = pet.dateCaught;
     document.getElementById("locationFound").value = pet.locationFound;
     document.getElementById("impoundLocation").value = pet.impoundLocation;
-    document.getElementById("daysRemaining").value = pet.daysRemaining; // Use the stored value, not calculated
+    document.getElementById("daysRemaining").value = pet.daysRemaining;
     document.getElementById("petImage").src = pet.imageUrl;
+    document.getElementById("petStatus").value = pet.status; // Populate status
 
     modal.classList.add("imp-active");
     isEditMode = false; // Reset edit mode when opening the modal
@@ -230,7 +229,7 @@ function toggleEditMode() {
 
 // Function to update edit mode UI
 function updateEditMode() {
-    const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
+    const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input, #petStatus");
     inputs.forEach((input) => {
         input.disabled = !isEditMode;
     });
@@ -268,8 +267,16 @@ function saveChanges() {
         dateCaught: document.getElementById("dateCaught").value,
         locationFound: document.getElementById("locationFound").value,
         impoundLocation: document.getElementById("impoundLocation").value,
-        daysRemaining: parseInt(document.getElementById("daysRemaining").value), // Save the edited value
+        daysRemaining: parseInt(document.getElementById("daysRemaining").value),
+        status: document.getElementById("petStatus").value, // Save the edited status
     };
+
+    // Update the status in the gallery card
+    const statusElement = document.querySelector(`#${currentPetId}-image`).closest(".imp-card").querySelector(".imp-pet-status");
+    if (statusElement) {
+        statusElement.textContent = petData[currentPetId].status;
+        statusElement.className = `imp-pet-status ${petData[currentPetId].status.toLowerCase()}`;
+    }
 
     notification.classList.add("imp-show");
     setTimeout(() => {
@@ -283,10 +290,16 @@ function saveChanges() {
 // Function to sort pets
 function sortPets() {
     const sortCriteria = document.getElementById("sortCriteria").value;
+    const sortStatus = document.getElementById("sortStatus").value; // Get the selected status filter
     const sortOrder = document.getElementById("sortOrder").value;
 
     // Convert petData object to an array for sorting
-    const petsArray = Object.entries(petData).map(([id, pet]) => ({ id, ...pet }));
+    let petsArray = Object.entries(petData).map(([id, pet]) => ({ id, ...pet }));
+
+    // Filter pets based on the selected status
+    if (sortStatus !== "all") {
+        petsArray = petsArray.filter((pet) => pet.status.toLowerCase() === sortStatus);
+    }
 
     // Sort the array based on the selected criteria and order
     petsArray.sort((a, b) => {
@@ -316,7 +329,7 @@ function sortPets() {
     // Clear the gallery
     impGallery.innerHTML = "";
 
-    // Rebuild the gallery with sorted pets
+    // Rebuild the gallery with sorted and filtered pets
     petsArray.forEach((pet) => {
         const newCard = document.createElement("div");
         newCard.classList.add("imp-card");
@@ -329,26 +342,6 @@ function sortPets() {
         `;
         impGallery.appendChild(newCard);
     });
-}
-
-// Function to apply sorting/filtering
-function applySort() {
-    const sortStatus = document.getElementById("sortStatus").value;
-    let filteredPets = {};
-
-    if (sortStatus === "all") {
-        filteredPets = petData; // Show all pets
-    } else {
-        // Filter pets based on the selected status
-        Object.entries(petData).forEach(([petId, pet]) => {
-            if (pet.status.toLowerCase() === sortStatus) {
-                filteredPets[petId] = pet;
-            }
-        });
-    }
-
-    // Render the filtered pets
-    renderPets(filteredPets);
 }
 
 // Function to confirm deletion
