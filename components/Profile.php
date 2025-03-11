@@ -1,7 +1,4 @@
-
-
 <?php 
-
 if($_SESSION){
     if($_SESSION['Role']=="pet_owner"){
         $Role="Pet Owner";
@@ -11,15 +8,19 @@ if($_SESSION){
 }
 ?>
 
-
 <div class="profile-container">
     <div class="profile-sidebar">
-        <form id="frmUpdateProfile">
+        <form class="profileForm" id="frmUpdateProfile">
         <div class="profile-image">
             <img id="profile-pic" src="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
             <label for="profile-pic-input" class="file-input-label">CHOOSE A PHOTO</label>
             <input type="file" id="profile-pic-input" name="profile-pic-input" class="file-input" accept="image/*" onchange="loadFile(event)">
+        </div>
+        <!-- Add Bio Section Here -->
+        <div class="profile-info">
+            <p>Bio</p>
+            <textarea id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $_SESSION['bio'] ?? '' ?></textarea>
         </div>
         <div class="profile-info">
             <p>Email</p>
@@ -40,7 +41,6 @@ if($_SESSION){
             <input type="text" id="username" name="username" class="editable-input" value="<?=$_SESSION['username']?>">
         </div>
         
-
         <div class="detail-group">
             <label class="detail-label">Gender</label>
             <select id="gender" name="gender" class="editable-input">
@@ -49,7 +49,6 @@ if($_SESSION){
                 <option value="Other" <?= ($_SESSION['Gender'] ?? '') == 'Other' ? 'selected' : '' ?>>Other</option>
             </select>
         </div>
-
 
         <div class="detail-group">
             <label class="detail-label">Birth Date</label>
@@ -67,8 +66,6 @@ if($_SESSION){
         <div class="detail-group">
             <label class="detail-label">Link Address</label>
             <textarea id="Link_address" name="Link_address" class="editable-input"><?=$_SESSION['Link_address']?></textarea>
-           
-           
         </div>
 
         <div class="detail-group" style="width: 100%; max-width: 400px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; overflow: hidden;">
@@ -79,13 +76,10 @@ if($_SESSION){
             ?>
         </div>
 
-
-
         <button type="submit" id="btnUpdateProfile" class="btn">SAVE</button>
         </form>
     </div>
 </div>
-
 
 <script>
     const loadFile = function(event) {

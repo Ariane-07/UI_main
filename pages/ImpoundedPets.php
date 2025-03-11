@@ -1,193 +1,215 @@
-<input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
-<input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
-<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
-
-
 <section>
-    <h1 class="heading"><span>Impounded Pets</span></h1>
-    <div class="imp-gallery">
-        <div class="imp-card">
-            <img id="pet1-image" src="/api/placeholder/400/300" alt="Golden Retriever" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet1')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet2-image" src="/api/placeholder/400/300" alt="Shih Tzu Mix" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet2')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet3-image" src="/api/placeholder/400/300" alt="German Shepherd" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet3')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
-        <div class="imp-card">
-            <img id="pet4-image" src="/api/placeholder/400/300" alt="Mixed Breed" class="imp-card-image">
-            <div class="imp-card-content">
-                <button onclick="openModal('pet4')" class="imp-button">DETAILS</button>
-            </div>
-        </div>
+    <h1 class="owner_heading"><span>Impounded Pets</span></h1>
+
+    <!-- Sorting Controls -->
+    <div class="owner-sorting-controls">
+        <select id="sortStatus">
+            <option value="all">All</option>
+            <option value="unclaimed">Unclaimed</option>
+            <option value="pending">Pending</option>
+            <option value="claimed">Claimed</option>
+        </select>
+        <button onclick="applySort()" class="owner-button">GO</button>
     </div>
-    <div id="petModal" class="imp-modal">
-        <div class="imp-modal-content">
-            <div class="imp-modal-header">
+
+    <!-- Pet Gallery -->
+    <div class="owner-gallery" id="owner-gallery">
+        <!-- Pet cards will be dynamically added here -->
+    </div>
+
+    <!-- Pet Details Modal -->
+    <div id="petModal" class="owner-modal">
+        <div class="owner-modal-content">
+            <div class="owner-modal-header">
                 <h2>Pet Details</h2>
-                <div class="imp-modal-actions">
-                    <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
-                    <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
-                    <button class="imp-modal-close" onclick="closeModal()">×</button>
+                <button class="owner-modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="owner-modal-body">
+                <div class="owner-modal-image-container">
+                    <img src="" alt="Pet" class="owner-modal-image" id="petImage">
+                </div>
+                <div class="owner-info-grid">
+                    <div class="owner-info-item">
+                        <div class="owner-info-label">Date Caught</div>
+                        <div class="owner-info-value" id="dateCaught"></div>
+                    </div>
+                    <div class="owner-info-item">
+                        <div class="owner-info-label">Location Found</div>
+                        <div class="owner-info-value" id="locationFound"></div>
+                    </div>
+                    <div class="owner-info-item">
+                        <div class="owner-info-label">Impound Location</div>
+                        <div class="owner-info-value" id="impoundLocation"></div>
+                    </div>
+                    <div class="owner-days-remaining">
+                        Days Remaining: <span id="daysRemaining"></span>
+                    </div>
                 </div>
             </div>
-            <div class="imp-modal-body">
-                <div class="imp-modal-image-container">
-                    <img src="/api/placeholder/400/300" alt="Pet" class="imp-modal-image" id="petImage">
-                    <label class="imp-image-upload-label">
-                        CHANGE IMAGE
-                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-                    </label>
-                </div>
-                <div class="imp-info-grid">
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Date Caught</div>
-                        <input type="date" class="imp-info-input" id="dateCaught" disabled>
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Location Found</div>
-                        <input type="text" class="imp-info-input" id="locationFound" disabled>
-                    </div>
-                    <div class="imp-info-item">
-                        <div class="imp-info-label">Impound Location</div>
-                        <input type="text" class="imp-info-input" id="impoundLocation" disabled>
-                    </div>
-                    <div class="imp-days-remaining">
-                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" disabled>
-                    </div>
-                </div>
+            <div class="owner-modal-footer">
+                <button onclick="claimPet()" class="owner-button owner-claim-button">CLAIM PET</button>
             </div>
         </div>
     </div>
 
-    <div class="imp-notification" id="notification">Changes Saved Successfully!</div>
+    <!-- Claim Confirmation Modal -->
+    <div id="claimConfirmationModal" class="owner-modal">
+        <div class="owner-modal-content">
+            <div class="owner-modal-header">
+                <h2>Confirm Claim</h2>
+                <button class="owner-modal-close" onclick="closeClaimConfirmationModal()">×</button>
+            </div>
+            <div class="owner-modal-body">
+                <p>Are you sure you want to claim this pet?</p>
+            </div>
+            <div class="owner-modal-footer">
+                <button onclick="confirmClaim()" class="owner-button owner-confirm-button">YES, CLAIM</button>
+                <button onclick="closeClaimConfirmationModal()" class="owner-button owner-cancel-button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="owner-notification" id="notification">Pet claimed successfully!</div>
 </section>
 
 <script>
-    const modal = document.getElementById("petModal");
-    const notification = document.getElementById("notification");
-    let currentPetId = null;
-    let isEditMode = false;
+  const modal = document.getElementById("petModal");
+const claimConfirmationModal = document.getElementById("claimConfirmationModal");
+const notification = document.getElementById("notification");
+const ownerGallery = document.getElementById("owner-gallery");
+let currentPetId = null;
 
-    const petData = {
-        pet1: {
-            dateCaught: "2024-10-15",
-            locationFound: "Central Park",
-            impoundLocation: "City Animal Shelter",
-            daysRemaining: 5,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet2: {
-            dateCaught: "2024-10-18",
-            locationFound: "Downtown Plaza",
-            impoundLocation: "Local Vet Clinic",
-            daysRemaining: 7,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet3: {
-            dateCaught: "2024-10-20",
-            locationFound: "Green Hills Park",
-            impoundLocation: "Shelter #2",
-            daysRemaining: 3,
-            imageUrl: "/api/placeholder/400/300",
-        },
-        pet4: {
-            dateCaught: "2024-10-25",
-            locationFound: "Main Street",
-            impoundLocation: "City Animal Center",
-            daysRemaining: 9,
-            imageUrl: "/api/placeholder/400/300",
-        },
-    };
+// Sample pet data
+const petData = {
+    pet1: {
+        dateCaught: "2023-10-01",
+        locationFound: "Main Street",
+        impoundLocation: "LGU Shelter",
+        daysRemaining: 5,
+        imageUrl: "https://via.placeholder.com/300",
+        status: "Unclaimed",
+    },
+    pet2: {
+        dateCaught: "2023-10-05",
+        locationFound: "Park Avenue",
+        impoundLocation: "LGU Shelter",
+        daysRemaining: 3,
+        imageUrl: "https://via.placeholder.com/300",
+        status: "Pending",
+    },
+    pet3: {
+        dateCaught: "2023-10-10",
+        locationFound: "Downtown",
+        impoundLocation: "LGU Shelter",
+        daysRemaining: 1,
+        imageUrl: "https://via.placeholder.com/300",
+        status: "Claimed",
+    },
+};
 
-    function openModal(petId) {
-        currentPetId = petId;
-        const pet = petData[petId];
+// Function to render pet cards
+function renderPets(filteredPets) {
+    ownerGallery.innerHTML = "";
+    Object.entries(filteredPets).forEach(([petId, pet]) => {
+        const newCard = document.createElement("div");
+        newCard.classList.add("owner-card");
+        newCard.innerHTML = `
+            <img id="${petId}-image" src="${pet.imageUrl}" alt="Pet" class="owner-card-image">
+            <div class="owner-card-content">
+                <div class="owner-pet-status ${pet.status.toLowerCase()}">${pet.status}</div>
+                <button onclick="openModal('${petId}')" class="owner-button">DETAILS</button>
+            </div>
+        `;
+        ownerGallery.appendChild(newCard);
+    });
+}
 
-        document.getElementById("dateCaught").value = pet.dateCaught;
-        document.getElementById("locationFound").value = pet.locationFound;
-        document.getElementById("impoundLocation").value = pet.impoundLocation;
-        document.getElementById("daysRemaining").value = pet.daysRemaining;
-        document.getElementById("petImage").src = pet.imageUrl;
+// Function to apply sorting/filtering
+function applySort() {
+    const sortStatus = document.getElementById("sortStatus").value;
+    let filteredPets = {};
 
-        modal.classList.add("imp-active");
-        isEditMode = false;
-        updateEditMode();
-    }
-
-    function closeModal() {
-        modal.classList.remove("imp-active");
-        currentPetId = null;
-    }
-
-    function toggleEditMode() {
-        isEditMode = !isEditMode;
-        updateEditMode();
-    }
-
-    function updateEditMode() {
-        const inputs = document.querySelectorAll(".imp-info-input, .imp-days-input");
-        inputs.forEach((input) => {
-            input.disabled = !isEditMode;
+    if (sortStatus === "all") {
+        filteredPets = petData; // Show all pets
+    } else {
+        // Filter pets based on the selected status
+        Object.entries(petData).forEach(([petId, pet]) => {
+            if (pet.status.toLowerCase() === sortStatus) {
+                filteredPets[petId] = pet;
+            }
         });
-
-        document.querySelector(".imp-image-upload-label").style.display = isEditMode ?
-            "block" :
-            "none";
-
-        document.querySelector(".imp-save-button").style.display = isEditMode ?
-            "block" :
-            "none";
-
-        document.querySelector(".imp-edit-mode-toggle").textContent = isEditMode ?
-            "CANCEL" :
-            "EDIT";
     }
 
-    function handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newImageUrl = e.target.result;
-                document.getElementById("petImage").src = newImageUrl;
+    // Render the filtered pets
+    renderPets(filteredPets);
+}
 
-                if (currentPetId) {
-                    document.getElementById(`${currentPetId}-image`).src = newImageUrl;
-                    petData[currentPetId].imageUrl = newImageUrl;
-                }
-            };
-            reader.readAsDataURL(file);
-        }
+// Function to open the pet details modal
+function openModal(petId) {
+    currentPetId = petId;
+    const pet = petData[petId];
+
+    document.getElementById("dateCaught").textContent = pet.dateCaught;
+    document.getElementById("locationFound").textContent = pet.locationFound;
+    document.getElementById("impoundLocation").textContent = pet.impoundLocation;
+    document.getElementById("daysRemaining").textContent = pet.daysRemaining;
+    document.getElementById("petImage").src = pet.imageUrl;
+
+    // Update the claim button based on the pet's status
+    const claimButton = document.querySelector(".owner-claim-button");
+    if (pet.status === "Unclaimed") {
+        claimButton.textContent = "CLAIM PET";
+        claimButton.disabled = false;
+    } else if (pet.status === "Pending") {
+        claimButton.textContent = "PENDING CONFIRMATION";
+        claimButton.disabled = true;
+    } else if (pet.status === "Claimed") {
+        claimButton.textContent = "CLAIMED";
+        claimButton.disabled = true;
     }
 
-    function saveChanges() {
-        if (!currentPetId) return;
+    modal.classList.add("owner-active");
+}
 
-        petData[currentPetId] = {
-            ...petData[currentPetId],
-            dateCaught: document.getElementById("dateCaught").value,
-            locationFound: document.getElementById("locationFound").value,
-            impoundLocation: document.getElementById("impoundLocation").value,
-            daysRemaining: parseInt(document.getElementById("daysRemaining").value),
-        };
+// Function to close the pet details modal
+function closeModal() {
+    modal.classList.remove("owner-active");
+    currentPetId = null;
+}
 
-        notification.classList.add("imp-show");
+// Function to open the claim confirmation modal
+function claimPet() {
+    claimConfirmationModal.classList.add("owner-active");
+}
+
+// Function to close the claim confirmation modal
+function closeClaimConfirmationModal() {
+    claimConfirmationModal.classList.remove("owner-active");
+}
+
+// Function to confirm the claim
+function confirmClaim() {
+    if (currentPetId) {
+        // Update the pet's status to "Pending"
+        petData[currentPetId].status = "Pending";
+
+        // Update the gallery
+        renderPets(petData);
+
+        // Close modals
+        closeModal();
+        closeClaimConfirmationModal();
+
+        // Show notification
+        notification.textContent = "Claim request submitted. Waiting for LGU confirmation.";
+        notification.classList.add("owner-show");
         setTimeout(() => {
-            notification.classList.remove("imp-show");
+            notification.classList.remove("owner-show");
         }, 3000);
-
-        isEditMode = false;
-        updateEditMode();
     }
-</script>
+}
+
+// Initial render (show all pets by default)
+applySort();
+    </script>

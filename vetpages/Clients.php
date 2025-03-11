@@ -1,5 +1,17 @@
 <section>
     <h1 class="heading">My <span>Clients</span></h1>
+    <!-- Search and Sort Section -->
+    <div class="search-sort-container">
+        <input type="text" id="searchBox" placeholder="Search by name, pet name, email, contact number, barangay...">
+        <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="declined">Declined</option>
+        </select>
+        <button id="goButton">Go</button>
+    </div>
+
     <div class="client-list">
     <?php 
         $db = new global_class();
@@ -32,12 +44,12 @@
                         <p>
                         
                         <?php 
-                            if ($pets['pet_status']=== "accept_by_lgu") {
-                                echo "Accept";
-                            } else if($pets['pet_status']=== "declined_by_vet"){
-                                echo "Decline";
-                            }else {
+                             if ($pets['pet_status'] === "accept_by_lgu") {
+                                echo "Approved";
+                            } elseif ($pets['pet_status'] === "pending") {
                                 echo "Pending";
+                            } else {
+                                echo "Declined";
                             }
                             ?>
 
@@ -105,7 +117,7 @@
                 <label for="client-pet-name">Pet Name</label>
                 <input type="text" id="client-pet-name" readonly>
 
-                <label for="client-birthdate">Birthdate</label>
+                <label for="client-birthdate">Pet Birthdate</label>
                 <input type="date" id="client-birthdate" readonly>
 
                 <label for="client-breed">Breed</label>
@@ -184,6 +196,31 @@
     $("#clientModal").fadeOut();
     
   });
+
+  document.getElementById('goButton').addEventListener('click', function() {
+    const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+
+    const clientCards = document.querySelectorAll('.client-card');
+
+    clientCards.forEach(card => {
+        const name = card.querySelector('.client-details:nth-child(1) p:nth-child(2)').innerText.toLowerCase();
+        const petName = card.querySelector('.client-details:nth-child(4) p:nth-child(2)').innerText.toLowerCase();
+        const email = card.querySelector('.client-details:nth-child(3) p:nth-child(2)').innerText.toLowerCase();
+        const contact = card.querySelector('.client-details:nth-child(2) p:nth-child(2)').innerText.toLowerCase();
+        const status = card.getAttribute('data-status');
+
+        const matchesSearch = name.includes(searchQuery) || petName.includes(searchQuery) || email.includes(searchQuery) || contact.includes(searchQuery);
+        const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+        if (matchesSearch && matchesStatus) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
 </script>
 
 
