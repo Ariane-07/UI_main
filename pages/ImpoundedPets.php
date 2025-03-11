@@ -3,13 +3,13 @@
 
     <!-- Sorting Controls -->
     <div class="owner-sorting-controls">
-        <select id="sortStatus">
+        <select id="sortStatus" onchange="applySort()">
             <option value="all">All</option>
             <option value="unclaimed">Unclaimed</option>
             <option value="pending">Pending</option>
             <option value="claimed">Claimed</option>
         </select>
-        <button onclick="applySort()" class="owner-button">GO</button>
+        <!-- Remove the GO button -->
     </div>
 
     <!-- Pet Gallery -->

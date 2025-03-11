@@ -156,12 +156,29 @@ function closeAddPetModal() {
 function handleAddPetImageUpload(event) {
     const file = event.target.files[0];
     if (file) {
+        // Check file type
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!allowedTypes.includes(file.type)) {
+            alert("Only JPEG, PNG, and JPG files are allowed.");
+            return;
+        }
+
+        // Check file size (e.g., 5MB limit)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            alert("File size must be less than 5MB.");
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = function (e) {
             newPetImageUrl = e.target.result;
             document.getElementById("addPetImage").src = newPetImageUrl;
+            console.log("Image uploaded and displayed successfully."); // Debugging
         };
         reader.readAsDataURL(file);
+    } else {
+        console.log("No file selected."); // Debugging
     }
 }
 
