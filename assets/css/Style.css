@@ -2916,6 +2916,27 @@ body {
   cursor: pointer;
 }
 
+.sorting-controls {
+  margin-bottom: 20px;
+  display: flex; /* Use Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.sorting-controls select {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--text-color);
+  background: var(--body-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sorting-controls select:focus {
+  outline: none;
+}
+
 /* IMPOUNDED PETS PET OWNER */
 .owner_heading {
   font-size: 4rem;
