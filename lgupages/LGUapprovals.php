@@ -8,6 +8,21 @@
             <option value="asc">Oldest to Newest</option>
             <option value="desc">Newest to Oldest</option>
         </select>
+        <select id="sortByMonth">
+            <option value="">Filter by Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
     </div>
 
     <div class="approval-list">
@@ -350,6 +365,12 @@ $(document).ready(function() {
         }
     });
 
+    // Month filtering functionality
+    $("#sortByMonth").on("change", function() {
+        const selectedMonth = $(this).val(); // Get the selected month
+        filterApprovalCardsByMonth(selectedMonth);
+    });
+
     // Function to sort approval cards by date of application
     function sortApprovalCards(order) {
         const $approvalList = $(".approval-list");
@@ -376,7 +397,31 @@ $(document).ready(function() {
             $approvalList.append(card);
         });
     }
-});
 
+    // Function to filter approval cards by month
+    function filterApprovalCardsByMonth(month) {
+        const $approvalList = $(".approval-list");
+        const $cards = $(".approval-card");
+
+        if (month === "") {
+            // Show all cards if no month is selected
+            $cards.each(function() {
+                $(this).show();
+            });
+            return;
+        }
+
+        // Filter cards based on the selected month
+        $cards.each(function() {
+            const dateApplication = $(this).data("date-application");
+            const cardMonth = new Date(dateApplication).getMonth() + 1; // Months are 0-indexed in JavaScript
+            if (cardMonth.toString().padStart(2, "0") === month) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    }
+});
 </script>
 
