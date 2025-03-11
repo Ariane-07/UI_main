@@ -7,7 +7,6 @@
         <select id="statusFilter">
             <option value="all">All</option>
             <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
             <option value="declined">Declined</option>
         </select>
         <button id="goButton">Go</button>
@@ -22,55 +21,36 @@
             $count = 1;
             foreach ($fetch_pets as $pets):
         ?>
-        
-        <div class="client-card">
-            <div class="client-info">
-                    <div class="client-details">
-                        <p><strong>Name</strong></p>
-                        <p><?=$pets['pet_owner_name']?></p> <!-- Empty by default -->
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Contact Number</strong></p>
-                        <p><?=$pets['pet_owner_telMobile']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Email</strong></p>
-                        <p><?=$pets['pet_owner_email']?></p>
-                    </div>
-                    <div class="client-details">
-                        <p><strong>Pet Name</strong></p>
-                        <p><?=$pets['pet_name']?></p>
-                    </div>
-
-                    <div class="client-details">
-                        <p><strong>Status</strong></p>
-                        <p>
-                            <?php
-                            if ($pets['pet_status'] === "accept_by_lgu") {
-                                echo "Approved";
-                            } elseif ($pets['pet_status'] === "pending") {
-                                echo "Pending";
-                            } else {
-                                echo "Declined";
-                            }
-                            ?>
-                        </p>
-                    </div>
-
-                    
-
-                 
-
-                   
-                    <!-- QR Code Container -->
-                   
-
-                </div>
-                <div class="actions">
-                    <button class="view-details">VIEW DETAILS</button>
-                    <button class="close-btn">&times;</button>
-                </div>
+        <div class="client-card" data-status="<?= ($pets['pet_status'] === 'accept_by_lgu') ? 'approved' : 'declined' ?>">
+    <div class="client-info">
+        <div class="client-details">
+            <p><strong>Name</strong></p>
+            <p><?= $pets['pet_owner_name'] ?></p>
         </div>
+        <div class="client-details">
+            <p><strong>Contact Number</strong></p>
+            <p><?= $pets['pet_owner_telMobile'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Email</strong></p>
+            <p><?= $pets['pet_owner_email'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Pet Name</strong></p>
+            <p><?= $pets['pet_name'] ?></p>
+        </div>
+        <div class="client-details">
+            <p><strong>Status</strong></p>
+            <p>
+                <?= ($pets['pet_status'] === 'accept_by_lgu') ? 'Approved' : 'Declined' ?>
+            </p>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="view-details">VIEW DETAILS</button>
+        <button class="close-btn">&times;</button>
+    </div>
+</div>
 
    <?php
           $count++; 
@@ -247,15 +227,15 @@
         const petName = card.querySelector('.client-details:nth-child(4) p:nth-child(2)').innerText.toLowerCase();
         const email = card.querySelector('.client-details:nth-child(3) p:nth-child(2)').innerText.toLowerCase();
         const contact = card.querySelector('.client-details:nth-child(2) p:nth-child(2)').innerText.toLowerCase();
-        const status = card.getAttribute('data-status');
+        const status = card.getAttribute('data-status'); // Get the status from the data-status attribute
 
         const matchesSearch = name.includes(searchQuery) || petName.includes(searchQuery) || email.includes(searchQuery) || contact.includes(searchQuery);
         const matchesStatus = statusFilter === 'all' || status === statusFilter;
 
         if (matchesSearch && matchesStatus) {
-            card.style.display = 'flex';
+            card.style.display = 'flex'; // Show the card
         } else {
-            card.style.display = 'none';
+            card.style.display = 'none'; // Hide the card
         }
     });
 });
