@@ -1,7 +1,7 @@
 <nav>
     <div class="navbar">
         <i class="bx bx-menu sidebarOpen"></i>
-        <span class="logo navLogo"><a href="index.php?page=/"><img src="assets/imgs/Logo.png" id="logo" alt="Logo"></a></span>
+        <span class="logo navLogo"><a href="index.php?lgupages=lguhome"><img src="assets/imgs/Logo.png" id="logo" alt="Logo"></a></span>
         <div class="menu">
             <div class="logo-toggle">
                 <span class="logo"><a href="#"><span>My</span>Pet</a></span>
