@@ -30,39 +30,46 @@
         <button class="imp-button">GO</button>
     </div>
 
-
-
-    <?php 
-        $db = new global_class();
-        $fetch_pets = $db->fetch_impound_pets();
-
-        if (mysqli_num_rows($fetch_pets) > 0): 
-            $count = 1;
-            foreach ($fetch_pets as $pets):
-        ?>
-
     <!-- Pet Gallery where pet cards are listed -->
     <div class="imp-gallery" id="imp-gallery">
-        <!-- Example of a static pet card -->
+        <?php 
+            $db = new global_class();
+            $fetch_pets = $db->fetch_impound_pets();
+
+            if (mysqli_num_rows($fetch_pets) > 0): 
+                $count = 1;
+                foreach ($fetch_pets as $pets):
+        ?>
+
+        <!-- Example of a pet card -->
         <div class="imp-card">
             <img src="uploads/images/<?=$pets['imp_impounded_photo'];?>" alt="Pet Image" class="imp-card-image">
             <div class="imp-card-content">
-                <div class="imp-pet-status claimed"><?=$pets['imp_status'];?></div>
-                <button class="imp-button">DETAILS</button>
+                <div class="imp-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$pets['imp_status'];?></div>
+                <button class="showpetDetailsModal imp-button"
+                data-imp_id='<?=$pets['imp_id'];?>'
+                data-imp_date_caught='<?=$pets['imp_date_caught'];?>'
+                data-imp_location_found='<?=$pets['imp_location_found'];?>'
+                data-imp_location_impound='<?=$pets['imp_location_impound'];?>'
+                data-imp_days_rem='<?=$pets['imp_days_rem'];?>'
+                data-imp_impounded_photo='<?=$pets['imp_impounded_photo'];?>'
+                data-imp_status='<?=$pets['imp_status'];?>'
+                data-imp_notes='<?=$pets['imp_notes'];?>'
+                >DETAILS</button>
             </div>
         </div>
-        
-      
+
         <?php
-            $count++;
-            endforeach;
+                $count++;
+                endforeach;
+            else:
         ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="5" class="p-2">No record found.</td>
-            </tr>
+        
+        <div class="no-record">
+            <p>No records found.</p>
+        </div>
+        
         <?php endif; ?>
-        <!-- Add more static pet cards as needed -->
     </div>
 </section>
 
@@ -74,16 +81,15 @@
 
 
 
-    <!-- Pet Details Modal -->
-    <div id="petModal" class="imp-modal">
+   <!-- Pet Details Modal -->
+<div id="petDetailsModal" class="edit-modal" style="display:none;">
     <div class="imp-modal-content">
         <div class="imp-modal-header">
             <h2>Pet Details</h2>
             <div class="imp-modal-actions">
-                <button class="imp-button imp-edit-mode-toggle" onclick="toggleEditMode()">EDIT</button>
-                <button class="imp-button imp-delete-button" onclick="confirmDelete()">DELETE</button>
-                <button class="imp-button imp-save-button" onclick="saveChanges()">SAVE</button>
-                <button class="imp-modal-close" onclick="closeModal()">×</button>
+                <button class="imp-button imp-delete-button">DELETE</button>
+                <button class="imp-button imp-save-button">SAVE</button>
+                <button class="imp-modal-close">×</button>
             </div>
         </div>
         <div class="imp-modal-body">
@@ -94,10 +100,9 @@
                     <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
                 </label>
             </div>
-            <!-- Add the note input here -->
             <div class="imp-note-container">
-                <label for="petNote">Notes:</label>
-                <textarea id="petNote" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
+                <label for="imp_notes">Notes:</label>
+                <textarea id="imp_notes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
             </div>
             <div class="imp-info-grid">
                 <div class="imp-info-item">
@@ -126,6 +131,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -181,11 +187,10 @@
  </form>
     
 
-    <script>
+<script>
 $(document).ready(function () {
     // Open Modal
     $(document).on('click', '.openAddPetModal', function() {
-        console.log('click');
         $("#addImpoundedPetModal").fadeIn();
     });
 
@@ -223,5 +228,49 @@ function handleAddPetImageUpload(event) {
         $('#preview_images').hide(); // Hide the image preview if no file is selected
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+    $('.showpetDetailsModal').on('click', function() {
+        var petId = $(this).data('imp_id');
+        var petDateCaught = $(this).data('imp_date_caught');
+        var petLocationFound = $(this).data('imp_location_found');
+        var petLocationImpound = $(this).data('imp_location_impound');
+        var petDaysRem = $(this).data('imp_days_rem');
+        var petImage = $(this).data('imp_impounded_photo');
+        var petStatus = $(this).data('imp_status');
+        var imp_notes = $(this).data('imp_notes');
+
+        $('#petImage').attr('src', 'uploads/images/' + petImage); 
+        $('#dateCaught').val(petDateCaught); 
+        $('#locationFound').val(petLocationFound); 
+        $('#impoundLocation').val(petLocationImpound);
+        $('#petStatus').val(petStatus);
+        $('#daysRemaining').val(petDaysRem); 
+        $('#imp_notes').val(imp_notes); 
+
+        $('#petDetailsModal').fadeIn();
+    });
+
+    $('.imp-modal-close').on('click', function() {
+        $('#petDetailsModal').fadeOut();
+    });
+
+    $('#petDetailsModal').on('click', function(e) {
+        if ($(e.target).is('#petDetailsModal')) {
+            $(this).fadeOut();
+        }
+    });
+});
+
 </script>
 
