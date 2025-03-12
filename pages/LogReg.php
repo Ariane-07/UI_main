@@ -22,15 +22,18 @@
                 <div id="spinner" class="spinner" style="display:none;"></div>
                 <h2 class="title">Sign Up</h2>
                 <div class="role-selection">
+
                     <label>
-                        <input type="radio" name="role" value="vet" checked>Vet
+                        <input type="radio" name="role" value="pet_owner" checked>Pet Owner
+                    </label>
+
+                    <label>
+                        <input type="radio" name="role" value="vet" >Vet
                     </label>
                     <label>
                         <input type="radio" name="role" value="lgu">LGU
                     </label>
-                    <label>
-                        <input type="radio" name="role" value="pet_owner">Pet User
-                    </label>
+                    
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-envelope'></i>
@@ -42,7 +45,7 @@
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-lock'></i>
-                    <input type="password" placeholder="Password" id="password" name="password" required>
+                    <input type="text" placeholder="Password" id="password" name="password" required>
                 </div>
                 <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
             </form>
