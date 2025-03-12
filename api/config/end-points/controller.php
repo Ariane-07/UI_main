@@ -370,6 +370,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             
+        }else if ($_POST['requestType'] == 'updateImpound') {
+
+       
+            $uploadDir = "../../../uploads/images/";
+
+function generateUniqueFilename($file) {
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    return uniqid() . '.' . $ext;
+}
+
+function handleFileUpload($file, $uploadDir) {
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    $maxFileSize = 10 * 1024 * 1024; // 10MB
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return null;
+    }
+
+    // Ensure the temp file exists before checking MIME type
+    if (!file_exists($file['tmp_name'])) {
+        return null;
+    }
+
+    if (!in_array(mime_content_type($file['tmp_name']), $allowedTypes)) {
+        return null;
+    }
+
+    if ($file['size'] > $maxFileSize) {
+        return null;
+    }
+
+    $fileName = generateUniqueFilename($file);
+    $destination = $uploadDir . $fileName;
+
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        return $fileName;
+    }
+    return null;
+}
+
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0777, true);
+}
+
+$petPhoto = $_FILES['image'] ?? null;
+
+// Collect form data
+$imp_id = $_POST['id'];
+$updateNotes = $_POST['notes'];
+$addDateCaught = $_POST['dateCaught'];
+$addLocationFound = $_POST['locationFound'];
+$updateImpoundLocation = $_POST['impoundLocation'];
+$updateDaysRemaining = $_POST['daysRemaining'];
+$updatePetStatus = $_POST['petStatus'];
+
+// Initialize $petPhotoName to null
+$petPhotoName = null;
+
+// If there is a photo to upload, handle the upload first
+if ($petPhoto) {
+    $petPhotoName = handleFileUpload($petPhoto, $uploadDir);
+}
+
+// Now, perform the database update
+$response = $db->UpdateImpoundPets($imp_id, $updateNotes, $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updatePetStatus, $petPhotoName);
+
+// Check if the database update was successful
+if ($response == "success") {
+    // If successful, send the response with a success message
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Impound Pet Updated Successfully',
+        'pet_data' => $response,
+    ]);
+} else {
+    // If the database update failed, delete the file if it was uploaded
+    if ($petPhotoName) {
+        $filePath = $uploadDir . $petPhotoName;
+        if (file_exists($filePath)) {
+            unlink($filePath); // Delete the file
+        }
+    }
+
+    // Send error response
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Error updating impound pet details.',
+    ]);
+}
+
+
+
+            
+            
         }else if ($_POST['requestType'] == 'SentMessagge') {
 
             session_start();
@@ -424,6 +518,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           
 
             echo $db->DeletePost($deletepostid);
+            
+        }else if ($_POST['requestType'] == 'deleteImpound') {
+
+            $imp_id=$_POST['id'];
+          
+
+            echo $db->deleteImpound($imp_id);
             
         }else if ($_POST['requestType'] == 'Login') {
             $username = $_POST['username'];

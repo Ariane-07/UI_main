@@ -1,11 +1,22 @@
 $(document).ready(function () {
 
 
+
+
+
+
+
+
+
+
+    
+
+
     $("#frmAddImpoundPets").submit(function (e) {
         e.preventDefault();
     
         $('.spinner').show();
-        $('#BtnRegistrationForm').prop('disabled', true);
+        $('#btnAddImpoundPets').prop('disabled', true);
     
         var formData = new FormData(this);
         formData.append('requestType', 'AddImpoundPets');
@@ -20,7 +31,7 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
                 $('.spinner').hide();
-                $('#BtnRegistrationForm').prop('disabled', false);
+                $('#btnAddImpoundPets').prop('disabled', false);
     
                 if (response.status == "success") {
                     alertify.success('Impound Pet Successfully');
@@ -28,7 +39,7 @@ $(document).ready(function () {
                         window.location.href = 'index.php?lgupages=impounded';
 
 
-                    }, 2000);
+                    }, 1000);
                 } else {
                     alertify.error('Sending failed, please try again.');
                 }
