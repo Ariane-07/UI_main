@@ -29,7 +29,7 @@
                         <input type="radio" name="role" value="lgu">LGU
                     </label>
                     <label>
-                        <input type="radio" name="role" value="pet_owner">Pet User
+                        <input type="radio" name="role" value="pet_owner">Pet Owner
                     </label>
                 </div>
                 <div class="input-field">
