@@ -417,6 +417,17 @@ class global_class extends db_connect
     
 
     
+    public function fetch_impound_pets()
+    {
+        $query = $this->conn->prepare("SELECT * from impounded_pets ");
+
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+
     public function fetch_pending_pets($status)
     {
         $query = $this->conn->prepare("SELECT * from pets_info where pet_status='$status' ");

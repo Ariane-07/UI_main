@@ -1,32 +1,81 @@
 <section>
-    <h1 class="imp_heading"><span>Impounded Pets</span></h1>
+    <h1 class="imp-heading"><span>Impounded Pets</span></h1>
+
     <!-- Sorting Controls with Add Pet Button -->
     <div class="imp-sorting-controls">
+        <!-- Button to open the 'Add Pet' modal -->
         <button class="openAddPetModal imp-button">ADD PET</button>
-        <select id="sortCriteria">
+        
+        <!-- Dropdown to select sorting criteria -->
+        <select id="sortCriteria" aria-label="Sort by">
             <option value="dateCaught">Date Caught</option>
             <option value="daysRemaining">Days Remaining</option>
             <option value="status">Status</option>
         </select>
-        <select id="sortStatus">
+        
+        <!-- Dropdown to filter by status -->
+        <select id="sortStatus" aria-label="Filter by status">
             <option value="all">All</option>
             <option value="unclaimed">Unclaimed</option>
             <option value="claimed">Claimed</option>
         </select>
-        <select id="sortOrder">
+        
+        <!-- Dropdown to select sorting order -->
+        <select id="sortOrder" aria-label="Select sort order">
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </select>
-        <button onclick="sortPets()" class="imp-button">GO</button>
+        
+        <!-- Button to trigger sorting action -->
+        <button class="imp-button">GO</button>
     </div>
 
-    <!-- Pet Gallery -->
+
+
+    <?php 
+        $db = new global_class();
+        $fetch_pets = $db->fetch_impound_pets();
+
+        if (mysqli_num_rows($fetch_pets) > 0): 
+            $count = 1;
+            foreach ($fetch_pets as $pets):
+        ?>
+
+    <!-- Pet Gallery where pet cards are listed -->
     <div class="imp-gallery" id="imp-gallery">
-        <!-- Pet cards will be dynamically added here -->
+        <!-- Example of a static pet card -->
+        <div class="imp-card">
+            <img src="uploads/images/<?=$pets['imp_impounded_photo'];?>" alt="Pet Image" class="imp-card-image">
+            <div class="imp-card-content">
+                <div class="imp-pet-status claimed"><?=$pets['imp_status'];?></div>
+                <button class="imp-button">DETAILS</button>
+            </div>
+        </div>
+        
+      
+        <?php
+            $count++;
+            endforeach;
+        ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" class="p-2">No record found.</td>
+            </tr>
+        <?php endif; ?>
+        <!-- Add more static pet cards as needed -->
     </div>
+</section>
+
+
+
+
+
+
+
+
 
     <!-- Pet Details Modal -->
-<div id="petModal" class="imp-modal">
+    <div id="petModal" class="imp-modal">
     <div class="imp-modal-content">
         <div class="imp-modal-header">
             <h2>Pet Details</h2>
@@ -78,21 +127,6 @@
     </div>
 </div>
 
-    
-
-    <!-- Notification -->
-    <div class="imp-notification" id="notification">Changes Saved Successfully!</div>
-</section>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -139,7 +173,7 @@
                     </div>
                 </div>
                 <div class="imp-modal-footer">
-                    <button type="submit" class="imp-button">SAVE</button>
+                    <button type="submit" id="btnAddImpoundPets" class="imp-button">SAVE</button>
                     <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
                 </div>
             </div>
@@ -190,3 +224,4 @@ function handleAddPetImageUpload(event) {
     }
 }
 </script>
+
