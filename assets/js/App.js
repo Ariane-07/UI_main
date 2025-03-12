@@ -395,7 +395,12 @@ $(document).ready(function () {
                 messages.push("Password must be at least 8 characters long.");
             }
 
-            return messages.join(" ");
+            // Return messages or a success message
+            if (messages.length === 0) {
+               
+            } else {
+                return messages.join(" ");
+            }
         }
 
         var passwordStrength = validatePassword(password);
