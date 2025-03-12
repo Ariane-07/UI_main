@@ -351,6 +351,23 @@ class global_class extends db_connect
         }
     }
 
+    public function deleteImpound($imp_id)
+    {
+        // Delete query for impound
+        $stmt = $this->conn->prepare("DELETE FROM `impounded_pets` WHERE `imp_id` = ?");
+        $stmt->bind_param("s", $imp_id);
+        
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($imp_id);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to delete post'));
+        }
+    }
+
+
 
     public function EditPost($editpostid, $postInput, $postFilesJson)
     {

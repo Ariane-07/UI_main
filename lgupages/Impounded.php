@@ -82,55 +82,62 @@
 
 
    <!-- Pet Details Modal -->
-<div id="petDetailsModal" class="edit-modal" style="display:none;">
-    <div class="imp-modal-content">
-        <div class="imp-modal-header">
-            <h2>Pet Details</h2>
-            <div class="imp-modal-actions">
-                <button class="imp-button imp-delete-button">DELETE</button>
-                <button class="imp-button imp-save-button">SAVE</button>
-                <button class="imp-modal-close">×</button>
+<form id="frmUpdateImpoundPets">   
+    <div id="petDetailsModal" class="edit-modal" style="display:none;">
+        <div class="imp-modal-content">
+            <div class="imp-modal-header">
+                <h2>Pet Details</h2>
+                <div class="imp-modal-actions">
+                    <button class="imp-button imp-delete-button">DELETE</button>
+                    <button class="imp-button imp-save-button">SAVE</button>
+                    <button class="imp-modal-close">×</button>
+                </div>
             </div>
-        </div>
-        <div class="imp-modal-body">
-            <div class="imp-modal-image-container">
-                <img src="" alt="Pet" class="imp-modal-image" id="petImage">
-                <label class="imp-image-upload-label">
-                    CHANGE IMAGE
-                    <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
-                </label>
-            </div>
-            <div class="imp-note-container">
-                <label for="imp_notes">Notes:</label>
-                <textarea id="imp_notes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
-            </div>
-            <div class="imp-info-grid">
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Date Caught</div>
-                    <input type="date" class="imp-info-input" id="dateCaught">
+            <div class="imp-modal-body">
+
+
+                <input hidden type="text" class="imp-info-input" name="imp_id" id="imp_id">
+
+
+                <div class="imp-modal-image-container">
+                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
+                    <label class="imp-image-upload-label">
+                        CHANGE IMAGE
+                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                    </label>
                 </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Location Found</div>
-                    <input type="text" class="imp-info-input" id="locationFound">
+                <div class="imp-note-container">
+                    <label for="imp_notes">Notes:</label>
+                    <textarea id="imp_notes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
                 </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Impound Location</div>
-                    <input type="text" class="imp-info-input" id="impoundLocation">
-                </div>
-                <div class="imp-info-item">
-                    <div class="imp-info-label">Status</div>
-                    <select class="imp-info-input" id="petStatus">
-                        <option value="Unclaimed">Unclaimed</option>
-                        <option value="Claimed">Claimed</option>
-                    </select>
-                </div>
-                <div class="imp-days-remaining">
-                    Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
+                <div class="imp-info-grid">
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Date Caught</div>
+                        <input type="date" class="imp-info-input" id="dateCaught">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Location Found</div>
+                        <input type="text" class="imp-info-input" id="locationFound">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Impound Location</div>
+                        <input type="text" class="imp-info-input" id="impoundLocation">
+                    </div>
+                    <div class="imp-info-item">
+                        <div class="imp-info-label">Status</div>
+                        <select class="imp-info-input" id="petStatus">
+                            <option value="Unclaimed">Unclaimed</option>
+                            <option value="Claimed">Claimed</option>
+                        </select>
+                    </div>
+                    <div class="imp-days-remaining">
+                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
 
@@ -189,6 +196,116 @@
 
 <script>
 $(document).ready(function () {
+
+
+
+// Handle DELETE action
+$(".imp-delete-button").click(function (e) {
+            e.preventDefault();
+            
+            var petId = $("#imp_id").val();  // Get the pet ID from the form input
+            
+            if (petId) {
+                // Confirm the delete action
+                if (confirm("Are you sure you want to delete this pet?")) {
+                    // Send AJAX request to delete the pet
+                    $.ajax({
+                        url: "api/config/end-points/controller.php",
+                        method: 'POST',
+                        data: { id: petId,requestType:"deleteImpound" }, 
+                        success: function (response) {
+                            console.log(response);
+                            alert('Pet deleted successfully!');
+
+                            setTimeout(function () {
+                            location.reload();
+                            }, 1000);
+                        },
+                        error: function () {
+                            alert('Error deleting pet!');
+                        }
+                    });
+                }
+            } else {
+                alert("No pet selected for deletion.");
+            }
+        });
+
+        // Handle SAVE (UPDATE) action
+        $(".imp-save-button").click(function (e) {
+            e.preventDefault();
+
+            var petId = $("#imp_id").val();  // Get the pet ID from the form input
+            var notes = $("#imp_notes").val();
+            var dateCaught = $("#dateCaught").val();
+            var locationFound = $("#locationFound").val();
+            var impoundLocation = $("#impoundLocation").val();
+            var petStatus = $("#petStatus").val();
+            var daysRemaining = $("#daysRemaining").val();
+            var image = $("#petImage").attr("src");
+
+            if (petId) {
+                // Send AJAX request to update pet details
+                $.ajax({
+                    url: "api/config/end-points/controller.php",
+                    method: 'POST',
+                    data: {
+                        id: petId,
+                        notes: notes,
+                        dateCaught: dateCaught,
+                        locationFound: locationFound,
+                        impoundLocation: impoundLocation,
+                        petStatus: petStatus,
+                        daysRemaining: daysRemaining,
+                        image: image,
+                        requestType:"deleteImpound" 
+                    },
+                    success: function (response) {
+                        alert('Pet details updated successfully!');
+
+                    setTimeout(function () {
+                       location.reload();
+                    }, 1000);
+
+                    },
+                    error: function () {
+                        alert('Error updating pet details!');
+                    }
+                });
+            } else {
+                alert("No pet selected for update.");
+            }
+        });
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Open Modal
     $(document).on('click', '.openAddPetModal', function() {
         $("#addImpoundedPetModal").fadeIn();
@@ -257,6 +374,7 @@ $(document).ready(function() {
         $('#petStatus').val(petStatus);
         $('#daysRemaining').val(petDaysRem); 
         $('#imp_notes').val(imp_notes); 
+        $('#imp_id').val(petId); 
 
         $('#petDetailsModal').fadeIn();
     });

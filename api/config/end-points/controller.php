@@ -425,6 +425,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo $db->DeletePost($deletepostid);
             
+        }else if ($_POST['requestType'] == 'deleteImpound') {
+
+            $imp_id=$_POST['id'];
+          
+
+            echo $db->deleteImpound($imp_id);
+            
         }else if ($_POST['requestType'] == 'Login') {
             $username = $_POST['username'];
             $password = $_POST['password'];
