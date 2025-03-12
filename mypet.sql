@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2025 at 04:19 PM
+-- Generation Time: Mar 12, 2025 at 05:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -69,6 +69,30 @@ INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_tex
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `impounded_pets`
+--
+
+CREATE TABLE `impounded_pets` (
+  `imp_id` int(11) NOT NULL,
+  `imp_date_caught` date NOT NULL,
+  `imp_location_found` varchar(255) NOT NULL,
+  `imp_location_impound` varchar(255) NOT NULL,
+  `imp_days_rem` int(11) NOT NULL,
+  `imp_impounded_photo` varchar(255) NOT NULL,
+  `imp_notes` text DEFAULT NULL,
+  `imp_status` varchar(60) NOT NULL DEFAULT 'Unclaimed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `impounded_pets`
+--
+
+INSERT INTO `impounded_pets` (`imp_id`, `imp_date_caught`, `imp_location_found`, `imp_location_impound`, `imp_days_rem`, `imp_impounded_photo`, `imp_notes`, `imp_status`) VALUES
+(4, '2025-03-12', 'marilao', 'malolos', 5, '67d0e58e5fa24.jpg', 'test', 'Unclaimed');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pets_info`
 --
 
@@ -114,8 +138,8 @@ CREATE TABLE `pets_info` (
 
 INSERT INTO `pets_info` (`pet_id`, `pets_UserID`, `pet_photo_owner`, `pet_validIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
 (59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-02-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'accept_by_lgu'),
-(60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'juan', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-01-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'declined_by_vet'),
-(61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'pedro', 2323, 'male', '2025-03-11', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-11', '2025-03-25', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'accept_by_vet');
+(60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'juan', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-01-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'declined_by_lgu'),
+(61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'pedro', 2323, 'male', '2025-03-11', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-11', '2025-03-25', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'pending');
 
 -- --------------------------------------------------------
 
@@ -213,7 +237,9 @@ INSERT INTO `users` (`UserID`, `Name`, `Username`, `Gender`, `Email`, `Password`
 (15, 'dawd', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet'),
 (16, NULL, 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
 (17, NULL, 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
-(18, NULL, 'andersonandy046', '', 'andersonandy04@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', NULL, NULL, NULL, NULL, NULL, 'pet_owner');
+(18, '', 'andersonandy046', 'Female', 'andersonandy04@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', NULL, '0000-00-00', '', 'sta.rosa 2 marilao', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741447380658!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
+(20, NULL, 'test4', '', 'test4@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet'),
+(21, NULL, 'awd@gmail.com', '', 'awd@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet');
 
 --
 -- Indexes for dumped tables
@@ -224,6 +250,12 @@ INSERT INTO `users` (`UserID`, `Name`, `Username`, `Gender`, `Email`, `Password`
 --
 ALTER TABLE `chat_messages`
   ADD PRIMARY KEY (`chat_id`);
+
+--
+-- Indexes for table `impounded_pets`
+--
+ALTER TABLE `impounded_pets`
+  ADD PRIMARY KEY (`imp_id`);
 
 --
 -- Indexes for table `pets_info`
@@ -261,6 +293,12 @@ ALTER TABLE `chat_messages`
   MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `impounded_pets`
+--
+ALTER TABLE `impounded_pets`
+  MODIFY `imp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `pets_info`
 --
 ALTER TABLE `pets_info`
@@ -282,7 +320,7 @@ ALTER TABLE `post_content`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
