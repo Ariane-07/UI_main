@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Get user input
             $email = $_POST['email'] ?? '';
+            $bio = $_POST['bio'] ?? '';
             $owner_name = $_POST['owner_name'] ?? '';
             $username = $_POST['username'] ?? '';
             $gender = $_POST['gender'] ?? '';
@@ -119,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $UserID = $_SESSION['UserID'];
             
             // Call UpdateProfile function with the updated parameters
-            $updateSuccess = $db->UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID);
+            $updateSuccess = $db->UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID,$bio);
             
             if ($updateSuccess) {
                 // Only unlink the old profile pic if a new one was uploaded

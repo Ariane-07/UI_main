@@ -267,8 +267,10 @@ $(".imp-delete-button").click(function (e) {
             processData: false,  // Don't let jQuery process the data
             contentType: false,  // Let jQuery set the content type
             success: function (response) {
-                alert('Pet details updated successfully!');
-                console.log(response);
+                alertify.success('Pet details updated successfully!');
+                setTimeout(function () {
+                            location.reload();
+                            }, 1000);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
