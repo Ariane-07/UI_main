@@ -302,14 +302,14 @@ class global_class extends db_connect
 
 
 
-    public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID)
+    public function UpdateProfile($profilePicName, $email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address, $UserID,$bio)
     {
         // Start constructing the SQL statement
-        $sql = "UPDATE users SET Email = ?, Name = ?, Username = ?, Gender = ?, BirthDate = ?, Contact = ?, Address = ?, Link_address = ?";
+        $sql = "UPDATE users SET Email = ?, Name = ?, Username = ?, Gender = ?, BirthDate = ?, Contact = ?, Address = ?, Link_address = ?,Bio=?";
         
         // Array to store the parameters and their types
-        $params = [$email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address];
-        $types = "ssssssss"; // Corresponding types for bind_param
+        $params = [$email, $owner_name, $username, $gender, $birthdate, $contact, $address, $link_address,$bio];
+        $types = "sssssssss"; // Corresponding types for bind_param
     
         // Include ProfilePic in the update only if it's not null
         if ($profilePicName !== null) {

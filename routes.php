@@ -35,6 +35,7 @@ if (empty($_SESSION)) {
             $_SESSION['Address'] = $session_data[0]['Address'] ?? '';
             $_SESSION['Gender'] = $session_data[0]['Gender'] ?? '';
             $_SESSION['Link_address'] = $session_data[0]['Link_address'] ?? '';
+            $_SESSION['Bio'] = $session_data[0]['Bio'] ?? '';
         } else {
             // Handle invalid session data
             session_destroy();

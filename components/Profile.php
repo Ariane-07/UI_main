@@ -6,6 +6,8 @@ if($_SESSION){
         $Role=$_SESSION['Role'];
     }
 }
+
+
 ?>
 
 <div class="profile-container">
@@ -20,7 +22,7 @@ if($_SESSION){
         <!-- Add Bio Section Here -->
         <div class="profile-info">
             <p>Bio</p>
-            <textarea id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $_SESSION['bio'] ?? '' ?></textarea>
+            <textarea id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $_SESSION['Bio'] ?? '' ?></textarea>
         </div>
         <div class="profile-info">
             <p>Email</p>
