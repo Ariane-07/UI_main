@@ -3,7 +3,33 @@ $(document).ready(function () {
 
 
 
-
+    $("#frmClaim").submit(function (e) {
+        e.preventDefault();
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'ClaimPet');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+    
+                if (response.status == "success") {
+                    alertify.success('Request Sent');
+                    setTimeout(function () {
+                       location.reload();
+                    }, 1000);
+                } else {
+                    alertify.error('Sending failed, please try again.');
+                }
+            }
+        });
+    });
 
 
 

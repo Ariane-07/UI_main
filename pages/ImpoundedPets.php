@@ -16,7 +16,8 @@
         <div class="imp-card">
             <img src="uploads/images/<?=$pets['imp_impounded_photo'];?>" alt="Pet Image" class="imp-card-image">
             <div class="imp-card-content">
-                <div class="imp-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$pets['imp_status'];?></div>
+                <div class="imp-pet-status owner-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$pets['imp_status'];?></div>
+                
                 <button class="showpetDetailsModal imp-button"
                 data-imp_id='<?=$pets['imp_id'];?>'
                 data-imp_date_caught='<?=$pets['imp_date_caught'];?>'
@@ -79,7 +80,11 @@
                 </div>
             </div>
             <div class="owner-modal-footer">
-                <button class="owner-button owner-claim-button">CLAIM PET</button>
+                <form id="frmClaim">
+                    <input type="text" id="imp_id" name="imp_id">
+                    <button type="submit" id="BtnClaim" class="owner-button owner-claim-button">Action</button>
+                </form>
+                
             </div>
         </div>
     </div>
@@ -109,7 +114,7 @@
  
 $(document).ready(function() {
     $('.showpetDetailsModal').on('click', function() {
-        var petId = $(this).data('imp_id');
+        var imp_id  = $(this).data('imp_id');
         var petDateCaught = $(this).data('imp_date_caught');
         var petLocationFound = $(this).data('imp_location_found');
         var petLocationImpound = $(this).data('imp_location_impound');
@@ -120,17 +125,17 @@ $(document).ready(function() {
         var imp_claim_by = $(this).data('imp_claim_by');
 
 
-
-
-
-
-        if (petStatus === "Unclaimed" && (!imp_claim_by || imp_claim_by === '')) {
+        if (petStatus === "Unclaimed") {
             $(".owner-claim-button").text("CLAIM PET");
-        } else if (petStatus === "Unclaimed" && imp_claim_by !== '') {
+            $("#BtnClaim").prop("disabled", false);  // Enable button
+        } else if (petStatus === "Pending") {
             $(".owner-claim-button").text("PENDING CONFIRMATION");
+            $("#BtnClaim").prop("disabled", true);   // Disable button
         } else if (petStatus === "Claimed") {
             $(".owner-claim-button").text("CLAIMED");
+            $("#BtnClaim").prop("disabled", true);   // Disable button
         }
+
 
         console.log(imp_claim_by);
 
@@ -145,7 +150,8 @@ $(document).ready(function() {
         $('#petStatus').text(petStatus);
         $('#daysRemaining').text(petDaysRem); 
         $('#imp_notes').val(imp_notes); 
-        $('#imp_id').val(petId); 
+        $('#imp_id').val(imp_id); 
+        
 
         $('#petDetailsModal').fadeIn();
     });

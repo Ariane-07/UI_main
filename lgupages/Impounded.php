@@ -39,13 +39,26 @@
             if (mysqli_num_rows($fetch_pets) > 0): 
                 $count = 1;
                 foreach ($fetch_pets as $pets):
+
+                    $claim_status='';
+                    
+
+                    if($pets['imp_status']=="Pending"&&$pets['imp_claim_by']!=null){
+                        $claim_person = $db->check_account($pets['imp_claim_by']);
+                        
+                        $claim_status= "Claim Request";
+                    }else{
+                        $claim_status=$pets['imp_status'];
+                    }
         ?>
 
         <!-- Example of a pet card -->
         <div class="imp-card">
             <img src="uploads/images/<?=$pets['imp_impounded_photo'];?>" alt="Pet Image" class="imp-card-image">
             <div class="imp-card-content">
-                <div class="imp-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$pets['imp_status'];?></div>
+                <div class="imp-pet-status owner-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$claim_status;?></div>
+
+
                 <button class="showpetDetailsModal imp-button"
                 data-imp_id='<?=$pets['imp_id'];?>'
                 data-imp_date_caught='<?=$pets['imp_date_caught'];?>'
@@ -268,9 +281,9 @@ $(".imp-delete-button").click(function (e) {
             contentType: false,  // Let jQuery set the content type
             success: function (response) {
                 alertify.success('Pet details updated successfully!');
-                setTimeout(function () {
-                            location.reload();
-                            }, 1000);
+                // setTimeout(function () {
+                //             location.reload();
+                //             }, 1000);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
