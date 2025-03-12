@@ -45,7 +45,7 @@
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-lock'></i>
-                    <input type="text" placeholder="Password" id="password" name="password" required>
+                    <input type="password" placeholder="Password" id="password" name="password" required>
                 </div>
                 <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
             </form>
