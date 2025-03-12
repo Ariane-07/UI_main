@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2025 at 03:23 PM
+-- Generation Time: Mar 12, 2025 at 04:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,16 +82,17 @@ CREATE TABLE `impounded_pets` (
   `imp_days_rem` int(11) NOT NULL,
   `imp_impounded_photo` varchar(255) NOT NULL,
   `imp_notes` text DEFAULT NULL,
-  `imp_status` varchar(60) NOT NULL DEFAULT 'Unclaimed'
+  `imp_status` varchar(60) NOT NULL DEFAULT 'Unclaimed',
+  `imp_claim_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `impounded_pets`
 --
 
-INSERT INTO `impounded_pets` (`imp_id`, `imp_date_caught`, `imp_location_found`, `imp_location_impound`, `imp_days_rem`, `imp_impounded_photo`, `imp_notes`, `imp_status`) VALUES
-(4, '2025-03-12', 'marilao', 'malolos', 5, '67d195a886d15.jpeg', 'asfawff', 'Claimed'),
-(6, '2025-03-12', 'marilao bulacan', 'malolos bulacan', 5, '67d1964667477.jpg', '', 'Claimed');
+INSERT INTO `impounded_pets` (`imp_id`, `imp_date_caught`, `imp_location_found`, `imp_location_impound`, `imp_days_rem`, `imp_impounded_photo`, `imp_notes`, `imp_status`, `imp_claim_by`) VALUES
+(4, '2025-03-12', 'marilao', 'malolos', 5, '67d195a886d15.jpeg', 'asfawff', 'Pending', 18),
+(6, '2025-03-12', 'marilao bulacan', 'malolos bulacan', 5, '67d1964667477.jpg', '', 'Unclaimed', NULL);
 
 -- --------------------------------------------------------
 

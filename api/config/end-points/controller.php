@@ -503,6 +503,15 @@ if ($response == "success") {
             
             
             
+        }else if ($_POST['requestType'] == 'ClaimPet') {
+            session_start();
+            
+            $imp_id=$_POST['imp_id'];
+            $UserID=$_SESSION['UserID'];
+          
+
+            echo $db->ClaimPet($imp_id,$UserID);
+            
         }else if ($_POST['requestType'] == 'Signup') {
 
             $email=$_POST['email'];

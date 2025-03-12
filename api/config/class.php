@@ -13,7 +13,7 @@ class global_class extends db_connect
 
 
     public function UpdateImpoundPets($imp_id, $updateNotes, $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updatePetStatus, $petPhotoName) {
-        // Base SQL query
+        // Start SQL query
         $sql = "UPDATE impounded_pets 
                 SET imp_date_caught = ?, 
                     imp_location_found = ?, 
@@ -22,23 +22,26 @@ class global_class extends db_connect
                     imp_notes = ?, 
                     imp_status = ?";
     
-        // If $petPhotoName is not null, include the imp_impounded_photo field
+        // Handle imp_claim_by conditionally
+        if ($updatePetStatus === "Unclaimed") {
+            $sql .= ", imp_claim_by = NULL";
+        }
+    
+        // If $petPhotoName is provided, update the photo
         if ($petPhotoName !== null) {
             $sql .= ", imp_impounded_photo = ?";
         }
     
-        // Add the WHERE clause
+        // Add WHERE condition
         $sql .= " WHERE imp_id = ?";
     
         // Prepare the SQL statement
         $stmt = $this->conn->prepare($sql);
     
-        // Bind parameters conditionally
+        // Bind parameters based on whether a photo is included
         if ($petPhotoName !== null) {
-            // Bind all parameters including the photo name
             $stmt->bind_param("ssssssss", $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updateNotes, $updatePetStatus, $petPhotoName, $imp_id);
         } else {
-            // Bind parameters without the photo name
             $stmt->bind_param("sssssss", $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updateNotes, $updatePetStatus, $imp_id);
         }
     
@@ -51,6 +54,7 @@ class global_class extends db_connect
             return ['error' => $error];
         }
     }
+    
     
     
     
@@ -374,6 +378,24 @@ class global_class extends db_connect
         echo json_encode($response);
     }
     
+
+    public function ClaimPet($imp_id,$UserID)
+    {
+        
+            // Update query excluding post_images
+            $stmt = $this->conn->prepare("UPDATE `impounded_pets` SET `imp_claim_by` = ? , `imp_status`='Pending' WHERE `imp_id` = ?");
+            $stmt->bind_param("ss",$UserID,$imp_id);
+        
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to delete post'));
+        }
+    }
+
 
     public function DeletePost($deletepostid)
     {
