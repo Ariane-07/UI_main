@@ -12,7 +12,48 @@ class global_class extends db_connect
     }
 
 
-
+    public function UpdateImpoundPets($imp_id, $updateNotes, $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updatePetStatus, $petPhotoName) {
+        // Base SQL query
+        $sql = "UPDATE impounded_pets 
+                SET imp_date_caught = ?, 
+                    imp_location_found = ?, 
+                    imp_location_impound = ?, 
+                    imp_days_rem = ?, 
+                    imp_notes = ?, 
+                    imp_status = ?";
+    
+        // If $petPhotoName is not null, include the imp_impounded_photo field
+        if ($petPhotoName !== null) {
+            $sql .= ", imp_impounded_photo = ?";
+        }
+    
+        // Add the WHERE clause
+        $sql .= " WHERE imp_id = ?";
+    
+        // Prepare the SQL statement
+        $stmt = $this->conn->prepare($sql);
+    
+        // Bind parameters conditionally
+        if ($petPhotoName !== null) {
+            // Bind all parameters including the photo name
+            $stmt->bind_param("ssssssss", $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updateNotes, $updatePetStatus, $petPhotoName, $imp_id);
+        } else {
+            // Bind parameters without the photo name
+            $stmt->bind_param("sssssss", $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updateNotes, $updatePetStatus, $imp_id);
+        }
+    
+        // Execute the query
+        if ($stmt->execute()) {
+            return "success";
+        } else {
+            $error = "Error: " . $stmt->error;
+            $stmt->close();
+            return ['error' => $error];
+        }
+    }
+    
+    
+    
 
 
 

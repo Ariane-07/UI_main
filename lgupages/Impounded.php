@@ -82,62 +82,62 @@
 
 
    <!-- Pet Details Modal -->
-<form id="frmUpdateImpoundPets">   
+<form id="frmUpdateImpoundPets" enctype="multipart/form-data">
     <div id="petDetailsModal" class="edit-modal" style="display:none;">
         <div class="imp-modal-content">
             <div class="imp-modal-header">
                 <h2>Pet Details</h2>
                 <div class="imp-modal-actions">
-                    <button class="imp-button imp-delete-button">DELETE</button>
-                    <button class="imp-button imp-save-button">SAVE</button>
-                    <button class="imp-modal-close">×</button>
+                    <button type="button" class="imp-button imp-delete-button">DELETE</button>
+                    <button type="button" class="imp-button imp-save-button">SAVE</button>
+                    <button type="button" class="imp-modal-close">×</button>
                 </div>
             </div>
             <div class="imp-modal-body">
-
-
                 <input hidden type="text" class="imp-info-input" name="imp_id" id="imp_id">
 
-
                 <div class="imp-modal-image-container">
-                    <img src="" alt="Pet" class="imp-modal-image" id="petImage">
+                    <img src="" alt="Pet" class="imp-modal-image" id="petImagePreview">
                     <label class="imp-image-upload-label">
                         CHANGE IMAGE
-                        <input type="file" class="imp-image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                        <input type="file" class="imp-image-upload" accept="image/*" name="update-image-upload" id="petImage">
                     </label>
                 </div>
+
                 <div class="imp-note-container">
                     <label for="imp_notes">Notes:</label>
-                    <textarea id="imp_notes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
+                    <textarea id="imp_notes" name="updateNotes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
                 </div>
+
                 <div class="imp-info-grid">
                     <div class="imp-info-item">
                         <div class="imp-info-label">Date Caught</div>
-                        <input type="date" class="imp-info-input" id="dateCaught">
+                        <input type="date" class="imp-info-input" id="dateCaught" name="updateDateCaught">
                     </div>
                     <div class="imp-info-item">
                         <div class="imp-info-label">Location Found</div>
-                        <input type="text" class="imp-info-input" id="locationFound">
+                        <input type="text" class="imp-info-input" id="locationFound" name="updateLocationFound">
                     </div>
                     <div class="imp-info-item">
                         <div class="imp-info-label">Impound Location</div>
-                        <input type="text" class="imp-info-input" id="impoundLocation">
+                        <input type="text" class="imp-info-input" id="impoundLocation" name="updateImpoundLocation">
                     </div>
                     <div class="imp-info-item">
                         <div class="imp-info-label">Status</div>
-                        <select class="imp-info-input" id="petStatus">
+                        <select class="imp-info-input" id="petStatus" name="updatePetStatus">
                             <option value="Unclaimed">Unclaimed</option>
                             <option value="Claimed">Claimed</option>
                         </select>
                     </div>
                     <div class="imp-days-remaining">
-                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining">
+                        Days Remaining: <input type="number" class="imp-days-input" id="daysRemaining" name="updateDaysRemaining">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
+
 
 
 
@@ -233,49 +233,54 @@ $(".imp-delete-button").click(function (e) {
 
         // Handle SAVE (UPDATE) action
         $(".imp-save-button").click(function (e) {
-            e.preventDefault();
+    e.preventDefault();
 
-            var petId = $("#imp_id").val();  // Get the pet ID from the form input
-            var notes = $("#imp_notes").val();
-            var dateCaught = $("#dateCaught").val();
-            var locationFound = $("#locationFound").val();
-            var impoundLocation = $("#impoundLocation").val();
-            var petStatus = $("#petStatus").val();
-            var daysRemaining = $("#daysRemaining").val();
-            var image = $("#petImage").attr("src");
+    var petId = $("#imp_id").val();
+    var notes = $("#imp_notes").val();
+    var dateCaught = $("#dateCaught").val();
+    var locationFound = $("#locationFound").val();
+    var impoundLocation = $("#impoundLocation").val();
+    var petStatus = $("#petStatus").val();
+    var daysRemaining = $("#daysRemaining").val();
+    var petImage = $("#petImage")[0].files[0];  // Get the file from the file input
 
-            if (petId) {
-                // Send AJAX request to update pet details
-                $.ajax({
-                    url: "api/config/end-points/controller.php",
-                    method: 'POST',
-                    data: {
-                        id: petId,
-                        notes: notes,
-                        dateCaught: dateCaught,
-                        locationFound: locationFound,
-                        impoundLocation: impoundLocation,
-                        petStatus: petStatus,
-                        daysRemaining: daysRemaining,
-                        image: image,
-                        requestType:"deleteImpound" 
-                    },
-                    success: function (response) {
-                        alert('Pet details updated successfully!');
+    if (petId) {
+        var formData = new FormData();
+        formData.append('id', petId);
+        formData.append('notes', notes);
+        formData.append('dateCaught', dateCaught);
+        formData.append('locationFound', locationFound);
+        formData.append('impoundLocation', impoundLocation);
+        formData.append('petStatus', petStatus);
+        formData.append('daysRemaining', daysRemaining);
 
-                    setTimeout(function () {
-                       location.reload();
-                    }, 1000);
+        if (petImage) {
+            formData.append('image', petImage);  // Append the image file
+        }
 
-                    },
-                    error: function () {
-                        alert('Error updating pet details!');
-                    }
-                });
-            } else {
-                alert("No pet selected for update.");
+        formData.append('requestType', 'updateImpound');
+
+        $.ajax({
+            url: "api/config/end-points/controller.php",
+            method: 'POST',
+            data: formData,
+            processData: false,  // Don't let jQuery process the data
+            contentType: false,  // Let jQuery set the content type
+            success: function (response) {
+                alert('Pet details updated successfully!');
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert('Error updating pet details!');
             }
         });
+    } else {
+        alert("No pet selected for update.");
+    }
+});
+
+
 
       
 
@@ -367,7 +372,7 @@ $(document).ready(function() {
         var petStatus = $(this).data('imp_status');
         var imp_notes = $(this).data('imp_notes');
 
-        $('#petImage').attr('src', 'uploads/images/' + petImage); 
+        $('#petImagePreview').attr('src', 'uploads/images/' + petImage); 
         $('#dateCaught').val(petDateCaught); 
         $('#locationFound').val(petLocationFound); 
         $('#impoundLocation').val(petLocationImpound);
