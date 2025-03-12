@@ -5,8 +5,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log(response);
-                
+              
                 var totalNotif=response.total_soon_to_expi+response.totalexpi
                 $(".notification-count").text(totalNotif);
 
