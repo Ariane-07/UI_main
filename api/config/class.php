@@ -16,6 +16,26 @@ class global_class extends db_connect
 
 
 
+    public function AddImpoundPets($addDateCaught,$addLocationFound,$addImpoundLocation,$addDaysRemaining,$petPhotoName) {
+        // Insert Data into Database
+        $sql = "INSERT INTO impounded_pets (imp_date_caught,imp_location_found,imp_location_impound,imp_days_rem,imp_impounded_photo) VALUES (?,?,?,?,?)";
+    
+        $stmt = $this->conn->prepare($sql);
+       
+        $stmt->bind_param("sssss",$addDateCaught,$addLocationFound,$addImpoundLocation,$addDaysRemaining,$petPhotoName);
+        
+    
+        if ($stmt->execute()) {
+            return "success";
+        } else {
+            $error = "Error: " . $stmt->error;
+            $stmt->close();
+            return ['error' => $error];
+        }
+    }
+
+
+
     public function petRegistration(
         $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
         $emailApplicant, $homeAddress,$barangay, $petName, $petAge, $petGender, $species,

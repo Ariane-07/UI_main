@@ -304,6 +304,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             
+        }else if ($_POST['requestType'] == 'AddImpoundPets') {
+
+       
+            $uploadDir = "../../../uploads/images/";
+
+            function generateUniqueFilename($file) {
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                return uniqid() . '.' . $ext;
+            }
+
+            function handleFileUpload($file, $uploadDir) {
+                $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                $maxFileSize = 10 * 1024 * 1024; // 10MB
+            
+                if ($file['error'] !== UPLOAD_ERR_OK) {
+                    return null;
+                }
+            
+                // Ensure the temp file exists before checking MIME type
+                if (!file_exists($file['tmp_name'])) {
+                    return null;
+                }
+            
+                if (!in_array(mime_content_type($file['tmp_name']), $allowedTypes)) {
+                    return null;
+                }
+            
+                if ($file['size'] > $maxFileSize) {
+                    return null;
+                }
+            
+                $fileName = generateUniqueFilename($file);
+                $destination = $uploadDir . $fileName;
+            
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
+                    return $fileName;
+                }
+                return null;
+            }
+            
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+          
+            $petPhoto = $_FILES['add-image-upload'] ?? null;
+
+            $petPhotoName = $petPhoto ? handleFileUpload($petPhoto, $uploadDir) : null;
+
+            // Collect form data
+            $addDateCaught = $_POST['addDateCaught'] ?? '';
+            $addLocationFound = $_POST['addLocationFound'] ?? '';
+            $addImpoundLocation = $_POST['addImpoundLocation'] ?? '';
+            $addDaysRemaining = $_POST['addDaysRemaining'] ?? '';
+          
+
+            $response = $db->AddImpoundPets( $addDateCaught,$addLocationFound,$addImpoundLocation,$addDaysRemaining,$petPhotoName);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Impound Pet Successfully',
+                'pet_data' => $response, 
+            ]);
+
+
+            
+            
         }else if ($_POST['requestType'] == 'SentMessagge') {
 
             session_start();
