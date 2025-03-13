@@ -80,6 +80,31 @@ class global_class extends db_connect
     }
 
 
+    
+    public function ToggleLike($UserID, $postId, $action) {
+        if ($action == "like") {
+            $sql = "INSERT INTO post_like (like_user_id, like_post_id, like_action) VALUES (?, ?, ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("iis", $UserID, $postId, $action);
+        } else if ($action == "unlike") {
+            $sql = "DELETE FROM post_like WHERE like_user_id = ? AND like_post_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ii", $UserID, $postId);
+        } else {
+            return ['error' => 'Invalid action'];
+        }
+    
+        if ($stmt->execute()) {
+            return "success";
+        } else {
+            $error = "Error: " . $stmt->error;
+            $stmt->close();
+            return ['error' => $error];
+        }
+    }
+    
+
+
 
     public function petRegistration(
         $dateApplication, $nameApplicant, $age, $gender, $birthday, $telephone,
@@ -228,36 +253,35 @@ class global_class extends db_connect
 
     public function FetchUserPost($UserID, $offset, $limit) {
         $query = "
-            SELECT * FROM post_content
+            SELECT post_content.*, users.Username, users.ProfilePic,
+                (SELECT COUNT(*) FROM post_like WHERE post_like.like_post_id = post_content.post_id) AS like_count,
+                (SELECT COUNT(*) FROM post_like WHERE post_like.like_post_id = post_content.post_id AND post_like.like_user_id = ?) AS is_liked
+            FROM post_content
             LEFT JOIN users ON post_content.post_user_id = users.UserID
-            WHERE post_status='1'
+            WHERE post_status = '1'
             ORDER BY post_content.post_date DESC
             LIMIT ? OFFSET ?
-            
         ";
+    
         $stmt = $this->conn->prepare($query);
         if (!$stmt) {
-            echo json_encode(['error' => 'Database error: ' . $this->conn->error]);
-            return;
+            return ['error' => 'Database error: ' . $this->conn->error];
         }
     
-        // Bind parameters and execute
-        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->bind_param("iii", $UserID, $limit, $offset);
         $stmt->execute();
         $result = $stmt->get_result();
     
-        if ($result) {
-            $rows = [];
-            while ($row = $result->fetch_assoc()) {
-                $rows[] = $row;
-            }
-            echo json_encode($rows);
-        } else {
-            echo json_encode(['error' => 'Failed to retrieve posts']);
+        $posts = [];
+        while ($row = $result->fetch_assoc()) {
+            $row['is_liked'] = ($row['is_liked'] > 0) ? true : false;
+            $posts[] = $row;
         }
     
         $stmt->close();
+        return $posts;
     }
+    
 
 
     public function FetchAllUsers($UserID) {

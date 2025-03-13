@@ -18,9 +18,9 @@ $(document).ready(function () {
                     $("#seeMoreBtn").hide();
                     return;
                 }
-
+    
                 if (!append) $("#postFeed").empty();
-
+    
                 response.forEach(post => {
                     let Username = post.Username || "Unknown User";
                     let ProfilePic = post.ProfilePic
@@ -30,18 +30,18 @@ $(document).ready(function () {
                         ? new Date(post.post_date).toLocaleString("en-US", { hour12: true })
                         : "Unknown Date";
                     let postContent = post.post_content || "";
-
+    
                     let mediaContent = "";
                     if (post.post_images) {
                         try {
                             let media = JSON.parse(post.post_images);
                             let images = media.images || [];
                             let videos = media.videos || [];
-
+    
                             mediaContent += images.map(img =>
                                 `<img src="uploads/images/${img}" alt="Post Image" style="max-width: 100%; height: 100%;">`
                             ).join("");
-
+    
                             mediaContent += videos.map(video =>
                                 `<video controls style="max-width: 100%; height: auto;">
                                     <source src="uploads/videos/${video}" type="video/mp4">
@@ -52,7 +52,12 @@ $(document).ready(function () {
                             console.error("Error parsing post_images JSON:", error);
                         }
                     }
+    
+                    let isLiked = post.is_liked ? "fas" : "far"; // Solid heart if liked
+                    let likeColor = post.is_liked ? "style='color: red;'" : ""; // Red if liked
+                    let likeCount = post.like_count || 0; // Total like count
 
+    
                     let editDeleteButtons = "";
                     if (Session_UserID == post.post_user_id) {
                         editDeleteButtons = `
@@ -62,14 +67,14 @@ $(document).ready(function () {
                                 data-textcontent='${post.post_content}'
                                 data-mediacontent='${post.post_images}'
                                 ><i class="fas fa-edit"></i></span>
-
+    
                                 <span class="DeletePostToggler delete-icon"
                                 data-postid='${post.post_id}'
                                 ><i class="fas fa-trash"></i></span>
                             </div>
                         `;
                     }
-
+    
                     $("#postFeed").append(`
                         <div class="post">
                             <div class="post-header">
@@ -83,12 +88,16 @@ $(document).ready(function () {
                             <div class="media-content">${mediaContent}</div>
                             <div class="post-actions">
                                 <div class="post-actions-left">
-                                    <button type="button" class="action-btn"><i class="far fa-heart"></i> <span>0</span></button>
+                                    <button type="button" class="action-btn like-btn" data-post-id="${post.post_id}">
+                                        <i class="${isLiked} fa-heart" ${likeColor}></i> <span>${likeCount}</span>
+                                    </button>
+
+    
                                     <button type="button" class="action-btn comment-btn" data-post-id="${post.post_id}">
                                         <i class="far fa-comment"></i> Comment
                                     </button>
                                 </div>
-                                ${editDeleteButtons} <!-- Insert edit/delete buttons here if condition is met -->
+                                ${editDeleteButtons} 
                             </div>
                             <div class="comments-section" id="comments-${post.post_id}" style="display: none;">
                                 <div class="comments-list"></div>
@@ -100,7 +109,7 @@ $(document).ready(function () {
                         </div>
                     `);
                 });
-
+    
                 if (response.length < limit) {
                     $("#seeMoreBtn").hide();
                 } else {
@@ -113,6 +122,7 @@ $(document).ready(function () {
             }
         });
     };
+    
 
     $(document).on("click", ".comment-btn", function () {
         let postId = $(this).data("post-id");
@@ -224,6 +234,52 @@ $(document).ready(function () {
         offset += limit;
         getUserPost(true);
     });
+
+
+
+
+
+
+
+
+
+
+    $(document).on("click", ".like-btn", function () {
+        let heartIcon = $(this).find("i");
+        let likeCount = $(this).find("span");
+        let postId = $(this).data("post-id");
+    
+        let isLiked = heartIcon.hasClass("fas"); // Check if already liked
+    
+        if (isLiked) {
+            heartIcon.removeClass("fas").addClass("far").css("color", ""); // Unfilled heart, default color
+            let count = parseInt(likeCount.text()) - 1;
+            likeCount.text(count >= 0 ? count : 0);
+        } else {
+            heartIcon.removeClass("far").addClass("fas").css("color", "red"); // Filled heart, red color
+            likeCount.text(parseInt(likeCount.text()) + 1);
+        }
+    
+        // Send AJAX request to update like status in database
+        $.ajax({
+            url: "api/config/end-points/ToggleLike.php",
+            type: "POST",
+            data: { postId: postId, action: isLiked ? "unlike" : "like" },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error updating like:", error);
+            }
+        });
+    });
+    
+
+
+
+
+
+
 
     getUserPost();
 });

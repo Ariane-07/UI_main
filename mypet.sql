@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2025 at 04:43 PM
+-- Generation Time: Mar 13, 2025 at 02:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -171,7 +171,10 @@ INSERT INTO `post_comments` (`comments_id`, `comments_post_id`, `comments_user_i
 (38, 56, 15, 'aaaa', '2025-03-04 04:32:00'),
 (39, 56, 15, 'test', '2025-03-04 04:32:12'),
 (40, 53, 15, 'video', '2025-03-04 04:32:21'),
-(41, 56, 15, 'gesf', '2025-03-04 04:41:52');
+(41, 56, 15, 'gesf', '2025-03-04 04:41:52'),
+(42, 60, 18, 'test', '2025-03-13 01:07:53'),
+(43, 64, 18, 'test', '2025-03-13 01:21:26'),
+(44, 63, 18, 'still working ?', '2025-03-13 01:28:18');
 
 -- --------------------------------------------------------
 
@@ -203,7 +206,30 @@ INSERT INTO `post_content` (`post_id`, `post_date`, `post_user_id`, `post_conten
 (60, '2025-03-04 05:29:44', 6, 'wadawd', '{\"images\":[\"img_67c68fc89e6b9.jpg\"],\"videos\":[]}', 1),
 (61, '2025-03-04 05:29:56', 6, 'hfthtrfhtf', '{\"images\":[\"img_67c68fd49df15.jpeg\"],\"videos\":[]}', 1),
 (62, '2025-03-04 14:36:19', 18, '', '{\"images\":[\"img_67c70fe3642e2.jpg\"],\"videos\":[]}', 1),
-(63, '2025-03-04 14:37:30', 15, 'test ', '{\"images\":[\"img_67c7102a44aa0.png\"],\"videos\":[]}', 1);
+(63, '2025-03-04 14:37:30', 15, 'test ', '{\"images\":[\"img_67c7102a44aa0.png\"],\"videos\":[]}', 1),
+(64, '2025-03-13 00:57:22', 18, 'testiung', '{\"images\":[\"img_67d22d7242bec.jpg\"]}', 1),
+(65, '2025-03-12 16:07:32', 15, '', '{\"images\":[\"img_67d1b12bca1a0.jpg\"],\"videos\":[]}', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_like`
+--
+
+CREATE TABLE `post_like` (
+  `like_id` int(11) NOT NULL,
+  `like_user_id` int(11) NOT NULL,
+  `like_post_id` int(11) NOT NULL,
+  `like_action` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `post_like`
+--
+
+INSERT INTO `post_like` (`like_id`, `like_user_id`, `like_post_id`, `like_action`) VALUES
+(5, 18, 64, 'like'),
+(7, 16, 64, 'like');
 
 -- --------------------------------------------------------
 
@@ -243,9 +269,10 @@ INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Pa
 (15, 'dawd', '', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet'),
 (16, NULL, '', 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
 (17, NULL, '', 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
-(18, 'Juan dela cruz', 'testting bio', 'andersonandy046', 'Female', 'andersonandy04@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', '', '0000-00-00', '', 'sta.rosa 2 marilao', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741447380658!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
+(18, 'Juan dela cruz', 'testting bio', 'andersonandy046', 'Female', 'andersonandy046@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', '', '0000-00-00', '', 'sta.rosa 2 marilao', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741447380658!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
 (20, NULL, '', 'test4', '', 'test4@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet'),
-(21, NULL, '', 'awd@gmail.com', '', 'awd@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet');
+(21, NULL, '', 'awd@gmail.com', '', 'awd@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet'),
+(22, NULL, NULL, 'testPhone123', '', 'testPhone123@gmail.com', 'dffc4e28b0956ec9ffeb10d2589d048cd57cf93c3a7ff601f8c93962853b2b70', NULL, NULL, NULL, NULL, NULL, 'pet_owner');
 
 --
 -- Indexes for dumped tables
@@ -283,6 +310,12 @@ ALTER TABLE `post_content`
   ADD KEY `post_user_id` (`post_user_id`);
 
 --
+-- Indexes for table `post_like`
+--
+ALTER TABLE `post_like`
+  ADD PRIMARY KEY (`like_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -308,25 +341,31 @@ ALTER TABLE `impounded_pets`
 -- AUTO_INCREMENT for table `pets_info`
 --
 ALTER TABLE `pets_info`
-  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `post_comments`
 --
 ALTER TABLE `post_comments`
-  MODIFY `comments_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `comments_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `post_content`
 --
 ALTER TABLE `post_content`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT for table `post_like`
+--
+ALTER TABLE `post_like`
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
