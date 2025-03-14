@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 02:34 AM
+-- Generation Time: Mar 14, 2025 at 07:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,40 +33,41 @@ CREATE TABLE `chat_messages` (
   `receiver_id` int(11) NOT NULL,
   `message_text` text NOT NULL,
   `message_media` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `message_status` int(11) NOT NULL DEFAULT 1 COMMENT '0=deleted,1=existing'
+  `message_status` int(11) NOT NULL DEFAULT 1 COMMENT '0=deleted,1=existing',
+  `message_seen` int(11) NOT NULL COMMENT '1=seen, 0=unseen'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `chat_messages`
 --
 
-INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_text`, `message_media`, `message_status`) VALUES
-(8, 6, 12, 'fesf', NULL, 1),
-(9, 6, 13, 'hi juan', NULL, 1),
-(10, 6, 13, 'upload juan', '67c69c561a010_399348fa029a6aa83bd9021ab45f137a.jpg', 1),
-(11, 6, 10, 'hello', NULL, 1),
-(12, 6, 15, 'hi alden', NULL, 1),
-(13, 15, 6, 'hello azi', NULL, 1),
-(14, 15, 6, 'hello', NULL, 1),
-(15, 15, 6, '', '67c6a3a757500_007.png', 1),
-(16, 15, 6, '', NULL, 1),
-(17, 15, 7, '', NULL, 1),
-(18, 15, 7, '', NULL, 1),
-(19, 15, 8, 'hello', NULL, 1),
-(20, 15, 7, 'test', NULL, 1),
-(21, 18, 15, 'hi doc', NULL, 1),
-(22, 15, 18, 'hello din', NULL, 1),
-(23, 15, 18, 'hi', NULL, 1),
-(24, 18, 15, 'test oki', NULL, 1),
-(25, 15, 6, 'test', NULL, 1),
-(26, 15, 6, 'hello', NULL, 1),
-(27, 18, 15, 'yyyyy', NULL, 1),
-(28, 18, 15, 'fesf', NULL, 1),
-(29, 18, 8, 'test', NULL, 1),
-(30, 18, 8, 'tttt', NULL, 1),
-(31, 18, 8, 'fesf', NULL, 1),
-(32, 18, 7, 'test', NULL, 1),
-(33, 18, 8, 'ryg', NULL, 1);
+INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_text`, `message_media`, `message_status`, `message_seen`) VALUES
+(8, 6, 12, 'fesf', NULL, 1, 0),
+(9, 6, 13, 'hi juan', NULL, 1, 0),
+(10, 6, 13, 'upload juan', '67c69c561a010_399348fa029a6aa83bd9021ab45f137a.jpg', 1, 0),
+(11, 6, 10, 'hello', NULL, 1, 0),
+(12, 6, 15, 'hi alden', NULL, 1, 0),
+(13, 15, 6, 'hello azi', NULL, 1, 0),
+(14, 15, 6, 'hello', NULL, 1, 0),
+(15, 15, 6, '', '67c6a3a757500_007.png', 1, 0),
+(16, 15, 6, '', NULL, 1, 0),
+(17, 15, 7, '', NULL, 1, 0),
+(18, 15, 7, '', NULL, 1, 0),
+(19, 15, 8, 'hello', NULL, 1, 0),
+(20, 15, 7, 'test', NULL, 1, 0),
+(21, 18, 15, 'hi doc', NULL, 1, 0),
+(22, 15, 18, 'hello din', NULL, 1, 0),
+(23, 15, 18, 'hi', NULL, 1, 0),
+(24, 18, 15, 'test oki', NULL, 1, 0),
+(25, 15, 6, 'test', NULL, 1, 0),
+(26, 15, 6, 'hello', NULL, 1, 0),
+(27, 18, 15, 'yyyyy', NULL, 1, 0),
+(28, 18, 15, 'fesf', NULL, 1, 0),
+(29, 18, 8, 'test', NULL, 1, 0),
+(30, 18, 8, 'tttt', NULL, 1, 0),
+(31, 18, 8, 'fesf', NULL, 1, 0),
+(32, 18, 7, 'test', NULL, 1, 0),
+(33, 18, 8, 'ryg', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,8 @@ CREATE TABLE `post_like` (
 
 INSERT INTO `post_like` (`like_id`, `like_user_id`, `like_post_id`, `like_action`) VALUES
 (5, 18, 64, 'like'),
-(7, 16, 64, 'like');
+(7, 16, 64, 'like'),
+(8, 15, 64, 'like');
 
 -- --------------------------------------------------------
 
@@ -359,7 +361,7 @@ ALTER TABLE `post_content`
 -- AUTO_INCREMENT for table `post_like`
 --
 ALTER TABLE `post_like`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
