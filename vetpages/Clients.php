@@ -9,7 +9,7 @@
             <option value="pending">Pending</option>
             <option value="declined">Declined</option>
         </select>
-        <button id="goButton">Go</button>
+        
     </div>
 
     <div class="client-list">
@@ -227,6 +227,37 @@
 
 </script>
 
+<script>
+  $(document).ready(function () {
+    function filterPets() {
+      let selectedStatus = $("#statusFilter").val().toLowerCase();
+      let searchQuery = $("#searchBox").val().toLowerCase();
 
+      $(".client-card").each(function () {
+        let petStatus = $(this).find(".client-details p:contains('Status')").next().text().trim().toLowerCase();
+        let cardText = $(this).text().toLowerCase();
+
+        // Check if status matches and search term is found in the card
+        let statusMatch = selectedStatus === "all" || petStatus === selectedStatus;
+        let searchMatch = searchQuery === "" || cardText.includes(searchQuery);
+
+        if (statusMatch && searchMatch) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    }
+
+    // Apply filtering when status changes
+    $("#statusFilter").change(filterPets);
+
+    // Apply filtering when search button is clicked
+    $("#goButton").click(filterPets);
+
+    // Apply filtering when typing in the search box (optional)
+    $("#searchBox").on("input", filterPets);
+  });
+</script>
 
 
