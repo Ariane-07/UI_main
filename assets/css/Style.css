@@ -1435,7 +1435,7 @@ border-color: #007bff;
   cursor: pointer;
 }
 
-/* Secret Super Admin Icon */
+/* Secret Super Admin Icon
 .super-admin-icon {
   position: fixed;
   bottom: 20px;
@@ -1452,23 +1452,32 @@ border-color: #007bff;
   opacity: 1;
 }
 
-/* Hidden Super Admin Login Form */
+.super-admin-icon i {
+  pointer-events: none;
+}
+
 .super-admin-form {
+  opacity: 1;
+}
+
+/* Hidden Super Admin Login Form */
+/* .super-admin-form {
   position: fixed;
-  bottom: 80px;
-  right: 20px;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
   z-index: 1000;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px; 
+  width: 300px;
 }
 
 .super-admin-form .title {
   font-size: 1.5rem; 
   margin-bottom: 15px;
-}
+}  */
 
 /* HOME CSS */
 .home-container {

@@ -1,16 +1,13 @@
 <?php 
- 
-
- if (isset($_SESSION['Role'])){
-    if($_SESSION['Role']=='pet_owner'){
+if (isset($_SESSION['Role'])) {
+    if ($_SESSION['Role'] == 'pet_owner') {
         header('Location: index.php?page=home');
-    }elseif($_SESSION['Role']=='vet'){
+    } elseif ($_SESSION['Role'] == 'vet') {
         header('Location: index.php?vetpages=VetHome');
-    }elseif($_SESSION['Role']=='lgu'){
+    } elseif ($_SESSION['Role'] == 'lgu') {
         header('Location: index.php?lgupages=lguhome');
     }
- }
-   
+}
 ?>
 
 <div class="logreg-container">
@@ -37,18 +34,15 @@
                 <div id="spinner" class="spinner" style="display:none;"></div>
                 <h2 class="title">Sign Up</h2>
                 <div class="role-selection">
-
                     <label>
                         <input type="radio" name="role" value="pet_owner" checked>Pet Owner
                     </label>
-
                     <label>
-                        <input type="radio" name="role" value="vet" >Vet
+                        <input type="radio" name="role" value="vet">Vet
                     </label>
                     <label>
                         <input type="radio" name="role" value="lgu">LGU
                     </label>
-                    
                 </div>
                 <div class="input-field">
                     <i class='bx bxs-envelope'></i>
@@ -87,11 +81,15 @@
         </div>
     </div>
 
-    <!-- Secret Super Admin Icon -->
+    <!-- Secret Super Admin Icon (Commented Out) -->
+    <!--
     <div id="super-admin-icon" class="super-admin-icon">
-        <i i class="fas fa-shield-alt"></i> 
+        <i class="fas fa-shield-alt"></i>
+    </div>
+    -->
 
-    <!-- Hidden Super Admin Login Form -->
+    <!-- Hidden Super Admin Login Form (Commented Out) -->
+    <!--
     <div id="super-admin-form" class="super-admin-form" style="display: none;">
         <form id="frmSuperAdminLogin" class="sign-in-form">
             <h2 class="title">Super Admin Login</h2>
@@ -106,6 +104,7 @@
             <input type="submit" value="LOGIN" class="btn solid">
         </form>
     </div>
+    -->
 </div>
 
 <!-- Forgot Password Modal -->
@@ -123,7 +122,7 @@
             <button class="sbmit_btn" id="reset-password-btn">Reset Password</button>
         </div>
 
-       <!-- Email Confirmation State -->
+        <!-- Email Confirmation State -->
         <div id="forgot-email-confirm-state" class="forgot-state" style="display: none;">
             <i class='bx bx-arrow-back back-icon'></i>
             <h1>Check your email</h1>
@@ -158,13 +157,13 @@
             <h1>Set New Password</h1>
             <p>Create a new password. Ensure it differs from previous ones for security.</p>
             <div class="input-field">
-                    <i class='bx bxs-user'></i>
-                    <input type="password" id="new-password" placeholder="New Password">
-                    </div>
-                <div class="input-field">
-                    <i class='bx bxs-lock'></i>
-                    <input type="password" id="confirm-password" placeholder="Confirm Password">
-                    </div>
+                <i class='bx bxs-user'></i>
+                <input type="password" id="new-password" placeholder="New Password">
+            </div>
+            <div class="input-field">
+                <i class='bx bxs-lock'></i>
+                <input type="password" id="confirm-password" placeholder="Confirm Password">
+            </div>
             <button class="sbmit_btn" id="update-password-btn">Update Password</button>
         </div>
 
@@ -363,25 +362,33 @@
             document.getElementById('new-password').value = '';
             document.getElementById('confirm-password').value = '';
         }
-    });
 
-    // Super Admin Icon Logic
-    const superAdminIcon = document.getElementById('super-admin-icon');
-    const superAdminForm = document.getElementById('super-admin-form');
+        // Super Admin Form Logic (Commented Out)
+        /*
+        const superAdminForm = document.getElementById('super-admin-form');
 
-    superAdminIcon.addEventListener('click', function (event) {
-        event.stopPropagation(); // Prevent the click from propagating to the window
-        if (superAdminForm.style.display === 'none') {
-            superAdminForm.style.display = 'block';
-        } else {
-            superAdminForm.style.display = 'none';
-        }
-    });
+        superAdminForm.addEventListener('click', function (event) {
+            event.stopPropagation(); // Stop the click event from propagating to the window
+        });
 
-    // Close Super Admin Modal when clicking outside
-    window.addEventListener('click', function (event) {
-        if (superAdminForm.style.display === 'block' && !superAdminForm.contains(event.target) && event.target !== superAdminIcon) {
-            superAdminForm.style.display = 'none';
-        }
+        // Super Admin Icon Logic
+        const superAdminIcon = document.getElementById('super-admin-icon');
+
+        superAdminIcon.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent the click from propagating to the window
+            if (superAdminForm.style.display === 'none') {
+                superAdminForm.style.display = 'block';
+            } else {
+                superAdminForm.style.display = 'none';
+            }
+        });
+
+        // Close Super Admin Modal when clicking outside
+        window.addEventListener('click', function (event) {
+            if (superAdminForm.style.display === 'block' && !superAdminForm.contains(event.target) && event.target !== superAdminIcon) {
+                superAdminForm.style.display = 'none';
+            }
+        });
+        */
     });
 </script>
