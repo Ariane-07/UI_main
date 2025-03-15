@@ -1360,23 +1360,6 @@ border-color: #007bff;
   .logreg-container.sign-up-mode:before {
     right: 55%;
   }
-
-  .signin-signup {
-    left: 50%;
-    width: 60%;
-  }
-
-  .panels-container {
-    grid-template-columns: 1fr;
-  }
-
-  .left-panel, .right-panel {
-    padding: 3rem 10% 2rem 10%;
-  }
-
-  .panel .panel-content {
-    padding: 0 20px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -1388,11 +1371,6 @@ border-color: #007bff;
 
   .logreg-container.sign-up-mode:before {
     right: 60%;
-  }
-
-  .signin-signup {
-    left: 50%;
-    width: 80%;
   }
 
   .title {
@@ -1422,11 +1400,6 @@ border-color: #007bff;
 
   .logreg-container.sign-up-mode:before {
     right: 65%;
-  }
-
-  .signin-signup {
-    left: 50%;
-    width: 90%;
   }
 
   .title {
@@ -4387,5 +4360,4 @@ body {
   #signin-modal .logreg-modal-content {
     bottom: 250px;
   }
-
 }
