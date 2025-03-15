@@ -11,6 +11,29 @@ class global_class extends db_connect
         $this->connect();
     }
 
+    public function search_users($search) {
+        $search = trim($search);
+
+        if (!empty($search)) {
+            $stmt = $this->conn->prepare("SELECT UserID, Username, Email, Role FROM users WHERE Name LIKE ? OR Username LIKE ? OR Email LIKE ?");
+            $likeQuery = "%$search%";
+            $stmt->bind_param("sss", $likeQuery, $likeQuery, $likeQuery);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            $users = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+
+            return json_encode($users);
+        } else {
+            return json_encode([]);
+        }
+    }
+
+
 
     public function UpdateImpoundPets($imp_id, $updateNotes, $addDateCaught, $addLocationFound, $updateImpoundLocation, $updateDaysRemaining, $updatePetStatus, $petPhotoName) {
         // Start SQL query

@@ -4,7 +4,7 @@
     <div class="floating-button">+</div>
     <div class="element-container">
         <span class="float-element">
-            <a href="index.php?components=profile&&role=<?=$_SESSION['Role']?>">
+            <a href="index.php?components=profile&&role=<?=$_SESSION['Role']?>&&UserID=<?=$_SESSION['UserID']?>">
                 <i class='bx bxs-user'></i>
             </a>
         </span>
@@ -46,10 +46,7 @@
                 <i class='bx bx-search'></i> <!-- Search icon -->
             </div>
             <ul class="chat-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
-                <!-- <li class="chat-user" data-username="John">John</li>
-                <li class="chat-user" data-username="Jane">Jane</li>
-                <li class="chat-user" data-username="Doe">Doe</li> -->
-                <!-- Add dynamically as needed -->
+                <!-- Chat list will appear here -->
             </ul>
         </div>
 
