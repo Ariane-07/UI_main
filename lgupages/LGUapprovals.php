@@ -1,8 +1,8 @@
 <section>
     <h1 class="heading">Approvals</h1>
 
-    <!-- Sorting Dropdowns -->
-    <div class="sorting-controls">
+      <!-- Sorting Dropdowns -->
+      <div class="sorting-controls">
         <select id="sortByDate">
             <option value="">Sort by Date of Application</option>
             <option value="asc">Oldest to Newest</option>
@@ -27,81 +27,88 @@
 
     <div class="approval-list">
         <!-- Example Client Card -->
-        <?php 
+         <?php 
         $db = new global_class();
-        $status = "pending";
-        $fetch_pets = $db->fetch_pending_pets($status);
 
-        if (mysqli_num_rows($fetch_pets) > 0): 
-            $count = 1;
-            foreach ($fetch_pets as $pets):
-        ?>
-        <div class="approval-card" data-date-application="<?= $pets['pet_date_application'] ?>">
-            <!-- Approval Card Content -->
+         $status="pending";
+         $fetch_pets = $db->fetch_pending_pets($status);
+
+       
+
+         if (mysqli_num_rows($fetch_pets) > 0): 
+          $count=1;
+              foreach ($fetch_pets as $pets):
+          ?>
+
+        <div class="approval-card">
+          
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Name</strong></p>
-                    <p><?= $pets['pet_owner_name'] ?></p>
+                    <p ><?=$pets['pet_owner_name']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Contact Number</strong></p>
-                    <p><?= $pets['pet_owner_telMobile'] ?></p>
+                    <p ><?=$pets['pet_owner_telMobile']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Email</strong></p>
-                    <p><?= $pets['pet_owner_email'] ?></p>
+                    <p ><?=$pets['pet_owner_email']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Pet Name</strong></p>
-                    <p><?= $pets['pet_name'] ?></p>
+                    <p ><?=$pets['pet_name']?></p>
                 </div>
             </div>
 
             <div class="actions">
                 <button class="approval-view-details"
-                    data-pet_id='<?= $pets['pet_id'] ?>'
-                    data-pet_date_application='<?= $pets['pet_date_application'] ?>'
-                    data-pet_photo_owner='<?= $pets['pet_photo_owner'] ?>'
-                    data-pet_validIDName='<?= $pets['pet_validIDName'] ?>'
-                    data-pet_owner_name='<?= $pets['pet_owner_name'] ?>'
-                    data-pet_owner_age='<?= $pets['pet_owner_age'] ?>'
-                    data-pet_owner_gender='<?= $pets['pet_owner_gender'] ?>'
-                    data-pet_owner_birthday='<?= $pets['pet_owner_birthday'] ?>'
-                    data-pet_owner_telMobile='<?= $pets['pet_owner_telMobile'] ?>'
-                    data-pet_owner_email='<?= $pets['pet_owner_email'] ?>'
-                    data-pet_owner_home_address='<?= $pets['pet_owner_home_address'] ?>'
-                    data-pet_owner_barangay='<?= $pets['pet_owner_barangay'] ?>'
-                    data-pet_name='<?= $pets['pet_name'] ?>'
-                    data-pet_age='<?= $pets['pet_age'] ?>'
-                    data-pet_gender='<?= $pets['pet_gender'] ?>'
-                    data-pet_species='<?= $pets['pet_species'] ?>'
-                    data-pet_breed='<?= $pets['pet_breed'] ?>'
-                    data-pet_weight='<?= $pets['pet_weight'] ?>'
-                    data-pet_color='<?= $pets['pet_color'] ?>'
-                    data-pet_marks='<?= $pets['pet_marks'] ?>'
-                    data-pet_birthday='<?= $pets['pet_birthday'] ?>'
-                    data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
-                    data-pet_antiRabies_expi_date='<?= $pets['pet_antiRabies_expi_date'] ?>'
-                    data-pet_antiRabPic='<?= $pets['pet_antiRabPic'] ?>'
-                    data-pet_vet_clinic='<?= $pets['pet_vet_clinic'] ?>'
-                    data-pet_vet_name='<?= $pets['pet_vet_name'] ?>'
-                    data-pet_vet_clinic_address='<?= $pets['pet_vet_clinic_address'] ?>'
-                    data-pet_vet_contact_info='<?= $pets['pet_vet_contact_info'] ?>'
-                    data-pet_owner_signature='<?= $pets['pet_owner_signature'] ?>'
-                    data-pet_date_signed='<?= $pets['pet_date_signed'] ?>'
+                data-pet_id ='<?=$pets['pet_id']?>'
+                data-pet_date_application='<?=$pets['pet_date_application']?>'
+                data-pet_photo_owner='<?=$pets['pet_photo_owner']?>'
+                data-pet_validIDName='<?=$pets['pet_validIDName']?>'
+                data-pet_owner_name='<?=$pets['pet_owner_name']?>'
+                data-pet_owner_age='<?=$pets['pet_owner_age']?>'
+                data-pet_owner_gender='<?=$pets['pet_owner_gender']?>'
+                data-pet_owner_birthday='<?=$pets['pet_owner_birthday']?>'
+                data-pet_owner_telMobile='<?=$pets['pet_owner_telMobile']?>'
+                data-pet_owner_email='<?=$pets['pet_owner_email']?>'
+                data-pet_owner_home_address='<?=$pets['pet_owner_home_address']?>'
+                data-pet_owner_barangay='<?=$pets['pet_owner_barangay']?>'
+                data-pet_name='<?=$pets['pet_name']?>'
+                data-pet_age='<?=$pets['pet_age']?>'
+                data-pet_gender='<?=$pets['pet_gender']?>'
+                data-pet_species='<?=$pets['pet_species']?>'
+                data-pet_breed='<?=$pets['pet_breed']?>'
+                data-pet_weight='<?=$pets['pet_weight']?>'
+                data-pet_color='<?=$pets['pet_color']?>'
+                data-pet_marks='<?=$pets['pet_marks']?>'
+                data-pet_birthday='<?=$pets['pet_birthday']?>'
+                data-pet_antiRabies_vac_date='<?=$pets['pet_antiRabies_vac_date']?>'
+                data-pet_antiRabies_expi_date='<?=$pets['pet_antiRabies_expi_date']?>'
+                data-pet_antiRabPic='<?=$pets['pet_antiRabPic']?>'
+                data-pet_vet_clinic='<?=$pets['pet_vet_clinic']?>'
+                data-pet_vet_name='<?=$pets['pet_vet_name']?>'
+                data-pet_vet_clinic_address='<?=$pets['pet_vet_clinic_address']?>'
+                data-pet_vet_contact_info='<?=$pets['pet_vet_contact_info']?>'
+                data-pet_owner_signature='<?=$pets['pet_owner_signature']?>'
+                data-pet_date_signed='<?=$pets['pet_date_signed']?>'
                 >VIEW DETAILS</button>
                 <button class="close-btn">&times;</button>
             </div>
         </div>
+
         <?php
-            $count++;
-            endforeach;
+          $count++; 
+          endforeach;
         ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="5" class="p-2">No record found.</td>
-            </tr>
-        <?php endif; ?>
+        
+      <?php else: ?>
+          <tr>
+              <td colspan="5" class="p-2">No record found.</td>
+          </tr>
+      <?php endif; ?>
+        <!-- Repeat for other clients -->
     </div>
 </section>
 
@@ -268,8 +275,8 @@
     <form class="btn_approval" id="frmUpdatePetStatus" method="post">
       <input type="hidden" id="modal-pet_id" name="modal-pet_id" value="">
 
-      <button type="submit" id="approval-saveBtn" name="status" value="accept_by_lgu">Accept</button>
-      <button type="submit" id="approval-cancelBtn" name="status" value="declined_by_lgu">Decline</button>
+      <button type="submit" id="approval-saveBtn" name="status" value="accept_by_vet">Accept</button>
+      <button type="submit" id="approval-cancelBtn" name="status" value="declined_by_vet">Decline</button>
     </form>
 
     </div>
@@ -285,7 +292,6 @@
 <script>
 $(document).ready(function() {
     var $approvalModal = $("#ApprovalModal");
-    
     var $approvalCloseModal = $(".approval-close");
     var $cancelBtn = $("#approval-cancelBtn");
     var $saveBtn = $("#approval-saveBtn");
@@ -326,7 +332,6 @@ $(document).ready(function() {
         $("#modal-vaccinationExpiry").val($this.data("pet_antirabies_expi_date"));
         $("#modal-antiRabPic").attr("src", imagePath + $this.data("pet_antirabpic"));
 
-        
         // Veterinarian Information
         $("#modal-vetClinic").val($this.data("pet_vet_clinic"));
         $("#modal-vetName").val($this.data("pet_vet_name"));
@@ -350,13 +355,25 @@ $(document).ready(function() {
         $approvalModal.fadeOut();
     });
 
-    // $saveBtn.on("click", function() {
-    //     // Handle the acceptance logic here
-    //     $approvalModal.fadeOut();
-    // });
-});
+    // Lightbox functionality
+    $(document).on("click", ".clickable-image img", function() {
+        var src = $(this).attr("src");
+        $("#lightboxImage").attr("src", src);
+        $("#imageLightbox").fadeIn();
+    });
 
-$(document).ready(function() {
+    // Close the lightbox when the close button is clicked
+    $(".lightbox-close").on("click", function() {
+        $("#imageLightbox").fadeOut();
+    });
+
+    // Close the lightbox when clicking outside the image
+    $(window).on("click", function(event) {
+        if ($(event.target).hasClass("lightbox-modal")) {
+            $("#imageLightbox").fadeOut();
+        }
+    });
+
     // Sorting functionality
     $("#sortByDate").on("change", function() {
         const sortOrder = $(this).val(); // Get the selected sorting order (asc or desc)
@@ -423,5 +440,6 @@ $(document).ready(function() {
         });
     }
 });
+
 </script>
 

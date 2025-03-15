@@ -292,7 +292,6 @@
 <script>
 $(document).ready(function() {
     var $approvalModal = $("#ApprovalModal");
-    
     var $approvalCloseModal = $(".approval-close");
     var $cancelBtn = $("#approval-cancelBtn");
     var $saveBtn = $("#approval-saveBtn");
@@ -333,7 +332,6 @@ $(document).ready(function() {
         $("#modal-vaccinationExpiry").val($this.data("pet_antirabies_expi_date"));
         $("#modal-antiRabPic").attr("src", imagePath + $this.data("pet_antirabpic"));
 
-        
         // Veterinarian Information
         $("#modal-vetClinic").val($this.data("pet_vet_clinic"));
         $("#modal-vetName").val($this.data("pet_vet_name"));
@@ -357,13 +355,25 @@ $(document).ready(function() {
         $approvalModal.fadeOut();
     });
 
-    // $saveBtn.on("click", function() {
-    //     // Handle the acceptance logic here
-    //     $approvalModal.fadeOut();
-    // });
-});
+    // Lightbox functionality
+    $(document).on("click", ".clickable-image img", function() {
+        var src = $(this).attr("src");
+        $("#lightboxImage").attr("src", src);
+        $("#imageLightbox").fadeIn();
+    });
 
-$(document).ready(function() {
+    // Close the lightbox when the close button is clicked
+    $(".lightbox-close").on("click", function() {
+        $("#imageLightbox").fadeOut();
+    });
+
+    // Close the lightbox when clicking outside the image
+    $(window).on("click", function(event) {
+        if ($(event.target).hasClass("lightbox-modal")) {
+            $("#imageLightbox").fadeOut();
+        }
+    });
+
     // Sorting functionality
     $("#sortByDate").on("change", function() {
         const sortOrder = $(this).val(); // Get the selected sorting order (asc or desc)
