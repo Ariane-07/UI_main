@@ -28,7 +28,7 @@
                     <i class='bx bxs-lock'></i>
                     <input type="password" placeholder="Password" name="password">
                 </div>
-                <p class="forgotText"><a href="#" id="forgot-password">Did you <span style="color: #007bff; font-weight: bold;">forget your password?</span></a></p>
+                <p class="forgotText"><a href="#" id="forgot-password"><span style="color: #007bff; font-weight: bold;">forgot your password?</span></a></p>
                 <input type="submit" value="LOGIN" class="btn solid">
             </form>
 
@@ -112,12 +112,12 @@
 <div id="forgot-modal" class="logreg-modal">
     <div class="logreg-modal-content">
         <span class="logreg-close">&times;</span>
-        <h2 class="title">Forgot Your Password?</h2>
+        <h2 class="forgot_title">Forgot Password?</h2>
         <div class="input-field">
             <i class='bx bxs-envelope'></i>
             <input type="email" placeholder="Enter Your Mail">
         </div>
-        <input class="sbmit_btn" type="submit" value="SUBMIT">
+        <input class="sbmit_btn" type="submit" value="Reset Password">
     </div>
 </div>
 
