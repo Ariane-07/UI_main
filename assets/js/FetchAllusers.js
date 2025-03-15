@@ -1,28 +1,34 @@
 $(document).ready(function () {
     // Fetch all users dynamically
-    $.ajax({
-        url: "api/config/end-points/FetchAllusers.php",
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            console.log(data);
-            
+    function fetchUsers() {
+        $.ajax({
+            url: "api/config/end-points/FetchAllusers.php",
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+    
+                let chatList = $(".chat-list");
+                chatList.empty(); // Clear existing list
+    
+                data.forEach(user => {
+                    const unseenText = user.unseen_messages > 0 ? ` (${user.unseen_messages})` : '';
+                    chatList.append(`<li class="chat-user togglerViewMessages" data-username="${user.Username}" data-userid="${user.UserID}">
+                        ${user.Username}${unseenText}
+                    </li>`);
+                });
+            },
+            error: function () {
+                console.log("Error fetching users.");
+            }
+        });
+    }
+    
+    // Run fetchUsers initially
+    fetchUsers();
 
-            let chatList = $(".chat-list");
-            chatList.empty(); // Clear existing list
-
-            data.forEach(user => {
-                const unseenText = user.unseen_messages > 0 ? ` (${user.unseen_messages})` : '';
-                chatList.append(`<li class="chat-user togglerViewMessages" data-username="${user.Username}" data-userid="${user.UserID}">
-                    ${user.Username}${unseenText}
-                </li>`);
-            });
-            
-        },
-        error: function () {
-            console.log("Error fetching users.");
-        }
-    });
+    setInterval(fetchUsers, 2000);
+    
 
     // Handle chat user selection using event delegation
     $(document).on("click", ".chat-user", function () {
@@ -39,6 +45,7 @@ $(document).ready(function () {
         console.log("Chat opened with User ID:", userid);
 
         fetchChatMessages(userid); // Fetch messages when a chat is opened
+        
     });
 
     function fetchChatMessages(receiver_id) {

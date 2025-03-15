@@ -313,6 +313,22 @@ class global_class extends db_connect
 
 
     public function fetchUserChats($sender_id, $receiver_id) {
+
+
+        // First, update message_seen for received messages
+        $updateSql = "UPDATE chat_messages 
+        SET message_seen = 1 
+        WHERE sender_id = ? AND receiver_id = ?";
+
+        $updateStmt = $this->conn->prepare($updateSql);
+        $updateStmt->bind_param("ii", $receiver_id, $sender_id);
+        $updateStmt->execute();
+        $updateStmt->close();
+
+
+
+
+
         $sql = "SELECT cm.*, 
                        sender.UserID AS sender_id, sender.Name AS sender_name, sender.ProfilePic AS sender_profile, 
                        receiver.UserID AS receiver_id, receiver.Name AS receiver_name, receiver.ProfilePic AS receiver_profile
