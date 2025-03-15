@@ -10,6 +10,9 @@ if($_SESSION){
 
 ?>
 
+<input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
+
+
 <div class="profile-container">
     <div class="profile-sidebar">
         <form class="profileForm" id="frmUpdateProfile">
