@@ -5,14 +5,19 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            // console.log(data);
+            console.log(data);
+            
 
             let chatList = $(".chat-list");
             chatList.empty(); // Clear existing list
 
             data.forEach(user => {
-                chatList.append(`<li class="chat-user togglerViewMessages" data-username="${user.Username}" data-userid="${user.UserID}">${user.Username}</li>`);
+                const unseenText = user.unseen_messages > 0 ? ` (${user.unseen_messages})` : '';
+                chatList.append(`<li class="chat-user togglerViewMessages" data-username="${user.Username}" data-userid="${user.UserID}">
+                    ${user.Username}${unseenText}
+                </li>`);
             });
+            
         },
         error: function () {
             console.log("Error fetching users.");

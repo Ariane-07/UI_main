@@ -5,9 +5,12 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-              
+            //   console.log(response);
+
+                var unseen_messages=response.unseen_messages;
                 var totalNotif=response.total_soon_to_expi+response.totalexpi
-                $(".notification-count").text(totalNotif);
+                $(".totalExpiNotif").text(totalNotif);
+                $(".totalUnseenMess").text(unseen_messages);
 
 
                 let notificationList = $(".notification-list");

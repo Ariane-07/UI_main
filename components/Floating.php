@@ -10,10 +10,11 @@
         </span>
         <span class="float-element" id="bell-icon">
             <i class='bx bxs-bell noti'></i>
-            <span class="notification-count">0</span> <!-- Example notification count -->
+            <span class="notification-count totalExpiNotif">0</span> 
         </span>
         <span class="float-element" id="message-icon">
             <i class='bx bxs-message-dots'></i>
+            <span class="notification-count totalUnseenMess">0</span> 
         </span>
     </div>
 </div>
@@ -45,9 +46,9 @@
                 <i class='bx bx-search'></i> <!-- Search icon -->
             </div>
             <ul class="chat-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
-                <li class="chat-user" data-username="John">John</li>
+                <!-- <li class="chat-user" data-username="John">John</li>
                 <li class="chat-user" data-username="Jane">Jane</li>
-                <li class="chat-user" data-username="Doe">Doe</li>
+                <li class="chat-user" data-username="Doe">Doe</li> -->
                 <!-- Add dynamically as needed -->
             </ul>
         </div>
