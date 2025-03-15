@@ -6,7 +6,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log(data);
+                // console.log(data);
     
                 let chatList = $(".chat-list");
                 chatList.empty(); // Clear existing list
