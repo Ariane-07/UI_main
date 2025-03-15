@@ -35,7 +35,15 @@
 
 <script src="assets/js/Script.js"></script>
 <script src="assets/js/App.js"></script>
+
+
+<?php 
+if($_SESSION){?>
 <script src="assets/js/FetchAllusers.js"></script>
 <script src="assets/js/notification.js"></script>
+<?php
+}
+?>
+
 <script src="assets/js/validation.js"></script>
 </html>

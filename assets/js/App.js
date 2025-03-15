@@ -364,55 +364,49 @@ $(document).ready(function () {
     $("#FrmRegister").submit(function (e) {
         e.preventDefault();
     
-
         var password = $("#password").val();
-
+    
         function validatePassword(password) {
             var messages = [];
-
+    
             // Check if password contains at least one lowercase letter
             if (!/(?=.*[a-z])/.test(password)) {
                 messages.push("Password must contain at least one lowercase letter.");
             }
-
+    
             // Check if password contains at least one uppercase letter
             if (!/(?=.*[A-Z])/.test(password)) {
                 messages.push("Password must contain at least one uppercase letter.");
             }
-
+    
             // Check if password contains at least one number
             if (!/(?=.*\d)/.test(password)) {
                 messages.push("Password must contain at least one number.");
             }
-
+    
             // Check if password contains at least one special character
             if (!/(?=.*[@$!%*?&])/.test(password)) {
                 messages.push("Password must contain at least one special character (e.g., @, $, !, %, etc.).");
             }
-
+    
             // Check if password is at least 8 characters long
             if (password.length < 8) {
                 messages.push("Password must be at least 8 characters long.");
             }
-
-            // Return messages or a success message
-            if (messages.length === 0) {
-               
-            } else {
-                return messages.join(" ");
-            }
+    
+            // Return validation result
+            return messages.length === 0 ? null : messages.join(" ");
         }
-
-        var passwordStrength = validatePassword(password);
-
-        if (passwordStrength === "Strong password") {
-            alertify.success(passwordStrength);
-        } else {
-            alertify.error(passwordStrength);
+    
+        var passwordValidationResult = validatePassword(password);
+    
+        if (passwordValidationResult) {
+            alertify.error(passwordValidationResult);
             return;
+        } else {
+            // alertify.success("Password is strong.");
         }
-
-
+    
         $('.spinner').show();
         $('#btnRegister').prop('disabled', true);
         
@@ -426,7 +420,6 @@ $(document).ready(function () {
             url: "api/config/end-points/controller.php",
             data: serializedData,  
             success: function (response) {
-    
                 console.log(response);
                 var data = JSON.parse(response);
     
@@ -435,32 +428,23 @@ $(document).ready(function () {
     
                     // Delay redirect by 2 seconds to allow message display
                     setTimeout(function() {
-                        // window.location.href = "student.php";
                         location.reload();
                     }, 2000);  
     
-                } else if (data.status === "email_already") {
-                    alertify.error(data.message);
-    
-                    $('.spinner').hide();
-                    $('#btnRegister').prop('disabled', false);
-    
-                }else if (data.status === "username_already") {
-                    alertify.error(data.message);
-    
-                    $('.spinner').hide();
-                    $('#btnRegister').prop('disabled', false);
-    
                 } else {
+                    alertify.error(data.message || 'Registration failed, please try again.');
                     $('.spinner').hide();
                     $('#btnRegister').prop('disabled', false);
-                    console.error(response); 
-                    alertify.error('Registration failed, please try again.');
                 }
+            },
+            error: function () {
+                alertify.error('An error occurred while processing your request.');
+                $('.spinner').hide();
+                $('#btnRegister').prop('disabled', false);
             }
         });
     });
-
+    
 
 
 
