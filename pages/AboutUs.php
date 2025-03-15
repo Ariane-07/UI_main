@@ -56,6 +56,7 @@
                                 </div>
                             </div>
                             <div class="btn-wrapper">
+                                <div id="spinner" class="spinner" style="display:none;"></div>
                                 <button class="btn">SUBMIT</button>
                             </div>
                         </div>
@@ -105,35 +106,60 @@
 
 
 <script>
-    $(document).ready(function() {
-        $(".form-box").submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
-            
-            let formData = {
-                first_name: $("#ijowk-6").val(),
-                last_name: $("#indfi-4").val(),
-                email: $("#ipmgh-6").val(),
-                phone: $("#imgis-5").val(),
-                message: $("#i5vyy-6").val()
-            };
+  $(document).ready(function() {
+    $(".form-box").submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-            $.ajax({
-                type: "POST",
-                url: "api/config/end-points/send_email.php",
-                data: formData,
-                dataType: "json",
-                success: function(response) {
-                    if (response.status === "success") {
-                        alert("Email sent successfully!");
-                        $(".form-box")[0].reset(); // Reset form fields
-                    } else {
-                        alert("Failed to send email. Please try again.");
-                    }
-                },
-                error: function() {
-                    alert("An error occurred while sending the email.");
+        let errors = []; // Store missing fields
+        let first_name = $("#ijowk-6").val().trim();
+        let last_name = $("#indfi-4").val().trim();
+        let email = $("#ipmgh-6").val().trim();
+        let phone = $("#imgis-5").val().trim();
+        let message = $("#i5vyy-6").val().trim();
+
+        // Check each field and add errors
+        if (first_name === "") errors.push("First Name is required");
+        if (last_name === "") errors.push("Last Name is required");
+        if (email === "") errors.push("Email is required");
+        if (phone === "") errors.push("Phone Number is required");
+        if (message === "") errors.push("Message is required");
+
+        // If there are errors, show them and stop submission
+        if (errors.length > 0) {
+            errors.forEach(error => alertify.error(error));
+            return;
+        }
+
+        // Show spinner and disable button
+        $("#spinner").show();
+        $(".btn").prop("disabled", true);
+
+        let formData = { first_name, last_name, email, phone, message };
+
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/send_email.php",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                $("#spinner").hide();
+                $(".btn").prop("disabled", false);
+
+                if (response.status === "success") {
+                    alertify.success("Email sent successfully!");
+                    $(".form-box")[0].reset(); // Reset form fields
+                } else {
+                    alertify.error("Failed to send email. Please try again.");
                 }
-            });
+            },
+            error: function() {
+                $("#spinner").hide();
+                $(".btn").prop("disabled", false);
+                alertify.error("An error occurred while sending the email.");
+            }
         });
     });
+});
+
+
 </script>
