@@ -1,3 +1,7 @@
+<input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
+<input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
+<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+
 <section>
     <div class="contact_us_green">
         <h1 class="heading">Get In <span>Touch</span></h1>
@@ -48,6 +52,7 @@
                                 </div>
                             </div>
                             <div class="btn-wrapper">
+                                <div id="spinner" class="spinner" style="display:none;"></div>
                                 <button class="btn">SUBMIT</button>
                             </div>
                         </div>
@@ -70,19 +75,19 @@
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET21.jpg" />
-                                    <p class="contact-text">+1258 3258 5679</p>
+                                    <p class="contact-text">+63-939-927-9193</p>
                                 </div>
                                 <div class="address text-box">
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET22.jpg" />
-                                    <p class="contact-text">hello@workik.com</p>
+                                    <p class="contact-text">myPet@gmail.com</p>
                                 </div>
                                 <div class="mail text-box">
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET23.jpg" />
-                                    <p class="contact-text">102 street, y cross 485656</p>
+                                    <p class="contact-text">De La Salle University - Dasmariñas DBB-B City of Dasmariñas Cavite Philippines 4115</p>
                                 </div>
                             </div>
                         </div>
@@ -92,3 +97,65 @@
         </div>
     </div>
 </section>
+
+
+
+
+<script>
+  $(document).ready(function() {
+    $(".form-box").submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let errors = []; // Store missing fields
+        let first_name = $("#ijowk-6").val().trim();
+        let last_name = $("#indfi-4").val().trim();
+        let email = $("#ipmgh-6").val().trim();
+        let phone = $("#imgis-5").val().trim();
+        let message = $("#i5vyy-6").val().trim();
+
+        // Check each field and add errors
+        if (first_name === "") errors.push("First Name is required");
+        if (last_name === "") errors.push("Last Name is required");
+        if (email === "") errors.push("Email is required");
+        if (phone === "") errors.push("Phone Number is required");
+        if (message === "") errors.push("Message is required");
+
+        // If there are errors, show them and stop submission
+        if (errors.length > 0) {
+            errors.forEach(error => alertify.error(error));
+            return;
+        }
+
+        // Show spinner and disable button
+        $("#spinner").show();
+        $(".btn").prop("disabled", true);
+
+        let formData = { first_name, last_name, email, phone, message };
+
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/send_email.php",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                $("#spinner").hide();
+                $(".btn").prop("disabled", false);
+
+                if (response.status === "success") {
+                    alertify.success("Email sent successfully!");
+                    $(".form-box")[0].reset(); // Reset form fields
+                } else {
+                    alertify.error("Failed to send email. Please try again.");
+                }
+            },
+            error: function() {
+                $("#spinner").hide();
+                $(".btn").prop("disabled", false);
+                alertify.error("An error occurred while sending the email.");
+            }
+        });
+    });
+});
+
+
+</script>

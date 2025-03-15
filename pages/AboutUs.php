@@ -2,10 +2,6 @@
 <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
 <input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
-
-
-
-
 <section>
     <div class="contact_us_green">
         <h1 class="heading">Get In <span>Touch</span></h1>
@@ -79,19 +75,19 @@
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET21.jpg" />
-                                    <p class="contact-text">+1258 3258 5679</p>
+                                    <p class="contact-text">+63-939-927-9193</p>
                                 </div>
                                 <div class="address text-box">
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET22.jpg" />
-                                    <p class="contact-text">hello@workik.com</p>
+                                    <p class="contact-text">myPet@gmail.com</p>
                                 </div>
                                 <div class="mail text-box">
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET23.jpg" />
-                                    <p class="contact-text">102 street, y cross 485656</p>
+                                    <p class="contact-text">De La Salle University - Dasmariñas DBB-B City of Dasmariñas Cavite Philippines 4115</p>
                                 </div>
                             </div>
                         </div>
