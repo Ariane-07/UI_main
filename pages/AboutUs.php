@@ -3,6 +3,9 @@
 <input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
 
+
+
+
 <section>
     <div class="contact_us_green">
         <h1 class="heading">Get In <span>Touch</span></h1>
@@ -97,3 +100,40 @@
         </div>
     </div>
 </section>
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $(".form-box").submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            let formData = {
+                first_name: $("#ijowk-6").val(),
+                last_name: $("#indfi-4").val(),
+                email: $("#ipmgh-6").val(),
+                phone: $("#imgis-5").val(),
+                message: $("#i5vyy-6").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "api/config/end-points/send_email.php",
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    if (response.status === "success") {
+                        alert("Email sent successfully!");
+                        $(".form-box")[0].reset(); // Reset form fields
+                    } else {
+                        alert("Failed to send email. Please try again.");
+                    }
+                },
+                error: function() {
+                    alert("An error occurred while sending the email.");
+                }
+            });
+        });
+    });
+</script>
