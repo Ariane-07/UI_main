@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2025 at 07:06 AM
+-- Generation Time: Mar 15, 2025 at 06:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,32 +42,8 @@ CREATE TABLE `chat_messages` (
 --
 
 INSERT INTO `chat_messages` (`chat_id`, `sender_id`, `receiver_id`, `message_text`, `message_media`, `message_status`, `message_seen`) VALUES
-(8, 6, 12, 'fesf', NULL, 1, 0),
-(9, 6, 13, 'hi juan', NULL, 1, 0),
-(10, 6, 13, 'upload juan', '67c69c561a010_399348fa029a6aa83bd9021ab45f137a.jpg', 1, 0),
-(11, 6, 10, 'hello', NULL, 1, 0),
-(12, 6, 15, 'hi alden', NULL, 1, 0),
-(13, 15, 6, 'hello azi', NULL, 1, 0),
-(14, 15, 6, 'hello', NULL, 1, 0),
-(15, 15, 6, '', '67c6a3a757500_007.png', 1, 0),
-(16, 15, 6, '', NULL, 1, 0),
-(17, 15, 7, '', NULL, 1, 0),
-(18, 15, 7, '', NULL, 1, 0),
-(19, 15, 8, 'hello', NULL, 1, 0),
-(20, 15, 7, 'test', NULL, 1, 0),
-(21, 18, 15, 'hi doc', NULL, 1, 0),
-(22, 15, 18, 'hello din', NULL, 1, 0),
-(23, 15, 18, 'hi', NULL, 1, 0),
-(24, 18, 15, 'test oki', NULL, 1, 0),
-(25, 15, 6, 'test', NULL, 1, 0),
-(26, 15, 6, 'hello', NULL, 1, 0),
-(27, 18, 15, 'yyyyy', NULL, 1, 0),
-(28, 18, 15, 'fesf', NULL, 1, 0),
-(29, 18, 8, 'test', NULL, 1, 0),
-(30, 18, 8, 'tttt', NULL, 1, 0),
-(31, 18, 8, 'fesf', NULL, 1, 0),
-(32, 18, 7, 'test', NULL, 1, 0),
-(33, 18, 8, 'ryg', NULL, 1, 0);
+(35, 18, 6, 'hi azi', NULL, 1, 1),
+(38, 6, 18, 'testdddd', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -331,7 +307,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chat_messages`
 --
 ALTER TABLE `chat_messages`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `impounded_pets`
