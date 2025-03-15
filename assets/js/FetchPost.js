@@ -12,7 +12,7 @@ $(document).ready(function () {
             data: { offset: offset, limit: limit },
             dataType: 'json',
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 if (!Array.isArray(response) || response.length === 0) {
                     if (!append) $("#postFeed").html("<p>No posts available.</p>");
                     $("#seeMoreBtn").hide();
@@ -266,7 +266,7 @@ $(document).ready(function () {
             type: "POST",
             data: { postId: postId, action: isLiked ? "unlike" : "like" },
             success: function (response) {
-                console.log(response);
+                // console.log(response);
             },
             error: function (xhr, status, error) {
                 console.error("Error updating like:", error);
