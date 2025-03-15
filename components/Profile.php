@@ -18,6 +18,11 @@
     }
 
 
+    $authorization="";
+
+    if($Profile[0]['UserID']!=$_SESSION['UserID']){
+        $authorization="disabled";
+    }
 ?>
 
 <input type="hidden" id="UserID" name="UserID" value="<?= $Profile[0]['UserID']?>">
@@ -35,11 +40,11 @@
         <!-- Add Bio Section Here -->
         <div class="profile-info">
             <p>Bio</p>
-            <textarea id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $Profile[0]['Bio'] ?? '' ?></textarea>
+            <textarea <?=$authorization?> id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $Profile[0]['Bio'] ?? '' ?></textarea>
         </div>
         <div class="profile-info">
             <p>Email</p>
-            <input type="email" id="email" name="email" class="editable-input" value="<?=$Profile[0]['Email']?>">
+            <input type="email" id="email" name="email" class="editable-input" value="<?=$Profile[0]['Email']?>" <?=$authorization?>>
             <p>Role</p>
             <input type="text" id="role" class="editable-input" value="<?=$Role?>" disabled>
         </div>
@@ -49,16 +54,16 @@
     <div class="profile-details">
         <div class="detail-group">
             <label class="detail-label">Name</label>
-            <input type="text" id="name" name="owner_name" class="editable-input" value="<?=$Profile[0]['Name']?>">
+            <input type="text" id="name" name="owner_name" class="editable-input" value="<?=$Profile[0]['Name']?>" <?=$authorization?>>
         </div>
         <div class="detail-group">
             <label class="detail-label">Username</label>
-            <input type="text" id="username" name="username" class="editable-input" value="<?=$Profile[0]['Username']?>">
+            <input type="text" id="username" name="username" class="editable-input" value="<?=$Profile[0]['Username']?>" <?=$authorization?>>
         </div>
         
         <div class="detail-group">
             <label class="detail-label">Gender</label>
-            <select id="gender" name="gender" class="editable-input">
+            <select id="gender" name="gender" class="editable-input" <?=$authorization?>>
                 <option value="Female" <?= ($Profile[0]['Gender'] ?? '') == 'Female' ? 'selected' : '' ?>>Female</option>
                 <option value="Male" <?= ($Profile[0]['Gender'] ?? '') == 'Male' ? 'selected' : '' ?>>Male</option>
                 <option value="Other" <?= ($Profile[0]['Gender'] ?? '') == 'Other' ? 'selected' : '' ?>>Other</option>
@@ -67,20 +72,20 @@
 
         <div class="detail-group">
             <label class="detail-label">Birth Date</label>
-            <input type="date" id="birthdate" name="birthdate" class="editable-input" value="<?=$Profile[0]['BirthDate']?>">
+            <input type="date" id="birthdate" name="birthdate" class="editable-input" value="<?=$Profile[0]['BirthDate']?>" <?=$authorization?>>
         </div>
         <div class="detail-group">
             <label class="detail-label">Contact Number</label>
-            <input type="tel" id="contact" name="contact" class="editable-input" value="<?=$Profile[0]['Contact']?>">
+            <input type="tel" id="contact" name="contact" class="editable-input" value="<?=$Profile[0]['Contact']?>" <?=$authorization?>>
         </div>
         <div class="detail-group">
             <label class="detail-label">Address</label>
-            <textarea id="address" name="address" class="editable-input"><?=$Profile[0]['Address']?></textarea>
+            <textarea <?=$authorization?> id="address" name="address" class="editable-input"><?=$Profile[0]['Address']?></textarea>
         </div>
 
         <div class="detail-group">
             <label class="detail-label">Link Address</label>
-            <textarea id="Link_address" name="Link_address" class="editable-input"><?=$Profile[0]['Link_address']?></textarea>
+            <textarea <?=$authorization?> id="Link_address" name="Link_address" class="editable-input"><?=$Profile[0]['Link_address']?></textarea>
         </div>
 
         <div class="detail-group" style="width: 100%; max-width: 400px; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; overflow: hidden;">
