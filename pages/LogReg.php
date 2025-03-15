@@ -1,3 +1,18 @@
+<?php 
+ 
+
+ if (isset($_SESSION['Role'])){
+    if($_SESSION['Role']=='pet_owner'){
+        header('Location: index.php?page=home');
+    }elseif($_SESSION['Role']=='vet'){
+        header('Location: index.php?vetpages=VetHome');
+    }elseif($_SESSION['Role']=='lgu'){
+        header('Location: index.php?lgupages=lguhome');
+    }
+ }
+   
+?>
+
 <div class="logreg-container">
     <div class="forms-container">
         <div class="signin-signup">
