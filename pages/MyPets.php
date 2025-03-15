@@ -17,7 +17,7 @@
             <option value="pending">Pending</option>
             <option value="declined">Declined</option>
         </select>
-        <button id="goButton">Go</button>
+        <!-- <button id="goButton">Go</button> -->
     </div>
 
     <div class="client-list">
@@ -250,31 +250,33 @@
   
 
 </script>
+<script>
+  $(document).ready(function () {
+    $("#statusFilter").change(function () {
+      let selectedStatus = $(this).val().toLowerCase();
 
-<style>
-    /* Styling for QR code container */
-    .qr-code-container {
-        margin-top: 10px;
-        text-align: center;
-    }
+      $(".client-card").each(function () {
+        let petStatus = $(this).find(".client-details p:contains('Status')").next().text().trim().toLowerCase();
 
-    .qr-code-container canvas {
-        border: 1px solid #ccc;
-        padding: 10px;
-        background: #fff;
-    }
+        if (selectedStatus === "all" || petStatus === selectedStatus) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
 
-    .download-qr {
-        margin-top: 10px;
-        padding: 5px 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+    $("#goButton").click(function () {
+      let searchQuery = $("#searchBox").val().toLowerCase();
 
-    .download-qr:hover {
-        background-color: #0056b3;
-    }
-</style>
+      $(".client-card").each(function () {
+        let cardText = $(this).text().toLowerCase();
+        if (cardText.includes(searchQuery)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
+  });
+</script>
