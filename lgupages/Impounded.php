@@ -17,6 +17,7 @@
         <select id="sortStatus" aria-label="Filter by status">
             <option value="all">All</option>
             <option value="unclaimed">Unclaimed</option>
+            <option value="claim request">Claim Request</option>
             <option value="claimed">Claimed</option>
         </select>
         
@@ -200,7 +201,7 @@
                 </div>
                 <div class="imp-modal-footer">
                     <button type="submit" id="btnAddImpoundPets" class="imp-button">SAVE</button>
-                    <button onclick="closeAddPetModal()" class="imp-button imp-cancel-button">CANCEL</button>
+                   
                 </div>
             </div>
         </div>
@@ -407,6 +408,32 @@ $(document).ready(function() {
         if ($(e.target).is('#petDetailsModal')) {
             $(this).fadeOut();
         }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#sortStatus').on('change', function() {
+        var selectedStatus = $(this).val().toLowerCase();
+
+        $('.imp-card').each(function() {
+            var petStatus = $(this).find('.imp-pet-status').text().toLowerCase();
+
+            if (selectedStatus === 'all' || petStatus === selectedStatus) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
     });
 });
 
