@@ -777,7 +777,7 @@ class global_class extends db_connect
 
     public function fetch_all_pets_info()
     {
-        $query = $this->conn->prepare("SELECT * from pets_info where pet_status !='pending'");
+        $query = $this->conn->prepare("SELECT * from pets_info where pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu'");
 
         if ($query->execute()) {
             $result = $query->get_result();

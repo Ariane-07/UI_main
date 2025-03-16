@@ -30,7 +30,7 @@
          <?php 
         $db = new global_class();
 
-         $status="pending";
+         $status="accept_by_vet";
          $fetch_pets = $db->fetch_pending_pets($status);
 
        
