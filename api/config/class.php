@@ -842,7 +842,7 @@ class global_class extends db_connect
         if ($stmt->execute()) {
             session_start();
             $userId = $this->conn->insert_id;
-            $_SESSION['UserID'] = $userId;
+            // $_SESSION['UserID'] = $userId;
             $response = array(
                 'status' => 'success',
                 'id' => $userId
