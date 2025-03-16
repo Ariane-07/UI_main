@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2025 at 06:36 AM
+-- Generation Time: Mar 16, 2025 at 05:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -118,10 +118,10 @@ CREATE TABLE `pets_info` (
 --
 
 INSERT INTO `pets_info` (`pet_id`, `pets_UserID`, `pet_photo_owner`, `pet_validIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
-(59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-02-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'accept_by_lgu'),
+(59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-02-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'accept_by_vet'),
 (60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'juan', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-01-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'declined_by_lgu'),
 (61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'pedro', 2323, 'male', '2025-03-11', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-11', '2025-03-25', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'pending'),
-(63, 18, '67d109cfbef9d.jpg', '67d109cfbf5de.png', '2025-03-12', 'kokey', 12, 'male', '2025-03-12', '094944415454', 'kokey@gmail.com', 'marilao bulacan', 'sta.rosa 2', 'kiko', '12', 'male', 'dog', 'husky', '2', 'white', 'awd', '2025-03-12', '2025-03-13', '2025-03-12', '67d109cfc009f.jpeg', 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67d109cfbfcf0.jpeg', '2025-03-12', 'PET_63.png', 'pending');
+(63, 6, '67d109cfbef9d.jpg', '67d109cfbf5de.png', '2025-03-12', 'kokey', 12, 'male', '2025-03-12', '094944415454', 'kokey@gmail.com', 'marilao bulacan', 'sta.rosa 2', 'kiko', '12', 'male', 'dog', 'husky', '2', 'white', 'awd', '2025-03-12', '2025-03-13', '2025-03-12', '67d109cfc009f.jpeg', 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67d109cfbfcf0.jpeg', '2025-03-12', 'PET_63.png', 'accept_by_lgu');
 
 -- --------------------------------------------------------
 
@@ -228,29 +228,34 @@ CREATE TABLE `users` (
   `Contact` varchar(60) DEFAULT NULL,
   `Address` longtext DEFAULT NULL,
   `Link_address` longtext DEFAULT NULL,
-  `Role` varchar(255) NOT NULL DEFAULT 'pet_owner'
+  `Role` varchar(255) NOT NULL DEFAULT 'pet_owner',
+  `otp_code` varchar(10) DEFAULT NULL,
+  `otp_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Password`, `ProfilePic`, `BirthDate`, `Contact`, `Address`, `Link_address`, `Role`) VALUES
-(6, 'azi acosta', '', 'aziacosta', 'Female', 'andersonandy046@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', 'Profile_67c69a1de18df.jpg', '2000-02-19', '09454454744', 'sta.rosa 2 marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.88762306286!2d121.96660327498417!3d13.845783486556023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a2958fff7f86a1%3A0x699ef1cba8f56a17!2sPolytechnic%20University%20of%20the%20Philippines%20(Unisan%2C%20Quezon%20Campus)!5e0!3m2!1sfil!2sph!4v1740974053065!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
-(7, NULL, '', 'joshua', '', 'joshua@gmail.com', 'fc52fabe94c0e037d2df4498e87481a6438960c9f73d517584a7a5c564535ac4', NULL, NULL, '', '', NULL, 'pet_owner'),
-(8, NULL, '', 'test', '', 'test@gmail.com', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', NULL, NULL, '', '', NULL, 'pet_owner'),
-(10, NULL, '', 'drg', '', 'gdrg', 'ceca3433682bb26312cf1cd7c9c0cc7be025f98e44e5731956a2ab71e29b69a5', NULL, NULL, '', '', NULL, 'pet_owner'),
-(11, 'Joshua anderson padilla', '', 'andyanderson895', 'Male', 'andyanderson895@yahoo.com', 'eeb1ccc90a93645e43e6e0ccb1d260d87dd47d1d47e98c6d1cadaeeffe820c9d', 'Profile_67c59f058391c.jpg', '2000-03-04', '09454454744', 'sta.rosa marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741004817615!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
-(12, NULL, '', 'angenise24', '', 'angenise24@gmail.com', '53d27f0c391424eec5910a67237d2bd6c9a55663d1ed9381c5560b9f9542c843', NULL, NULL, '', '', NULL, 'vet'),
-(13, NULL, '', 'juan', '', 'juan@gmail.com', 'ed08c290d7e22f7bb324b15cbadce35b0b348564fd2d5f95752388d86d71bcca', NULL, NULL, NULL, NULL, NULL, 'vet'),
-(14, '', '', 'andy', 'Male', 'andy@gmail.com', '6177321eac992341d1ad0823a07e76bfc4ee6909db120e377ea303fdc216756c', '', '0000-00-00', '', '', '', 'lgu'),
-(15, 'dawd', '', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet'),
-(16, NULL, '', 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
-(17, NULL, '', 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner'),
-(18, 'Juan dela cruz', 'testting bio', 'andersonandy046', 'Female', 'andersonandy046@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', '', '0000-00-00', '', 'sta.rosa 2 marilao', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741447380658!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner'),
-(20, NULL, '', 'test4', '', 'test4@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet'),
-(21, NULL, '', 'awd@gmail.com', '', 'awd@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet'),
-(22, NULL, NULL, 'testPhone123', '', 'testPhone123@gmail.com', 'dffc4e28b0956ec9ffeb10d2589d048cd57cf93c3a7ff601f8c93962853b2b70', NULL, NULL, NULL, NULL, NULL, 'pet_owner');
+INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Password`, `ProfilePic`, `BirthDate`, `Contact`, `Address`, `Link_address`, `Role`, `otp_code`, `otp_expiry`) VALUES
+(6, 'azi acosta', '', 'aziacosta', 'Female', 'andersonandy0@gmail.com', 'aecf3f06d39b17636faff2099db795e9d156dc3444322c77d50cdad30df0a95f', 'Profile_67c69a1de18df.jpg', '2000-02-19', '09454454744', 'sta.rosa 2 marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.88762306286!2d121.96660327498417!3d13.845783486556023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a2958fff7f86a1%3A0x699ef1cba8f56a17!2sPolytechnic%20University%20of%20the%20Philippines%20(Unisan%2C%20Quezon%20Campus)!5e0!3m2!1sfil!2sph!4v1740974053065!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner', '91446', NULL),
+(7, NULL, '', 'joshua', '', 'joshua@gmail.com', 'fc52fabe94c0e037d2df4498e87481a6438960c9f73d517584a7a5c564535ac4', NULL, NULL, '', '', NULL, 'pet_owner', NULL, NULL),
+(8, NULL, '', 'test', '', 'test@gmail.com', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', NULL, NULL, '', '', NULL, 'pet_owner', NULL, NULL),
+(10, NULL, '', 'drg', '', 'gdrg', 'ceca3433682bb26312cf1cd7c9c0cc7be025f98e44e5731956a2ab71e29b69a5', NULL, NULL, '', '', NULL, 'pet_owner', NULL, NULL),
+(11, 'Joshua anderson padilla', '', 'andyanderson895', 'Male', 'andyanderson895@yahoo.com', 'eeb1ccc90a93645e43e6e0ccb1d260d87dd47d1d47e98c6d1cadaeeffe820c9d', 'Profile_67c59f058391c.jpg', '2000-03-04', '09454454744', 'sta.rosa marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741004817615!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner', NULL, NULL),
+(12, NULL, '', 'angenise24', '', 'angenise24@gmail.com', '53d27f0c391424eec5910a67237d2bd6c9a55663d1ed9381c5560b9f9542c843', NULL, NULL, '', '', NULL, 'vet', NULL, NULL),
+(13, NULL, '', 'juan', '', 'juan@gmail.com', 'ed08c290d7e22f7bb324b15cbadce35b0b348564fd2d5f95752388d86d71bcca', NULL, NULL, NULL, NULL, NULL, 'vet', NULL, NULL),
+(14, '', '', 'andy', 'Male', 'andy@gmail.com', '6177321eac992341d1ad0823a07e76bfc4ee6909db120e377ea303fdc216756c', '', '0000-00-00', '', '', '', 'lgu', NULL, NULL),
+(15, 'dawd', '', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet', NULL, NULL),
+(16, NULL, '', 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL),
+(17, NULL, '', 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL),
+(18, 'Juan dela cruz', 'testting bio', 'andersonandy046', 'Female', 'andersonandy046@gmail.com', '47e8dc24d3faab5ea512624c0aa576c25b539526ca6b71ccafc6811017a62822', '', '0000-00-00', '', 'sta.rosa 2 marilao', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741447380658!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner', NULL, '2025-03-16 12:01:53'),
+(20, NULL, '', 'test4', '', 'test4@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet', NULL, NULL),
+(21, NULL, '', 'awd@gmail.com', '', 'awd@gmail.com', '66b5add2fa660bce69fdf80804d0c907390b12bac849a5009a72535f6dcea48d', NULL, NULL, NULL, NULL, NULL, 'vet', NULL, NULL),
+(22, NULL, NULL, 'testPhone123', '', 'testPhone123@gmail.com', 'dffc4e28b0956ec9ffeb10d2589d048cd57cf93c3a7ff601f8c93962853b2b70', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL),
+(23, NULL, NULL, 'Lapulapu123', '', 'Lapulapu123@gmail.com', '32bf07f76a2aeaf56071b9adf2391a14a642c784cb225b200a594758f02e5f03', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL),
+(24, NULL, NULL, 'Pakshet123', '', 'Pakshet123@gmail.com', '06d6bdd9fb554a6f9bc695026d2541a2c927bfc02fae03805f8ef62c70ed6195', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL),
+(25, NULL, NULL, 'audrey123', '', 'Audrey123@gmail.com', '484ff75ece55a742aa508ae957d1b44bda677eae6ba6fc5d7f5ac5dd6ca8300d', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -343,7 +348,7 @@ ALTER TABLE `post_like`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

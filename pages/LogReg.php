@@ -106,7 +106,6 @@ if (isset($_SESSION['Role'])) {
     </div>
     -->
 </div>
-
 <!-- Forgot Password Modal -->
 <div id="forgot-modal" class="logreg-modal">
     <div class="logreg-modal-content">
@@ -119,6 +118,7 @@ if (isset($_SESSION['Role'])) {
                 <i class='bx bxs-envelope'></i>
                 <input type="email" id="reset-email" placeholder="Enter Your Email">
             </div>
+            <div id="spinnerForgot" class="spinner" style="display:none;"></div>
             <button class="sbmit_btn" id="reset-password-btn">Reset Password</button>
         </div>
 
@@ -128,27 +128,16 @@ if (isset($_SESSION['Role'])) {
             <h1>Check your email</h1>
             <p>We sent a reset link to <span id="user-email-display"></span>. Enter the 5-digit code below.</p>
             <div class="otp-input-field">
-                <input type="number" maxlength="1" />
-                <input type="number" maxlength="1" disabled />
-                <input type="number" maxlength="1" disabled />
-                <input type="number" maxlength="1" disabled />
-                <input type="number" maxlength="1" disabled />
+                <input type="text" maxlength="1" />
+                <input type="text" maxlength="1" disabled />
+                <input type="text" maxlength="1" disabled />
+                <input type="text" maxlength="1" disabled />
+                <input type="text" maxlength="1" disabled />
             </div>
-            <!-- Verify Code Button -->
             <button class="verify_btn" id="verify-code-btn">Verify Code</button>
-
-            <!-- Resend Email Container -->
             <div class="resend-email-container">
                 <label>Haven’t got the email yet? <span id="resend-email">Resend Email</span></label>
             </div>
-        </div>
-
-        <!-- Password Reset Confirmation State -->
-        <div id="forgot-password-reset-state" class="forgot-state" style="display: none;">
-            <i class='bx bx-arrow-back back-icon'></i>
-            <h1>Password Reset</h1>
-            <p>Your password has been successfully reset. Click confirm to set a new password.</p>
-            <button class="confirm_btn" id="confirm-reset-btn">Confirm</button>
         </div>
 
         <!-- Set New Password State -->
@@ -177,191 +166,161 @@ if (isset($_SESSION['Role'])) {
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const modal = document.getElementById('forgot-modal');
-        const forgotPasswordLink = document.getElementById('forgot-password');
-        const closeButton = document.querySelector('.logreg-close');
-        const backIcons = document.querySelectorAll('.back-icon');
+$(document).ready(function () {
+    let userEmail = "";
+    const modal = $('#forgot-modal');
+    const states = {
+        INITIAL: '#forgot-initial-state',
+        EMAIL_CONFIRM: '#forgot-email-confirm-state',
+        SET_PASSWORD: '#forgot-set-password-state',
+        SUCCESS: '#forgot-success-state'
+    };
 
-        const states = {
-            INITIAL: 'forgot-initial-state',
-            EMAIL_CONFIRM: 'forgot-email-confirm-state',
-            PASSWORD_RESET: 'forgot-password-reset-state',
-            SET_PASSWORD: 'forgot-set-password-state',
-            SUCCESS: 'forgot-success-state'
-        };
+    function showState(state) {
+        $(".forgot-state").hide();
+        $(state).show();
+    }
 
-        let currentState = states.INITIAL;
+    function resetModal() {
+        showState(states.INITIAL);
+        $("#reset-email, .otp-input-field input, #new-password, #confirm-password")
+            .val("")
+            .attr("disabled", true);
+    }
 
-        // Show modal when "Forgot Password" is clicked
-        forgotPasswordLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            modal.style.display = 'block';
-            showState(states.INITIAL);
-        });
-
-        // Close modal when close button is clicked
-        closeButton.addEventListener('click', function () {
-            modal.style.display = 'none';
-            resetModal();
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                resetModal();
+    function handleAjaxRequest(url, data, successCallback) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function (response) {
+                let res = JSON.parse(response);
+                if (res.status === "success") {
+                    successCallback(res);
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function () {
+                alert("An error occurred. Please try again.");
+            },
+            complete: function () {
+                $("#spinnerForgot").hide();
+                $("#reset-password-btn").prop("disabled", false);
             }
         });
+    }
 
-        // Handle back icon clicks
-        backIcons.forEach(icon => {
-            icon.addEventListener('click', function () {
-                navigateBack();
-            });
+    function sendOtp(email) {
+        $("#reset-password-btn").prop("disabled", true);
+        $("#spinnerForgot").show();
+        handleAjaxRequest("api/config/end-points/forgot_password.php", { action: "send_otp", email }, function () {
+            userEmail = email;
+            $("#user-email-display").text(email);
+            $(".otp-input-field input").val("").prop("disabled", false).first().focus();
+            showState(states.EMAIL_CONFIRM);
         });
+    }
 
-        // Reset Password Button
-        document.getElementById('reset-password-btn').addEventListener('click', function () {
-            const email = document.getElementById('reset-email').value;
-            if (email) {
-                document.getElementById('user-email-display').textContent = email;
-                showState(states.EMAIL_CONFIRM);
-            } else {
-                alert('Please enter your email.');
-            }
-        });
-
-        // Verify Code Button
-        document.getElementById('verify-code-btn').addEventListener('click', function () {
-            const otpInputs = document.querySelectorAll('.otp-input-field input');
-            let otpCode = '';
-            otpInputs.forEach(input => otpCode += input.value);
-
-            if (otpCode.length === 5) {
-                showState(states.PASSWORD_RESET);
-            } else {
-                alert('Please enter a valid 5-digit code.');
-            }
-        });
-
-        // Confirm Reset Button
-        document.getElementById('confirm-reset-btn').addEventListener('click', function () {
+    function verifyOtp(otp) {
+        handleAjaxRequest("api/config/end-points/forgot_password.php", { action: "verify_otp", email: userEmail, otp }, function () {
             showState(states.SET_PASSWORD);
         });
+    }
 
-        // Update Password Button
-        document.getElementById('update-password-btn').addEventListener('click', function () {
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+    function updatePassword(newPassword) {
+        // Debugging: Log the data before sending it
+        console.log({ action: "reset_password", email: userEmail, new_password: newPassword });
 
-            if (newPassword && newPassword === confirmPassword) {
-                showState(states.SUCCESS);
-            } else {
-                alert('Passwords do not match or are empty.');
+        handleAjaxRequest("api/config/end-points/forgot_password.php", 
+        { 
+            action: "reset_password", 
+            email: userEmail, 
+            new_password: newPassword 
+        }, 
+        function () {
+            showState(states.SUCCESS);
+        });
+    }
+
+
+    function validateOtpInputs() {
+        $(".otp-input-field input").on("input", function () {
+            let $this = $(this);
+            if (!/^\d$/.test($this.val())) $this.val("");
+
+            let nextInput = $this.next("input");
+            if (nextInput.length) nextInput.removeAttr("disabled").focus();
+        }).on("keydown", function (e) {
+            if (e.key === "Backspace") {
+                let prevInput = $(this).prev("input");
+                if (prevInput.length && !$(this).val()) prevInput.focus();
             }
         });
+    }
 
-        // Continue Button
-        document.getElementById('continue-btn').addEventListener('click', function () {
-            modal.style.display = 'none';
+    // Event Listeners
+    $("#forgot-password").click((e) => {
+        e.preventDefault();
+        modal.show();
+        showState(states.INITIAL);
+    });
+
+    $(".logreg-close, #continue-btn").click(() => {
+        modal.hide();
+        resetModal();
+    });
+
+    $(window).click((event) => {
+        if ($(event.target).is(modal)) {
+            modal.hide();
             resetModal();
-        });
+        }
+    });
 
-        // Resend Email Link
-        document.getElementById('resend-email').addEventListener('click', function () {
-            alert('Resend email functionality not implemented yet.');
-        });
+    $("#reset-password-btn").click(() => {
+        let email = $("#reset-email").val().trim();
+        if (!email) {
+            alert("Please enter your email.");
+            return;
+        }
+        sendOtp(email);
+    });
 
-        // Helper function to show a specific state
-        function showState(state) {
-            document.querySelectorAll('.forgot-state').forEach(el => el.style.display = 'none');
-            document.getElementById(state).style.display = 'block';
-            currentState = state;
+    $("#verify-code-btn").click(() => {
+        let otp = $(".otp-input-field input").map((_, el) => el.value).get().join("");
+        if (!otp || otp.length !== 5) {
+            alert("Please enter a valid 5-digit OTP.");
+            return;
+        }
+        verifyOtp(otp);
+    });
 
-            // Focus the first OTP input when the email confirmation state is shown
-            if (state === states.EMAIL_CONFIRM) {
-                const otpInputs = document.querySelectorAll('.otp-input-field input');
-                otpInputs[0].focus();
-            }
+    $("#update-password-btn").click(() => {
+        let newPassword = $("#new-password").val().trim();
+        let confirmPassword = $("#confirm-password").val().trim();
+
+        if (!newPassword || newPassword !== confirmPassword) {
+            alert("Passwords do not match or are empty.");
+            return;
         }
 
-        // Helper function to navigate back
-        function navigateBack() {
-            switch (currentState) {
-                case states.EMAIL_CONFIRM:
-                    showState(states.INITIAL);
-                    break;
-                case states.PASSWORD_RESET:
-                    showState(states.EMAIL_CONFIRM);
-                    break;
-                case states.SET_PASSWORD:
-                    showState(states.PASSWORD_RESET);
-                    break;
-                case states.SUCCESS:
-                    showState(states.SET_PASSWORD);
-                    break;
-            }
-        }
+        console.log("Email:", userEmail);
+        console.log("New Password:", newPassword);
 
-        // OTP Input Logic
-        const otpInputs = document.querySelectorAll('.otp-input-field input');
-        const verifyCodeButton = document.getElementById('verify-code-btn');
+        updatePassword(newPassword);
+    });
 
-        otpInputs.forEach((input, index1) => {
-            input.addEventListener('input', (e) => {
-                const currentInput = input,
-                    nextInput = input.nextElementSibling,
-                    prevInput = input.previousElementSibling;
+    $("#resend-email").click(() => {
+        $("#reset-password-btn").trigger("click");
+    });
 
-                // If the value has more than one character, clear it
-                if (currentInput.value.length > 1) {
-                    currentInput.value = currentInput.value.slice(0, 1); // Restrict to one character
-                    return;
-                }
+    validateOtpInputs();
+});
 
-                // If the next input is disabled and the current value is not empty,
-                // enable the next input and focus on it
-                if (nextInput && nextInput.hasAttribute('disabled') && currentInput.value !== '') {
-                    nextInput.removeAttribute('disabled');
-                    nextInput.focus();
-                }
 
-                // If the backspace key is pressed
-                if (e.inputType === 'deleteContentBackward') {
-                    otpInputs.forEach((input, index2) => {
-                        if (index1 <= index2 && prevInput) {
-                            input.setAttribute('disabled', true);
-                            input.value = '';
-                            prevInput.focus();
-                        }
-                    });
-                }
 
-                // If the fourth input (index 3) is not empty and has no disabled attribute,
-                // add the active class to the button; otherwise, remove it
-                if (!otpInputs[3].disabled && otpInputs[3].value !== '') {
-                    verifyCodeButton.classList.add('active');
-                    return;
-                }
-                verifyCodeButton.classList.remove('active');
-            });
-        });
 
-        // Focus the first OTP input on window load
-        window.addEventListener('load', () => otpInputs[0].focus());
-
-        // Reset modal to initial state
-        function resetModal() {
-            showState(states.INITIAL);
-            document.getElementById('reset-email').value = '';
-            document.querySelectorAll('.otp-input-field input').forEach(input => {
-                input.value = '';
-                input.setAttribute('disabled', true);
-            });
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
-        }
 
         // Super Admin Form Logic (Commented Out)
         /*
@@ -390,5 +349,5 @@ if (isset($_SESSION['Role'])) {
             }
         });
         */
-    });
+    // });
 </script>

@@ -1,6 +1,4 @@
 <?php
-
-
 include ('dbconnect.php');
 date_default_timezone_set('Asia/Manila');
 
@@ -9,6 +7,72 @@ class global_class extends db_connect
     public function __construct()
     {
         $this->connect();
+    }
+
+    // Check if email exists
+public function checkEmailExists($email) {
+    $query = "SELECT Email FROM users WHERE Email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    return ($stmt->num_rows > 0);
+}
+
+// Store OTP with expiration
+public function storeOtp($email, $otp) {
+    $query = "UPDATE users SET otp_code = ? WHERE Email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ss", $otp, $email);
+    return $stmt->execute();
+}
+
+
+public function getOtp($email) {
+    $query = "SELECT otp_code FROM users WHERE Email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc() ?: null;
+}
+
+
+public function clearOtp($email) {
+    $query = "UPDATE users SET otp_code = NULL WHERE Email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $email);
+    return $stmt->execute();
+}
+
+
+// Update password
+public function UpdatePassword($hashedPassword, $email) {
+    $query = "UPDATE users SET Password = ? WHERE Email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ss", $hashedPassword, $email);
+    return $stmt->execute() ? "success" : ["error" => "Failed to update password"];
+}
+
+    
+    
+    
+    
+
+
+    public function check_account($UserID) {
+      
+        $query = "SELECT * FROM users WHERE UserID = $UserID";
+    
+        $result = $this->conn->query($query);
+
+        // Prepare ang array para sa result
+        $items = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $items[] = $row;
+            }
+        }
+        return $items; 
     }
 
     public function search_users($search) {
@@ -893,21 +957,7 @@ class global_class extends db_connect
 
 
 
-    public function check_account($UserID) {
-      
-        $query = "SELECT * FROM users WHERE UserID = $UserID";
-    
-        $result = $this->conn->query($query);
-
-        // Prepare ang array para sa result
-        $items = [];
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $items[] = $row;
-            }
-        }
-        return $items; 
-    }
+   
 
 
 
