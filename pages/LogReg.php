@@ -29,35 +29,40 @@ if (isset($_SESSION['Role'])) {
                 <input type="submit" value="LOGIN" class="btn solid">
             </form>
 
-            <!-- Sign Up Form -->
-            <form id="FrmRegister" class="sign-up-form">
-                <div id="spinner" class="spinner" style="display:none;"></div>
-                <h2 class="title">Sign Up</h2>
-                <div class="role-selection">
-                    <label>
-                        <input type="radio" name="role" value="pet_owner" checked>Pet Owner
-                    </label>
-                    <label>
-                        <input type="radio" name="role" value="vet">Vet
-                    </label>
-                    <label>
-                        <input type="radio" name="role" value="lgu">LGU
-                    </label>
-                </div>
-                <div class="input-field">
-                    <i class='bx bxs-envelope'></i>
-                    <input type="email" placeholder="Email" name="email" required>
-                </div>
-                <div class="input-field">
-                    <i class='bx bxs-user'></i>
-                    <input type="text" placeholder="Username" id="username" name="username" required>
-                </div>
-                <div class="input-field">
-                    <i class='bx bxs-lock'></i>
-                    <input type="password" placeholder="Password" id="password" name="password" required>
-                </div>
-                <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
-            </form>
+           <!-- Sign Up Form -->
+<form id="FrmRegister" class="sign-up-form">
+    <div id="spinner" class="spinner" style="display:none;"></div>
+    <h2 class="title">Sign Up</h2>
+    <div class="role-selection">
+        <label>
+            <input type="radio" name="role" value="pet_owner" checked>Pet Owner
+        </label>
+        <label>
+            <input type="radio" name="role" value="vet">Vet
+        </label>
+        <label>
+            <input type="radio" name="role" value="lgu">LGU
+        </label>
+    </div>
+    <div class="input-field">
+        <i class='bx bxs-envelope'></i>
+        <input type="email" placeholder="Email" name="email" required>
+    </div>
+    <div class="input-field">
+        <i class='bx bxs-user'></i>
+        <input type="text" placeholder="Username" id="username" name="username" required>
+    </div>
+    <div class="input-field">
+        <i class='bx bxs-lock'></i>
+        <input type="password" placeholder="Password" id="password" name="password" required>
+    </div>
+    <!-- Upload Veterinarian ID Field -->
+    <div id="vet-id-field" class="input-field" style="display: none;">
+        <i class='bx bxs-id-card'></i>
+        <input type="file" placeholder="Upload Veterinarian ID" name="vet_id" accept="image/*">
+    </div>
+    <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
+</form>
         </div>
     </div>
 
@@ -318,7 +323,25 @@ $(document).ready(function () {
     validateOtpInputs();
 });
 
+$(document).ready(function () {
+    // Function to show/hide the Veterinarian ID field
+    function toggleVetIdField() {
+        const selectedRole = $('input[name="role"]:checked').val();
+        if (selectedRole === 'vet') {
+            $('#vet-id-field').show();
+        } else {
+            $('#vet-id-field').hide();
+        }
+    }
 
+    // Initial check on page load
+    toggleVetIdField();
+
+    // Event listener for role selection changes
+    $('input[name="role"]').change(function () {
+        toggleVetIdField();
+    });
+});
 
 
 
