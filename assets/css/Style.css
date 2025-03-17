@@ -3292,6 +3292,48 @@ body {
   outline: none;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .approval-card {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .approval-info {
+    flex-direction: column;
+  }
+
+  .actions {
+    margin-top: 20px;
+    align-items: center;
+  }
+
+  .approval-modal-content {
+    width: 90%;
+    margin: 10% auto;
+  }
+
+  .approval-view-details {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .approval-card {
+    padding: 15px;
+  }
+
+  .approval-details {
+    min-width: 100%;
+  }
+
+  .approval-modal-content {
+    width: 95%;
+    margin: 5% auto;
+  }
+}
+
 /* IMPOUNDED PETS PET OWNER */
 .owner_heading {
   font-size: 4rem;
