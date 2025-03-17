@@ -30,7 +30,7 @@ if (isset($_SESSION['Role'])) {
             </form>
 
            <!-- Sign Up Form -->
-<form id="FrmRegister" class="sign-up-form">
+           <form id="FrmRegister" class="sign-up-form" enctype="multipart/form-data">
     <div id="spinner" class="spinner" style="display:none;"></div>
     <h2 class="title">Sign Up</h2>
     <div class="role-selection">
@@ -38,7 +38,7 @@ if (isset($_SESSION['Role'])) {
             <input type="radio" name="role" value="pet_owner" checked>Pet Owner
         </label>
         <label>
-            <input type="radio" name="role" value="vet">Vet
+            <input type="radio" name="role" value="vet" id="vet-radio">Vet
         </label>
         <label>
             <input type="radio" name="role" value="lgu">LGU
@@ -56,12 +56,16 @@ if (isset($_SESSION['Role'])) {
         <i class='bx bxs-lock'></i>
         <input type="password" placeholder="Password" id="password" name="password" required>
     </div>
-    <!-- Upload Veterinarian ID Field -->
-    <div id="vet-id-field" class="input-field" style="display: none;">
-        <i class='bx bxs-id-card'></i>
-        <input type="file" placeholder="Upload Veterinarian ID" name="vet_id" accept="image/*">
-    </div>
-    <input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
+
+
+<!-- Upload Veterinarian ID Field -->
+<div id="vet-id-field" class="input-field" style="display: none;">
+    <label for="vet-id-upload" class="custom-file-upload">Upload Vet ID</label>
+    <input type="file" id="vet-id-upload" name="vet_id" accept="image/*">
+    <span id="file-name" class="file-name">No file chosen</span>
+</div>
+
+<input type="submit" name="btnRegister" value="REGISTER" class="btn solid">
 </form>
         </div>
     </div>
@@ -324,24 +328,57 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    // Function to show/hide the Veterinarian ID field
-    function toggleVetIdField() {
-        const selectedRole = $('input[name="role"]:checked').val();
-        if (selectedRole === 'vet') {
-            $('#vet-id-field').show();
+    // Show or hide the Vet ID upload field based on role selection
+    $("input[name='role']").change(function () {
+        if ($("#vet-radio").is(":checked")) {
+            $("#vet-id-field").show();
         } else {
-            $('#vet-id-field').hide();
+            $("#vet-id-field").hide();
         }
-    }
+    });
 
-    // Initial check on page load
-    toggleVetIdField();
+    // Update file name when a file is chosen
+    $("#vet-id-upload").change(function () {
+        let fileName = this.files[0] ? this.files[0].name : "No file chosen";
+        $("#file-name").text(fileName);
+    });
 
-    // Event listener for role selection changes
-    $('input[name="role"]').change(function () {
-        toggleVetIdField();
+    // Handle registration form submission
+    $("#FrmRegister").submit(function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let formData = new FormData(this); // Use FormData to handle file upload
+
+        $.ajax({
+            type: "POST",
+            url: "api/register.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $("#spinner").show(); // Show loading spinner
+            },
+            success: function (response) {
+                let res = JSON.parse(response);
+                if (res.status === "success") {
+                    alertify.success("Registration successful!");
+                    setTimeout(() => {
+                        window.location.href = "index.php?page=home";
+                    }, 1500);
+                } else {
+                    alertify.error(res.message);
+                }
+            },
+            error: function () {
+                alertify.error("An error occurred. Please try again.");
+            },
+            complete: function () {
+                $("#spinner").hide(); // Hide spinner after request completes
+            }
+        });
     });
 });
+
 
 
 

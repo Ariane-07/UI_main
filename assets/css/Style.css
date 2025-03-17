@@ -690,7 +690,7 @@ body.dark .search-field i {
     margin-right: 10px;
     align-items: center;
     letter-spacing: 0.3rem;
-    content: "UPLOAD FILES";
+    /* content: "UPLOAD FILES"; */
     justify-content: center;
   }
 
@@ -1363,6 +1363,7 @@ border-color: #007bff;
   .input-field {
     max-width: 300px; /* Adjust max-width for smaller screens */
   }
+  
 }
 
 @media (max-width: 768px) {
@@ -1435,21 +1436,60 @@ border-color: #007bff;
   cursor: pointer;
 }
 
+/* Style for the Veterinarian ID upload field */
 #vet-id-field {
   transition: all 0.3s ease;
+  width: 100%;
+  margin: 10px 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon, button, and file name */
 }
 
+/* Hide the default file input */
 #vet-id-field input[type="file"] {
-  width: 102%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 30px;
-  background-color: #f9f9f9;
-  cursor: pointer;
+  display: none; /* Hide the default file input */
 }
 
-#vet-id-field input[type="file"]:hover {
-  background-color: #e9e9e9;
+/* Custom file upload button - responsive */
+.custom-file-upload {
+  padding: 8px 16px;
+  border-radius: 30px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Adjust styles for smaller screens */
+@media (max-width: 768px) {
+  .custom-file-upload {
+    width: 100%;  /* Make button full-width on smaller screens */
+    padding: 10px; /* Slightly larger padding for better touch experience */
+    font-size: 0.9rem; /* Adjust font size */
+  }
+}
+
+/* Hover and focus effects */
+.custom-file-upload:hover,
+.custom-file-upload:focus {
+  background-color: #0056b3;
+  border-color: #004080;
+}
+
+
+/* Style for the file name display */
+.file-name {
+  font-size: 0.9rem;
+  color: #333;
+  margin-left: 10px;
 }
 
 /* Secret Super Admin Icon
