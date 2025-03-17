@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Email Headers
         $mail->setFrom($email, $firstName . " " . $lastName);
-        $mail->addAddress("MyPetAdmin@gmail.com"); // Recipient
+        $mail->addAddress("dummy.mypet@gmail.com"); // Recipient
 
         // Email Content
         $mail->isHTML(true);

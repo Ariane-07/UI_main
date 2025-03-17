@@ -198,11 +198,11 @@ $(document).ready(function () {
                 if (res.status === "success") {
                     successCallback(res);
                 } else {
-                    alert(res.message);
+                    alertify.error(res.message);
                 }
             },
             error: function () {
-                alert("An error occurred. Please try again.");
+                alertify.error("An error occurred. Please try again.");
             },
             complete: function () {
                 $("#spinnerForgot").hide();
@@ -281,7 +281,7 @@ $(document).ready(function () {
     $("#reset-password-btn").click(() => {
         let email = $("#reset-email").val().trim();
         if (!email) {
-            alert("Please enter your email.");
+            alertify.error("Please enter your email.");
             return;
         }
         sendOtp(email);
@@ -290,7 +290,7 @@ $(document).ready(function () {
     $("#verify-code-btn").click(() => {
         let otp = $(".otp-input-field input").map((_, el) => el.value).get().join("");
         if (!otp || otp.length !== 5) {
-            alert("Please enter a valid 5-digit OTP.");
+            alertify.error("Please enter a valid 5-digit OTP.");
             return;
         }
         verifyOtp(otp);
@@ -301,7 +301,7 @@ $(document).ready(function () {
         let confirmPassword = $("#confirm-password").val().trim();
 
         if (!newPassword || newPassword !== confirmPassword) {
-            alert("Passwords do not match or are empty.");
+            alertify.error("Passwords do not match or are empty.");
             return;
         }
 
