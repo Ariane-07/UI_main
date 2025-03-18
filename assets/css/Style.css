@@ -3115,14 +3115,15 @@ body {
 }
 
 .approval-modal-content {
-  width: 80%;
-  padding: 20px;
-  margin: 15% auto;
-  max-width: 600px;
+  width: 90%; /* Increase width for smaller screens */
+  padding: 15px; /* Reduce padding for smaller screens */
+  margin: 10% auto; /* Adjust margin for better centering */
+  max-width: 600px; /* Limit maximum width */
   border-radius: 10px;
   color: var(--text-color);
   border: 2px solid #393838;
   background-color: var(--nav-color);
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .approval-modal-header {
@@ -3164,8 +3165,10 @@ body {
 }
 
 .approval-modal-body img {
+  max-width: 100%;
+  height: auto;
   display: block;
-  margin-top: 10px;
+  margin: 10px auto;
   border-radius: 5px;
 }
 
@@ -3176,6 +3179,7 @@ body {
   border-top: 1px solid #393838;
   padding-top: 20px;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .approval-modal-footer button {
@@ -3189,10 +3193,11 @@ body {
   transition: all 0.3s ease;
   background-color: transparent;
   border: 2px solid var(--text-color);
+  transform-origin: center;
 }
 
 .approval-modal-footer button:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
   background-color: var(--text-color);
   color: var(--nav-color);
 }
@@ -3317,6 +3322,16 @@ body {
     width: 100%;
     text-align: center;
   }
+
+  .approval-modal-footer {
+    flex-direction: column;
+}
+
+.approval-modal-footer button {
+    width: 100%;
+    margin: 5px 0;
+}
+
 }
 
 @media (max-width: 480px) {
@@ -3331,7 +3346,12 @@ body {
   .approval-modal-content {
     width: 95%;
     margin: 5% auto;
+    padding: 10px;
   }
+
+  .approval-modal-footer button {
+    padding: 0.4rem 1rem;
+}
 }
 
 /* IMPOUNDED PETS PET OWNER */

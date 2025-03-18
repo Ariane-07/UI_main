@@ -2,48 +2,42 @@
     <h1 class="heading">Vet Details</h1>
 
     <div class="approval-list">
-        <?php 
-        $db = new global_class();
-        $status = "accept_by_vet";
-        $fetch_pets = $db->fetch_pending_pets($status);
-
-        if (mysqli_num_rows($fetch_pets) > 0): 
-            foreach ($fetch_pets as $pets):
-        ?>
+        <!-- Static example of an approval card -->
         <div class="approval-card">
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Veterinarian Email</strong></p>
-                    <p><?= $pets['vet_email'] ?></p>
+                    <p>example_vet@example.com</p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Username</strong></p>
-                    <p><?= $pets['vet_username'] ?></p>
+                    <p>example_vet_username</p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Vet ID</strong></p>
                     <div class="clickable-image">
-                        <img src="uploads/images/<?= $pets['vetID'] ?>" alt="Vet ID Photo" style="width: 150px; height: auto;">
+                        <img src="uploads/images/example_vet_id.jpg" alt="Vet ID Photo" style="width: 150px; height: auto;">
                     </div>
+                </div>
+                <div class="approval-details">
+                    <p><strong>Status</strong></p>
+                    <p></p>
                 </div>
             </div>
             <div class="actions">
                 <!-- View Details Button -->
                 <button class="approval-view-details"
-                    data-vet-email="<?= $pets['vet_email'] ?>"
-                    data-vet-username="<?= $pets['vet_username'] ?>"
-                    data-vet-id="<?= $pets['vetID'] ?>"
+                    data-vet-email="example_vet@example.com"
+                    data-vet-username="example_vet_username"
+                    data-vet-id="example_vet_id.jpg"
                 >VIEW DETAILS</button>
             </div>
         </div>
-        <?php
-            endforeach;
-        else: 
-        ?>
-        <div>
+
+        <!-- Example for no records found -->
+        <!-- <div>
             <p>No record found.</p>
-        </div>
-        <?php endif; ?>
+        </div> -->
     </div>
 </section>
 
@@ -68,6 +62,10 @@
                 <div class="clickable-image">
                     <img id="modal-vet-id" src="" alt="Vet ID Photo" style="width: 150px; height: auto;">
                 </div>
+            </div>
+            <div class="approval-modal-footer">
+                <button type="submit" id="approval-saveBtn" name="status" value="accept_by_lgu">Accept</button>
+                <button type="submit" id="approval-cancelBtn" name="status" value="declined_by_lgu">Decline</button>
             </div>
         </div>
     </div>

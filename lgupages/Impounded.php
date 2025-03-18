@@ -1,5 +1,5 @@
 <section>
-    <h1 class="imp-heading"><span>Impounded Pets</span></h1>
+    <h1 class="heading"><span>Impounded Pets</span></h1>
 
     <!-- Sorting Controls with Add Pet Button -->
     <div class="imp-sorting-controls">
