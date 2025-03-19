@@ -1,9 +1,19 @@
 <section>
     <h1 class="heading">Vet Details</h1>
 
+    <!-- Search and Sort Section -->
+    <div class="search-sort-container">
+        <input type="text" id="searchBox" placeholder="Search by email, username...">
+        <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="approved">Approved</option>
+            <option value="declined">Declined</option>
+        </select>
+    </div>
+
     <div class="approval-list">
         <!-- Static example of an approval card -->
-        <div class="approval-card">
+        <div class="approval-card" data-status="approved">
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Veterinarian Email</strong></p>
@@ -14,14 +24,8 @@
                     <p>example_vet_username</p>
                 </div>
                 <div class="approval-details">
-                    <p><strong>Vet ID</strong></p>
-                    <div class="clickable-image">
-                        <img src="uploads/images/example_vet_id.jpg" alt="Vet ID Photo" style="width: 150px; height: auto;">
-                    </div>
-                </div>
-                <div class="approval-details">
                     <p><strong>Status</strong></p>
-                    <p></p>
+                    <p>Approved</p>
                 </div>
             </div>
             <div class="actions">
@@ -79,6 +83,34 @@
 
 <script>
 $(document).ready(function() {
+    // Search and Sort Functionality
+    const searchBox = document.getElementById('searchBox');
+    const statusFilter = document.getElementById('statusFilter');
+    const approvalCards = document.querySelectorAll('.approval-card');
+
+    function filterAndSortCards() {
+        const searchText = searchBox.value.toLowerCase();
+        const selectedStatus = statusFilter.value;
+
+        approvalCards.forEach(card => {
+            const cardText = card.textContent.toLowerCase();
+            const cardStatus = card.getAttribute('data-status');
+
+            const matchesSearch = searchText === '' || cardText.includes(searchText);
+            const matchesStatus = selectedStatus === 'all' || cardStatus === selectedStatus;
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = 'flex'; // Show the card
+            } else {
+                card.style.display = 'none'; // Hide the card
+            }
+        });
+    }
+
+    // Attach event listeners for real-time filtering
+    searchBox.addEventListener('input', filterAndSortCards);
+    statusFilter.addEventListener('change', filterAndSortCards);
+
     // Open modal when "VIEW DETAILS" is clicked
     $(".approval-view-details").on("click", function() {
         var $this = $(this);
