@@ -10,7 +10,6 @@
         <select id="sortCriteria" aria-label="Sort by">
             <option value="dateCaught">Date Caught</option>
             <option value="daysRemaining">Days Remaining</option>
-            <option value="status">Status</option>
         </select>
         
         <!-- Dropdown to filter by status -->
@@ -26,9 +25,6 @@
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </select>
-        
-        <!-- Button to trigger sorting action -->
-        <button class="imp-button">GO</button>
     </div>
 
     <!-- Pet Gallery where pet cards are listed -->
@@ -41,48 +37,39 @@
                 $count = 1;
                 foreach ($fetch_pets as $pets):
 
-                    $claim_status='';
-                    
-
-                    if($pets['imp_status']=="Pending"&&$pets['imp_claim_by']!=null){
+                    $claim_status = '';
+                    if ($pets['imp_status'] == "Pending" && $pets['imp_claim_by'] != null) {
                         $claim_person = $db->check_account($pets['imp_claim_by']);
-                        
-                        $claim_status= "Claim Request";
-                    }else{
-                        $claim_status=$pets['imp_status'];
+                        $claim_status = "Claim Request";
+                    } else {
+                        $claim_status = $pets['imp_status'];
                     }
         ?>
-
         <!-- Example of a pet card -->
         <div class="imp-card">
-            <img src="uploads/images/<?=$pets['imp_impounded_photo'];?>" alt="Pet Image" class="imp-card-image">
+            <img src="uploads/images/<?= $pets['imp_impounded_photo']; ?>" alt="Pet Image" class="imp-card-image">
             <div class="imp-card-content">
-                <div class="imp-pet-status owner-pet-status <?= strtolower($pets['imp_status']); ?>"><?=$claim_status;?></div>
-
-
+                <div class="imp-pet-status owner-pet-status <?= strtolower($pets['imp_status']); ?>"><?= $claim_status; ?></div>
                 <button class="showpetDetailsModal imp-button"
-                data-imp_id='<?=$pets['imp_id'];?>'
-                data-imp_date_caught='<?=$pets['imp_date_caught'];?>'
-                data-imp_location_found='<?=$pets['imp_location_found'];?>'
-                data-imp_location_impound='<?=$pets['imp_location_impound'];?>'
-                data-imp_days_rem='<?=$pets['imp_days_rem'];?>'
-                data-imp_impounded_photo='<?=$pets['imp_impounded_photo'];?>'
-                data-imp_status='<?=$pets['imp_status'];?>'
-                data-imp_notes='<?=$pets['imp_notes'];?>'
+                    data-imp_id='<?= $pets['imp_id']; ?>'
+                    data-imp_date_caught='<?= $pets['imp_date_caught']; ?>'
+                    data-imp_location_found='<?= $pets['imp_location_found']; ?>'
+                    data-imp_location_impound='<?= $pets['imp_location_impound']; ?>'
+                    data-imp_days_rem='<?= $pets['imp_days_rem']; ?>'
+                    data-imp_impounded_photo='<?= $pets['imp_impounded_photo']; ?>'
+                    data-imp_status='<?= $pets['imp_status']; ?>'
+                    data-imp_notes='<?= $pets['imp_notes']; ?>'
                 >DETAILS</button>
             </div>
         </div>
-
         <?php
                 $count++;
                 endforeach;
             else:
         ?>
-        
         <div class="no-record">
             <p>No records found.</p>
         </div>
-        
         <?php endif; ?>
     </div>
 </section>
@@ -101,7 +88,6 @@
             </div>
             <div class="imp-modal-body">
                 <input hidden type="text" class="imp-info-input" name="imp_id" id="imp_id">
-
                 <div class="imp-modal-image-container">
                     <img src="" alt="Pet" class="imp-modal-image" id="petImagePreview">
                     <label class="imp-image-upload-label">
@@ -109,12 +95,10 @@
                         <input type="file" class="imp-image-upload" accept="image/*" name="update-image-upload" id="petImage">
                     </label>
                 </div>
-
                 <div class="imp-note-container">
                     <label for="imp_notes">Notes:</label>
                     <textarea id="imp_notes" name="updateNotes" class="imp-note-input" placeholder="Add any notes about the pet..."></textarea>
                 </div>
-
                 <div class="imp-info-grid">
                     <div class="imp-info-item">
                         <div class="imp-info-label">Date Caught</div>
@@ -152,12 +136,10 @@
                 <h2>Add New Pet</h2>
                 <button class="imp-modal-close" id="closeImpoundedPetModal">×</button>
             </div>
-            <!-- Spinner -->
             <div class="form-grid">
                 <div id="spinner" class="spinner" style="display:none;">
                     <div class="loader"></div>
                 </div>
-
                 <div class="imp-modal-body">
                     <div class="imp-modal-image-container">
                         <img hidden src="" alt="Pet" class="imp-modal-image" id="preview_images">
@@ -197,13 +179,9 @@ $(document).ready(function () {
     // Handle DELETE action
     $(".imp-delete-button").click(function (e) {
         e.preventDefault();
-        
         var petId = $("#imp_id").val();  // Get the pet ID from the form input
-        
         if (petId) {
-            // Confirm the delete action
             if (confirm("Are you sure you want to delete this pet?")) {
-                // Send AJAX request to delete the pet
                 $.ajax({
                     url: "api/config/end-points/controller.php",
                     method: 'POST',
@@ -211,7 +189,6 @@ $(document).ready(function () {
                     success: function (response) {
                         console.log(response);
                         alert('Pet deleted successfully!');
-
                         setTimeout(function () {
                             location.reload();
                         }, 1000);
@@ -229,7 +206,6 @@ $(document).ready(function () {
     // Handle SAVE (UPDATE) action
     $(".imp-save-button").click(function (e) {
         e.preventDefault();
-
         var petId = $("#imp_id").val();
         var notes = $("#imp_notes").val();
         var dateCaught = $("#dateCaught").val();
@@ -299,12 +275,9 @@ $(document).ready(function () {
         var file = event.target.files[0]; // Get the uploaded file
         if (file) {
             var reader = new FileReader(); // Create a FileReader to read the file
-
             reader.onload = function(e) {
-                // Set the image preview source
-                $('#petImagePreview').attr('src', e.target.result);
+                $('#petImagePreview').attr('src', e.target.result); // Set the image preview source
             };
-
             reader.readAsDataURL(file); // Read the file as Data URL
         }
     });
@@ -344,19 +317,44 @@ $(document).ready(function () {
         }
     });
 
-    // Filter by status
+    // Automatically filter by status when dropdown changes
     $('#sortStatus').on('change', function() {
         var selectedStatus = $(this).val().toLowerCase();
-
         $('.imp-card').each(function() {
             var petStatus = $(this).find('.imp-pet-status').text().toLowerCase();
-
             if (selectedStatus === 'all' || petStatus === selectedStatus) {
                 $(this).show();
             } else {
                 $(this).hide();
             }
         });
+    });
+
+    // Automatically sort by criteria when dropdown changes
+    $('#sortCriteria').on('change', function() {
+        var sortBy = $(this).val();
+        var sortOrder = $('#sortOrder').val(); // Get the selected sort order
+
+        // Sort the pet cards based on the selected criteria and order
+        var $cards = $('.imp-card').get();
+        $cards.sort(function(a, b) {
+            var aValue = $(a).data(sortBy);
+            var bValue = $(b).data(sortBy);
+
+            if (sortOrder === 'asc') {
+                return aValue > bValue ? 1 : -1;
+            } else {
+                return aValue < bValue ? 1 : -1;
+            }
+        });
+
+        // Re-append the sorted cards to the gallery
+        $('#imp-gallery').empty().append($cards);
+    });
+
+    // Automatically sort by order when dropdown changes
+    $('#sortOrder').on('change', function() {
+        $('#sortCriteria').trigger('change'); // Trigger the sort criteria change to re-sort
     });
 });
 </script>
