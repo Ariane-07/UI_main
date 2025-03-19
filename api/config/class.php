@@ -535,6 +535,31 @@ public function UpdatePassword($hashedPassword, $email) {
     }
 
 
+
+
+
+
+
+    public function VerifiedVet($vet_id,$status)
+    {
+        
+            // Update query excluding post_images
+            $stmt = $this->conn->prepare("UPDATE `users` SET `status` = ? WHERE `UserID` = ?");
+            $stmt->bind_param("ii",$status,$vet_id);
+        
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } 
+    }
+
+
+
+
+
+
     public function DeletePost($deletepostid)
     {
         
@@ -649,6 +674,18 @@ public function UpdatePassword($hashedPassword, $email) {
     public function fetch_pending_pets($status)
     {
         $query = $this->conn->prepare("SELECT * from pets_info where pet_status='$status' ");
+
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+
+
+    public function fetch_all_vet()
+    {
+        $query = $this->conn->prepare("SELECT * from users where Role='vet' ORDER BY `UserID` DESC ");
 
         if ($query->execute()) {
             $result = $query->get_result();
@@ -870,53 +907,57 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
-    public function SignUp($email, $username, $password, $role)
-    {
-        // Check if the email already exists
-        $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Email` = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            // Email already exists, return error response
-            echo json_encode(array('status' => 'email_already', 'message' => 'Email already exists'));
-            return;  // Stop further execution
-        }
+    public function SignUp($email, $username, $password, $role, $license_proof)
+{
+    // Check if the email already exists
+    $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Email` = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
-        // Check if the username already exists
-        $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        if ($result->num_rows > 0) {
-            // Username already exists, return error response
-            echo json_encode(array('status' => 'username_already', 'message' => 'Username already exists'));
-            return;  // Stop further execution
-        }
-    
-        // Hash the password using SHA-256
-        $hashedPassword = hash('sha256', $password);
-    
-        // Proceed with insertion if email and username do not exist
-        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`, `Role`) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $username, $email, $hashedPassword, $role);
-    
-        if ($stmt->execute()) {
-            session_start();
-            $userId = $this->conn->insert_id;
-            // $_SESSION['UserID'] = $userId;
-            $response = array(
-                'status' => 'success',
-                'id' => $userId
-            );
-            echo json_encode($response);
-        } else {
-            // Return an error status with the error code
-            echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
-        }
+    if ($result->num_rows > 0) {
+        echo json_encode(array('status' => 'email_already', 'message' => 'Email already exists'));
+        return;
     }
+
+    // Check if the username already exists
+    $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(array('status' => 'username_already', 'message' => 'Username already exists'));
+        return;
+    }
+
+    // Hash the password using SHA-256
+    $hashedPassword = hash('sha256', $password);
+
+    if($role=='vet'){
+        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`, `Role`, `license_proof`,`status`) VALUES (?, ?, ?, ?, ?,'0')");
+    }else{
+        $stmt = $this->conn->prepare("INSERT INTO `users` (`Username`, `Email`, `Password`, `Role`, `license_proof`,`status`) VALUES (?, ?, ?, ?, ?,'1')");
+    }
+    
+    
+    // Bind parameters (use "sssss" because all fields are strings)
+    $stmt->bind_param("sssss", $username, $email, $hashedPassword, $role, $license_proof);
+
+    if ($stmt->execute()) {
+        session_start();
+        $userId = $this->conn->insert_id;
+
+        $response = array(
+            'status' => 'success',
+            'id' => $userId
+        );
+        echo json_encode($response);
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
+    }
+}
+
     
 
 
@@ -927,7 +968,7 @@ public function UpdatePassword($hashedPassword, $email) {
     $hashedPassword = hash('sha256', $password);
     
     // Prepare the SQL query
-    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ?");
+    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ? AND status = '1'");
     
     // Bind the username and the hashed password
     $query->bind_param("ss", $username, $hashedPassword);

@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
-
+    
+    
 
 
     $("#frmClaim").submit(function (e) {
@@ -20,7 +21,7 @@ $(document).ready(function () {
                 console.log(response);
     
                 if (response.status == "success") {
-                    alertify.success('Request Sent');
+                    alertify.success('Update Saved');
                     setTimeout(function () {
                        location.reload();
                     }, 1000);
@@ -364,86 +365,87 @@ $(document).ready(function () {
     $("#FrmRegister").submit(function (e) {
         e.preventDefault();
     
-        var password = $("#password").val();
+        let selectedRole = $("input[name='role']:checked").val();
+        let formData = new FormData(this); // Use FormData to handle file uploads
+    
+        if (selectedRole === "vet") {
+            let licenseFile = $("#vet-id-upload")[0]?.files[0]; // Get the file
+    
+            if (!licenseFile) {
+                alertify.error('Please upload your vet ID.');
+                return;
+            }
+    
+            formData.append("vet_license_id", licenseFile); // Append file to FormData
+        }
+    
+        let password = $("#password").val();
     
         function validatePassword(password) {
-            var messages = [];
+            let messages = [];
     
-            // Check if password contains at least one lowercase letter
             if (!/(?=.*[a-z])/.test(password)) {
                 messages.push("Password must contain at least one lowercase letter.");
             }
-    
-            // Check if password contains at least one uppercase letter
             if (!/(?=.*[A-Z])/.test(password)) {
                 messages.push("Password must contain at least one uppercase letter.");
             }
-    
-            // Check if password contains at least one number
             if (!/(?=.*\d)/.test(password)) {
                 messages.push("Password must contain at least one number.");
             }
-    
-            // Check if password contains at least one special character
             if (!/(?=.*[@$!%*?&])/.test(password)) {
-                messages.push("Password must contain at least one special character (e.g., @, $, !, %, etc.).");
+                messages.push("Password must contain at least one special character.");
             }
-    
-            // Check if password is at least 8 characters long
             if (password.length < 8) {
                 messages.push("Password must be at least 8 characters long.");
             }
     
-            // Return validation result
-            return messages.length === 0 ? null : messages.join(" ");
+            return messages.length ? messages.join(" ") : null;
         }
     
-        var passwordValidationResult = validatePassword(password);
-    
+        let passwordValidationResult = validatePassword(password);
         if (passwordValidationResult) {
             alertify.error(passwordValidationResult);
             return;
-        } else {
-            // alertify.success("Password is strong.");
         }
     
         $('.spinner').show();
         $('#btnRegister').prop('disabled', true);
-        
-        var formData = $(this).serializeArray(); 
-        formData.push({ name: 'requestType', value: 'Signup' });
-        var serializedData = $.param(formData);
     
-        // Perform the AJAX request
+        formData.append('requestType', 'Signup'); // Ensure request type is included
+    
         $.ajax({
             type: "POST",
             url: "api/config/end-points/controller.php",
-            data: serializedData,  
+            data: formData,
+            processData: false,  // Prevent jQuery from converting FormData into a query string
+            contentType: false,  // Let the browser set the correct multipart/form-data content type
             success: function (response) {
-                console.log(response);
-                var data = JSON.parse(response);
+                try {
+                    let data = JSON.parse(response);
     
-                if (data.status === "success") {
-                    alertify.success('Registration Successful');
-    
-                    // Delay redirect by 2 seconds to allow message display
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);  
-    
-                } else {
-                    alertify.error(data.message || 'Registration failed, please try again.');
+                    if (data.status === "success") {
+                        alertify.success('Registration Successful');
+                        setTimeout(() => location.reload(), 2000);
+                    } else {
+                        alertify.error(data.message || 'Registration failed, please try again.');
+                        $('.spinner').hide();
+                        $('#btnRegister').prop('disabled', false);
+                    }
+                } catch (error) {
+                    alertify.error("An error occurred while processing the request.");
                     $('.spinner').hide();
                     $('#btnRegister').prop('disabled', false);
                 }
             },
             error: function () {
-                alertify.error('An error occurred while processing your request.');
+                alertify.error("Failed to connect to the server.");
                 $('.spinner').hide();
                 $('#btnRegister').prop('disabled', false);
             }
         });
     });
+    
     
 
 

@@ -10,6 +10,11 @@ if ($Profile[0]['Role'] == "pet_owner") {
     $Role = $Profile[0]['Role'];
 }
 
+
+// echo "<pre>";
+// print_r($Profile);
+// echo "</pre>";
+
 $authorization = "";
 
 if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
@@ -25,7 +30,7 @@ if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
             <div class="profile-image">
                 <div class="profile-pic-container">
                     <img id="profile-pic" src="<?= isset($Profile[0]['ProfilePic']) && $Profile[0]['ProfilePic'] ? "uploads/images/" . $Profile[0]['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
-                    <?php if ($Profile[0]['isVerified']) { ?>
+                    <?php if ($Profile[0]['status']=="1" && $Profile[0]['Role']=="vet") { ?>
                         <span class="verified-icon"><i class="fas fa-check-circle"></i></span>
                     <?php } ?>
                 </div>

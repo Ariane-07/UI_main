@@ -512,15 +512,57 @@ if ($response == "success") {
 
             echo $db->ClaimPet($imp_id,$UserID);
             
-        }else if ($_POST['requestType'] == 'Signup') {
-
-            $email=$_POST['email'];
-            $username=$_POST['username'];
-            $password=$_POST['password'];
-            $role=$_POST['role'];
+        }else if ($_POST['requestType'] == 'VerifiedVet') {
+            session_start();
+            
+            $vet_id=$_POST['vet_id'];
+            $status=$_POST['status'];
           
 
-            echo $db->SignUp($email,$username,$password,$role);
+            echo $db->VerifiedVet($vet_id,$status);
+            
+        }else if ($_POST['requestType'] == 'Signup') {
+
+
+           
+            $email = $_POST['email'];
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $role = $_POST['role'];
+            $vet_license_filename = null; // Default to NULL for non-vet users
+            
+            // Handle Vet ID Upload
+            if ($role === 'vet' && isset($_FILES['vet_license_id']) && $_FILES['vet_license_id']['error'] == 0) {
+                $fileTmpPath = $_FILES['vet_license_id']['tmp_name'];
+                $fileName = $_FILES['vet_license_id']['name'];
+            
+                // Ensure filename is not empty
+                if (!empty($fileName)) {
+                    $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
+                    
+                    // Generate unique filename
+                    $uniqueFileName = "vet_id_" . uniqid() . "." . $fileExt;
+                    $uploadDir = "../../../uploads/images/";
+                    $destination = $uploadDir . $uniqueFileName;
+            
+                    // Move uploaded file
+                    if (move_uploaded_file($fileTmpPath, $destination)) {
+                        $vet_license_filename = $uniqueFileName; // Store only the filename (without the path)
+                    } else {
+                        echo json_encode(["status" => "error", "message" => "Failed to upload Vet ID."]);
+                        exit;
+                    }
+                }
+            }
+            
+            // Ensure `$vet_license_filename` is `NULL` if no file was uploaded
+            $vet_license_filename = $vet_license_filename ?? null;
+            
+            // Call signup function and include vet_license_filename if available
+            echo $db->SignUp($email, $username, $password, $role, $vet_license_filename);
+            
+
+
             
         }else if ($_POST['requestType'] == 'DeletePost') {
 

@@ -14,40 +14,64 @@
 
     <div class="approval-list">
         <!-- Static example of an approval card -->
+        <?php 
+        $db = new global_class();
+
+         $status="accept_by_vet";
+         $fetch_vets = $db->fetch_all_vet($status);
+
+       
+
+         if (mysqli_num_rows($fetch_vets) > 0):
+              foreach ($fetch_vets as $vet):
+
+                $status="Unverified";
+                if($vet['status']=='1'){
+                    $status="Verified";
+                }
+          ?>
+
         <div class="approval-card" data-status="approved">
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Veterinarian Email</strong></p>
-                    <p>example_vet@example.com</p>
+                    <p><?=$vet['Email']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Username</strong></p>
-                    <p>example_vet_username</p>
+                    <p><?=$vet['Username']?></p>
                 </div>
                 <div class="approval-details">
                     <p><strong>Status</strong></p>
-                    <p>Approved</p>
+                    <p><?=$status?></p>
                 </div>
             </div>
+
+
             <div class="actions">
                 <!-- View Details Button -->
                 <button class="approval-view-details"
-                    data-vet-email="example_vet@example.com"
-                    data-vet-username="example_vet_username"
-                    data-vet-id="example_vet_id.jpg"
+                    data-vet-UserID="<?=$vet['UserID']?>"
+                    data-vet-email="<?=$vet['Email']?>"
+                    data-vet-username="<?=$vet['Username']?>"
+                    data-vet-license_proof="<?=$vet['license_proof']?>"
                 >VIEW DETAILS</button>
             </div>
         </div>
-
-        <!-- Example for no records found -->
-        <!-- <div>
-            <p>No record found.</p>
-        </div> -->
+            <?php
+            endforeach;
+            ?>
+            
+        <?php else: ?>
+            <tr>
+                <td colspan="5" class="p-2">No record found.</td>
+            </tr>
+        <?php endif; ?>
     </div>
 </section>
 
 <!-- Modal for Detailed View -->
-<div id="ApprovalModal" class="approval-modal">
+<div id="ApprovalModal" class="edit-modal">
     <div class="approval-modal-content">
         <div class="approval-modal-header">
             <h2>Veterinarian Details</h2>
@@ -69,12 +93,67 @@
                 </div>
             </div>
             <div class="approval-modal-footer">
-                <button type="submit" id="approval-saveBtn" name="status" value="accept_by_lgu">Accept</button>
-                <button type="submit" id="approval-cancelBtn" name="status" value="declined_by_lgu">Decline</button>
+                <input hidden type="text" id="vet_id" name="vet_id">
+                <button type="button" id="verified_vet" name="status" value="1">Verified</button>
+                <button type="button" id="declined_vet" name="status" value="2">Decline</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Function to handle verification or decline
+function updateVetStatus(status) {
+    var vet_id = $("#vet_id").val();
+
+    if (!vet_id) {
+        alertify.error('Vet ID is missing.');
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append('requestType', 'VerifiedVet');
+    formData.append('vet_id', vet_id);
+    formData.append('status', status);
+
+    $.ajax({
+        type: "POST",
+        url: "api/config/end-points/controller.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+
+            if (response.status === "success") {
+                alertify.success('Request Sent');
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                alertify.error('Sending failed, please try again.');
+            }
+        },
+        error: function () {
+            alertify.error('An error occurred.');
+        }
+    });
+}
+
+// Click event for "Verified" button
+$("#verified_vet").click(function (e) {
+    e.preventDefault();
+    updateVetStatus(1); // Status 1 = Verified
+});
+
+// Click event for "Decline" button
+$("#declined_vet").click(function (e) {
+    e.preventDefault();
+    updateVetStatus(2); // Status 2 = Declined
+});
+
+</script>
 
 <!-- Lightbox Modal for Vet ID Photo -->
 <div id="imageLightbox" class="lightbox-modal">
@@ -114,16 +193,17 @@ $(document).ready(function() {
 
     // Open modal when "VIEW DETAILS" is clicked
     $(".approval-view-details").on("click", function() {
-        var $this = $(this);
+    var $this = $(this);
 
-        // Populate the modal with data from the clicked button
-        $("#modal-vet-email").val($this.data("vet-email"));
-        $("#modal-vet-username").val($this.data("vet-username"));
-        $("#modal-vet-id").attr("src", "uploads/images/" + $this.data("vet-id"));
+    // Populate the modal with data from the clicked button
+    $("#modal-vet-email").val($this.data("vet-email"));
+    $("#modal-vet-username").val($this.data("vet-username"));
+    $("#modal-vet-id").attr("src", "uploads/images/" + $this.data("vet-license_proof"));
 
-        // Show the modal
-        $("#ApprovalModal").fadeIn();
-    });
+    $("#vet_id").val($this.attr("data-vet-UserID"));
+    // Show the modal
+    $("#ApprovalModal").fadeIn();
+});
 
     // Close modal when close button is clicked
     $(".approval-close").on("click", function() {
