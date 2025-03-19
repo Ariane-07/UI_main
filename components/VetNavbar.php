@@ -77,11 +77,14 @@
 }
 </style>
 
+
+<input hidden type="text" id="session_Role" value="<?=$_SESSION['Role']?>">
+
 <script>
 $(document).ready(function() {
     $("#searchUser").on("keyup", function() {
         let query = $(this).val().trim();
-
+        let session_Role = $("#session_Role").val();
         if (query !== "") {
             $.ajax({
                 url: "api/config/end-points/search_users.php",
@@ -95,7 +98,7 @@ $(document).ready(function() {
                     if (response.length > 0) {
                         response.forEach(user => {
                             let roleFormatted = user.Role.replace(/_/g, ' '); // Remove underscore
-                            let profileLink = `index.php?components=profile&&role=${user.Role}&&UserID=${user.UserID}`; // URL with role
+                            let profileLink = `index.php?components=profile&&role=${session_Role}&&UserID=${user.UserID}`;  // URL with role
 
                             output += `<li>
                                 <a href="${profileLink}" style="text-decoration: none; color: inherit;">
