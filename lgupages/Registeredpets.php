@@ -1,16 +1,15 @@
 <section>
     <h1 class="heading">Pets <span>Information</span></h1>
 
-    <!-- Search and Sort Section -->
-    <div class="search-sort-container">
-        <input type="text" id="searchBox" placeholder="Search by name, pet name, email, contact number, barangay...">
-        <select id="statusFilter">
-            <option value="all">All</option>
-            <option value="approved">Approved</option>
-            <option value="declined">Declined</option>
-        </select>
-        <button id="goButton">Go</button>
-    </div>
+   <!-- Search and Sort Section -->
+<div class="search-sort-container">
+    <input type="text" id="searchBox" placeholder="Search by name, pet name, email, contact number, barangay...">
+    <select id="statusFilter">
+        <option value="all">All</option>
+        <option value="approved">Approved</option>
+        <option value="declined">Declined</option>
+    </select>
+</div>
 
     <div class="client-list">
         <?php 
@@ -145,53 +144,84 @@
 
 
 <script>
-  $(".view-details").click(function (e) {
-    e.preventDefault();
-    $("#clientModal").fadeIn();
+ document.addEventListener('DOMContentLoaded', function () {
+    const searchBox = document.getElementById('searchBox');
+    const statusFilter = document.getElementById('statusFilter');
+    const clientCards = document.querySelectorAll('.client-card');
 
-    // Get data attributes from the clicked button
-    let petOwner = $(this).attr('data-petOwner');
-    let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
-    let petOwnerEmail = $(this).attr('data-pet_owner_email');
-    let petOwnerAddress = $(this).attr('data-pet_owner_home_address');
-    let petOwnerBarangay = $(this).attr('data-pet_owner_barangay');
-    let petName = $(this).attr('data-pet_name');
-    let petBirthday = $(this).attr('data-pet_birthday');
-    let petBreed = $(this).attr('data-pet_breed');
-    let petGender = $(this).attr('data-pet_gender');
-    let petSpecies = $(this).attr('data-pet_species');
-    let petColor = $(this).attr('data-pet_color');
-    let petMarks = $(this).attr('data-pet_marks');
-    let petVaccineDue = $(this).attr('data-pet_antiRabies_expi_date');
-    let petVaccineGiven = $(this).attr('data-pet_antiRabies_vac_date');
-    let petDateApplication = $(this).attr('data-pet_date_application'); // Add this line
+    // Function to filter and sort cards
+    function filterAndSortCards() {
+        const searchText = searchBox.value.toLowerCase();
+        const selectedStatus = statusFilter.value;
 
-    // Set values to input fields
-    $("#client-name").val(petOwner);
-    $("#client-contact").val(petOwnerTel);
-    $("#client-email").val(petOwnerEmail);
-    $("#client-address").val(petOwnerAddress);
-    $("#client-barangay").val(petOwnerBarangay);
-    $("#client-pet-name").val(petName);
-    $("#client-birthdate").val(petBirthday);
-    $("#client-breed").val(petBreed);
-    $("#client-gender").val(petGender);
-    $("#client-species").val(petSpecies);
-    $("#client-color").val(petColor);
-    $("#client-mark").val(petMarks);
-    $("#client-vaccine-due").val(petVaccineDue);
-    $("#client-vaccine-given").val(petVaccineGiven);
-    $("#client-date-application").val(petDateApplication);
+        clientCards.forEach(card => {
+            const cardText = card.textContent.toLowerCase();
+            const cardStatus = card.getAttribute('data-status');
 
-    console.log("Pet Owner:", petOwner);
-    console.log("Date of Application:", petDateApplication); // Debugging
+            // Check if the card matches both the search text and the selected status
+            const matchesSearch = searchText === '' || cardText.includes(searchText);
+            const matchesStatus = selectedStatus === 'all' || cardStatus === selectedStatus;
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = 'flex'; // Show the card
+            } else {
+                card.style.display = 'none'; // Hide the card
+            }
+        });
+    }
+
+    // Attach event listeners for real-time filtering
+    searchBox.addEventListener('input', filterAndSortCards);
+    statusFilter.addEventListener('change', filterAndSortCards);
+
+    // Attach event listeners to "View Details" buttons
+    document.querySelectorAll('.view-details').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            $("#clientModal").fadeIn();
+
+            // Get data attributes from the clicked button
+            const petOwner = this.getAttribute('data-petOwner');
+            const petOwnerTel = this.getAttribute('data-pet_owner_telMobile');
+            const petOwnerEmail = this.getAttribute('data-pet_owner_email');
+            const petOwnerAddress = this.getAttribute('data-pet_owner_home_address');
+            const petOwnerBarangay = this.getAttribute('data-pet_owner_barangay');
+            const petName = this.getAttribute('data-pet_name');
+            const petBirthday = this.getAttribute('data-pet_birthday');
+            const petBreed = this.getAttribute('data-pet_breed');
+            const petGender = this.getAttribute('data-pet_gender');
+            const petSpecies = this.getAttribute('data-pet_species');
+            const petColor = this.getAttribute('data-pet_color');
+            const petMarks = this.getAttribute('data-pet_marks');
+            const petVaccineDue = this.getAttribute('data-pet_antiRabies_expi_date');
+            const petVaccineGiven = this.getAttribute('data-pet_antiRabies_vac_date');
+            const petDateApplication = this.getAttribute('data-pet_date_application');
+
+            // Set values to input fields
+            $("#client-name").val(petOwner);
+            $("#client-contact").val(petOwnerTel);
+            $("#client-email").val(petOwnerEmail);
+            $("#client-address").val(petOwnerAddress);
+            $("#client-barangay").val(petOwnerBarangay);
+            $("#client-pet-name").val(petName);
+            $("#client-birthdate").val(petBirthday);
+            $("#client-breed").val(petBreed);
+            $("#client-gender").val(petGender);
+            $("#client-species").val(petSpecies);
+            $("#client-color").val(petColor);
+            $("#client-mark").val(petMarks);
+            $("#client-vaccine-due").val(petVaccineDue);
+            $("#client-vaccine-given").val(petVaccineGiven);
+            $("#client-date-application").val(petDateApplication);
+        });
+    });
+
+    // Close modal functionality
+    document.querySelectorAll('.close-clientModal').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            $("#clientModal").fadeOut();
+        });
+    });
 });
-
-  $(".close-clientModal").click(function (e) { 
-    e.preventDefault();
-    $("#clientModal").fadeOut();
-    
-  });
-  
-
 </script>

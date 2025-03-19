@@ -2834,6 +2834,21 @@ body {
   transition: transform 0.3s ease;
   background-color: var(--nav-color);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  visibility: visible;
+  opacity: 1;
+}
+
+.client-card[style*="display: none"] {
+  display: none !important; /* Ensure hidden cards do not take up space */
+}
+
+.client-card[hidden] {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 
 .client-card:hover {
