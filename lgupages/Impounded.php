@@ -87,15 +87,7 @@
     </div>
 </section>
 
-
-
-
-
-
-
-
-
-   <!-- Pet Details Modal -->
+<!-- Pet Details Modal -->
 <form id="frmUpdateImpoundPets" enctype="multipart/form-data">
     <div id="petDetailsModal" class="edit-modal" style="display:none;">
         <div class="imp-modal-content">
@@ -152,24 +144,17 @@
     </div>
 </form>
 
-
-
-
-
-
-
-
 <!-- Add Pet Modal -->
- <form id="frmAddImpoundPets">
+<form id="frmAddImpoundPets">
     <div id="addImpoundedPetModal" class="edit-modal">
-            <div class="imp-modal-content">
-                <div class="imp-modal-header">
-                    <h2>Add New Pet</h2>
-                    <button class="imp-modal-close" id="closeImpoundedPetModal">×</button>
-                </div>
-                 <!-- Spinner -->
-                 <div class="form-grid">
-                    <div id="spinner" class="spinner" style="display:none;">
+        <div class="imp-modal-content">
+            <div class="imp-modal-header">
+                <h2>Add New Pet</h2>
+                <button class="imp-modal-close" id="closeImpoundedPetModal">×</button>
+            </div>
+            <!-- Spinner -->
+            <div class="form-grid">
+                <div id="spinner" class="spinner" style="display:none;">
                     <div class="loader"></div>
                 </div>
 
@@ -201,131 +186,96 @@
                 </div>
                 <div class="imp-modal-footer">
                     <button type="submit" id="btnAddImpoundPets" class="imp-button">SAVE</button>
-                   
                 </div>
             </div>
         </div>
- </form>
-    
+    </div>
+</form>
 
 <script>
 $(document).ready(function () {
+    // Handle DELETE action
+    $(".imp-delete-button").click(function (e) {
+        e.preventDefault();
+        
+        var petId = $("#imp_id").val();  // Get the pet ID from the form input
+        
+        if (petId) {
+            // Confirm the delete action
+            if (confirm("Are you sure you want to delete this pet?")) {
+                // Send AJAX request to delete the pet
+                $.ajax({
+                    url: "api/config/end-points/controller.php",
+                    method: 'POST',
+                    data: { id: petId, requestType: "deleteImpound" }, 
+                    success: function (response) {
+                        console.log(response);
+                        alert('Pet deleted successfully!');
 
-
-
-// Handle DELETE action
-$(".imp-delete-button").click(function (e) {
-            e.preventDefault();
-            
-            var petId = $("#imp_id").val();  // Get the pet ID from the form input
-            
-            if (petId) {
-                // Confirm the delete action
-                if (confirm("Are you sure you want to delete this pet?")) {
-                    // Send AJAX request to delete the pet
-                    $.ajax({
-                        url: "api/config/end-points/controller.php",
-                        method: 'POST',
-                        data: { id: petId,requestType:"deleteImpound" }, 
-                        success: function (response) {
-                            console.log(response);
-                            alert('Pet deleted successfully!');
-
-                            setTimeout(function () {
+                        setTimeout(function () {
                             location.reload();
-                            }, 1000);
-                        },
-                        error: function () {
-                            alert('Error deleting pet!');
-                        }
-                    });
-                }
-            } else {
-                alert("No pet selected for deletion.");
+                        }, 1000);
+                    },
+                    error: function () {
+                        alert('Error deleting pet!');
+                    }
+                });
             }
-        });
-
-        // Handle SAVE (UPDATE) action
-        $(".imp-save-button").click(function (e) {
-    e.preventDefault();
-
-    var petId = $("#imp_id").val();
-    var notes = $("#imp_notes").val();
-    var dateCaught = $("#dateCaught").val();
-    var locationFound = $("#locationFound").val();
-    var impoundLocation = $("#impoundLocation").val();
-    var petStatus = $("#petStatus").val();
-    var daysRemaining = $("#daysRemaining").val();
-    var petImage = $("#petImage")[0].files[0];  // Get the file from the file input
-
-    if (petId) {
-        var formData = new FormData();
-        formData.append('id', petId);
-        formData.append('notes', notes);
-        formData.append('dateCaught', dateCaught);
-        formData.append('locationFound', locationFound);
-        formData.append('impoundLocation', impoundLocation);
-        formData.append('petStatus', petStatus);
-        formData.append('daysRemaining', daysRemaining);
-
-        if (petImage) {
-            formData.append('image', petImage);  // Append the image file
+        } else {
+            alert("No pet selected for deletion.");
         }
+    });
 
-        formData.append('requestType', 'updateImpound');
+    // Handle SAVE (UPDATE) action
+    $(".imp-save-button").click(function (e) {
+        e.preventDefault();
 
-        $.ajax({
-            url: "api/config/end-points/controller.php",
-            method: 'POST',
-            data: formData,
-            processData: false,  // Don't let jQuery process the data
-            contentType: false,  // Let jQuery set the content type
-            success: function (response) {
-                alertify.success('Pet details updated successfully!');
-                // setTimeout(function () {
-                //             location.reload();
-                //             }, 1000);
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-                alert('Error updating pet details!');
+        var petId = $("#imp_id").val();
+        var notes = $("#imp_notes").val();
+        var dateCaught = $("#dateCaught").val();
+        var locationFound = $("#locationFound").val();
+        var impoundLocation = $("#impoundLocation").val();
+        var petStatus = $("#petStatus").val();
+        var daysRemaining = $("#daysRemaining").val();
+        var petImage = $("#petImage")[0].files[0];  // Get the file from the file input
+
+        if (petId) {
+            var formData = new FormData();
+            formData.append('id', petId);
+            formData.append('notes', notes);
+            formData.append('dateCaught', dateCaught);
+            formData.append('locationFound', locationFound);
+            formData.append('impoundLocation', impoundLocation);
+            formData.append('petStatus', petStatus);
+            formData.append('daysRemaining', daysRemaining);
+
+            if (petImage) {
+                formData.append('image', petImage);  // Append the image file
             }
-        });
-    } else {
-        alert("No pet selected for update.");
-    }
-});
 
+            formData.append('requestType', 'updateImpound');
 
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            $.ajax({
+                url: "api/config/end-points/controller.php",
+                method: 'POST',
+                data: formData,
+                processData: false,  // Don't let jQuery process the data
+                contentType: false,  // Let jQuery set the content type
+                success: function (response) {
+                    alertify.success('Pet details updated successfully!');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert('Error updating pet details!');
+                }
+            });
+        } else {
+            alert("No pet selected for update.");
+        }
+    });
 
     // Open Modal
     $(document).on('click', '.openAddPetModal', function() {
@@ -345,39 +295,21 @@ $(".imp-delete-button").click(function (e) {
     });
 
     // Handle image upload and show preview
-    $('input[type="file"]').change(function(event) {
-        handleAddPetImageUpload(event);
-    });
-});
+    $('#petImage').on('change', function(event) {
+        var file = event.target.files[0]; // Get the uploaded file
+        if (file) {
+            var reader = new FileReader(); // Create a FileReader to read the file
 
-// Function to handle the image upload and preview
-function handleAddPetImageUpload(event) {
-    var file = event.target.files[0]; // Get the uploaded file
-    if (file) {
-        var reader = new FileReader(); // Create a FileReader to read the file
+            reader.onload = function(e) {
+                // Set the image preview source
+                $('#petImagePreview').attr('src', e.target.result);
+            };
 
-        reader.onload = function(e) {
-            // Set the image preview source
-            $('#preview_images').attr('src', e.target.result).show(); // Display the image
+            reader.readAsDataURL(file); // Read the file as Data URL
         }
+    });
 
-        reader.readAsDataURL(file); // Read the file as Data URL
-    } else {
-        $('#preview_images').hide(); // Hide the image preview if no file is selected
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function() {
+    // Open Pet Details Modal
     $('.showpetDetailsModal').on('click', function() {
         var petId = $(this).data('imp_id');
         var petDateCaught = $(this).data('imp_date_caught');
@@ -400,28 +332,19 @@ $(document).ready(function() {
         $('#petDetailsModal').fadeIn();
     });
 
+    // Close Pet Details Modal
     $('.imp-modal-close').on('click', function() {
         $('#petDetailsModal').fadeOut();
     });
 
+    // Close Pet Details Modal when clicking outside the modal content
     $('#petDetailsModal').on('click', function(e) {
         if ($(e.target).is('#petDetailsModal')) {
             $(this).fadeOut();
         }
     });
-});
 
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function() {
+    // Filter by status
     $('#sortStatus').on('change', function() {
         var selectedStatus = $(this).val().toLowerCase();
 
@@ -436,6 +359,4 @@ $(document).ready(function() {
         });
     });
 });
-
 </script>
-
