@@ -8,6 +8,7 @@
             <option value="all">All</option>
             <option value="approved">Approved</option>
             <option value="declined">Declined</option>
+            <option value="pending">Pending</option>
         </select>
     </div>
 
