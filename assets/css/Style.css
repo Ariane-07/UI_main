@@ -3730,6 +3730,7 @@ body {
 .imp-days-remaining {
   padding: 1rem;
   text-align: center;
+  font-size: 1.3rem;
   grid-column: 1 / -1;
   border-radius: 0.5rem;
   color: var(--text-color);
@@ -3741,6 +3742,7 @@ body {
   width: 60px;
   margin: 0 0.5rem;
   padding: 0.25rem;
+  font-size: 1.2rem;
   text-align: center;
   border-radius: 0.25rem;
   background-color: white;
@@ -3846,7 +3848,7 @@ body {
 .imp-image-upload-label {
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.3rem;
   text-align: center;
   border-radius: 4rem;
   padding: 0.5rem 1rem;
@@ -3955,14 +3957,14 @@ body {
 }
 
 .imp-info-label {
-  font-size: 0.875rem;
+  font-size: 1.3rem;
   margin-bottom: 0.25rem;
   color: var(--text-color);
 }
 
 .imp-info-input {
   width: 100%;
-  font-size: 1rem;
+  font-size: 1.3rem;
   padding: 0.5rem;
   border-radius: 1rem;
   color: var(--text-color);
@@ -4076,7 +4078,7 @@ body {
   .imp-modal-content {
     width: 100%;
     margin: 0;
-    border-radius: 0;
+    border-radius: 25px;
   }
 
   .imp-modal-header {
@@ -4103,12 +4105,12 @@ body {
 
   .imp-days-remaining {
     padding: 0.2rem;
-    font-size: 0.9rem;
+    font-size: 1.3rem;
   }
 
   .imp-days-input {
     width: 50px;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -4218,7 +4220,7 @@ body {
   .imp-modal-content {
     width: 100%;
     margin: 0;
-    border-radius: 0;
+    border-radius: 25px;
   }
 
   .imp-modal-header {
@@ -4245,12 +4247,12 @@ body {
 
   .imp-days-remaining {
     padding: 0.2rem;
-    font-size: 0.9rem;
+    font-size: 1.3rem;
   }
 
   .imp-days-input {
     width: 50px;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -4342,7 +4344,7 @@ body {
 
 #petStatus {
   width: 100%;
-  font-size: 1rem;
+  font-size: 1.3rem;
   padding: 0.5rem;
   border-radius: 1rem;
   color: var(--text-color);
@@ -4362,7 +4364,7 @@ body {
 
 .imp-note-container label {
   display: block;
-  font-size: 0.875rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
   color: var(--text-color);
 }
@@ -4370,7 +4372,7 @@ body {
 .imp-note-input {
   width: 100%;
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border-radius: 0.5rem;
   border: 1px solid #dee2e6;
   background-color: var(--nav-color);
