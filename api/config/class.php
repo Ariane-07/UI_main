@@ -780,7 +780,7 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
-    public function getAllNotificationCount()
+    public function getAllNotificationCount($UserID)
     {
         // Query for expiring and expired vaccinations
         $query = $this->conn->prepare("
@@ -836,7 +836,7 @@ public function UpdatePassword($hashedPassword, $email) {
         $query4 = $this->conn->prepare("
             SELECT COUNT(*) AS unseen_messages
             FROM chat_messages
-            WHERE message_seen = 0
+            WHERE message_seen = 0 AND receiver_id=$UserID
         ");
     
         $unseen_messages = 0;
