@@ -40,7 +40,7 @@
               foreach ($fetch_pets as $pets):
           ?>
 
-        <div class="approval-card">
+<div class="approval-card" data-date-application="<?= $pets['pet_date_application'] ?>">
           
             <div class="approval-info">
                 <div class="approval-details">
