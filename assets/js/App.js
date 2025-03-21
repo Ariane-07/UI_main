@@ -92,8 +92,12 @@ $(document).ready(function () {
         formData.append('requestType', 'UpdatePetStatus');
     
         // Get the stored status value (Accept or Decline)
-        var status = $("#frmUpdatePetStatus").data("status") || 'accept_by_vet';
-        formData.append('status', status);
+        var changeStatus = $("#frmUpdatePetStatus").data("status") || 'accept_by_vet';
+        formData.append('status', changeStatus);
+
+
+        console.log(changeStatus);
+        
     
         $.ajax({
             type: "POST",
@@ -108,10 +112,12 @@ $(document).ready(function () {
                 $('#send-message').prop('disabled', false);
     
                 if (response.status == "success") {
-                    if (status === "accept_by_vet") {
-                        alertify.success('Accepted Successfully');
+
+                    
+                    if (changeStatus === "accept_by_vet") {
+                        alertify.success('Success');
                     } else {
-                        alertify.success('Declined Successfully');
+                        alertify.success('Success');
                     }
     
                     setTimeout(function () {
