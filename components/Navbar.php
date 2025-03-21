@@ -87,8 +87,7 @@ $(document).ready(function() {
         let query = $(this).val().trim();
 
         let session_Role = $("#session_Role").val();
-        
-        return;
+      
         if (query !== "") {
             $.ajax({
                 url: "api/config/end-points/search_users.php",
