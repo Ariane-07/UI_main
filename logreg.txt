@@ -6,50 +6,6 @@ if (isset($_SESSION['Role'])) {
         header('Location: index.php?vetpages=VetHome');
     } elseif ($_SESSION['Role'] == 'lgu') {
         header('Location: index.php?lgupages=lguhome');
-    } elseif ($_SESSION['Role'] == 'superadmin') {
-        header('Location: adminPages.php');
-    }
-}
-
-// SuperAdmin has a fixed username and password
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'], $_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Check if it's the SuperAdmin logging in
-    if ($username === 'SuperAdmin' && $password === 'Admin0773!') {
-        $_SESSION['Role'] = 'superadmin'; // Set session role to superadmin
-        header('Location: adminPages.php'); // Redirect to admin page
-        exit;
-    } else {
-        // Process login for other roles from the database
-        require 'database.php'; // Include your database connection file
-
-        $stmt = $conn->prepare("SELECT role FROM users WHERE username = ? AND password = ?");
-        $stmt->bind_param("ss", $username, $password);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($role);
-            $stmt->fetch();
-            $_SESSION['Role'] = $role;
-
-            // Redirect based on user role
-            if ($role == 'pet_owner') {
-                header('Location: index.php?page=home');
-            } elseif ($role == 'vet') {
-                header('Location: index.php?vetpages=VetHome');
-            } elseif ($role == 'lgu') {
-                header('Location: index.php?lgupages=lguhome');
-            }
-            exit;
-        } else {
-            echo "Invalid credentials. Please try again.";
-        }
-
-        $stmt->close();
-        $conn->close();
     }
 }
 ?>

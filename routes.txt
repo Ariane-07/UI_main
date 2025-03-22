@@ -5,22 +5,29 @@ include('api/config/class.php');
 
 $db = new global_class();
 
+
 // echo "<pre>";
 // print_r($_SESSION);
 // echo "</pre>";
 
 if (empty($_SESSION)) {
+
+
     if (isset($_GET['components'])) {
         header('Location: index.php?page=home');
     } else {
         $_GET = ['page' => 'LogReg'] + $_GET;
     }
-} else {
+    
+}else{
+
+   
+    
     $UserID = $_SESSION['UserID'] ?? null;
 
     if ($UserID) {
         $session_data = $db->check_account($UserID);
-
+    
         if (!empty($session_data) && is_array($session_data) && isset($session_data[0])) {
             $_SESSION['name'] = $session_data[0]['Name'] ?? '';
             $_SESSION['email'] = $session_data[0]['Email'] ?? '';
@@ -34,15 +41,21 @@ if (empty($_SESSION)) {
             $_SESSION['Link_address'] = $session_data[0]['Link_address'] ?? '';
             $_SESSION['Bio'] = $session_data[0]['Bio'] ?? '';
         } else {
+            // Handle invalid session data
             session_destroy();
             header('Location: index.php?page=LogReg');
             exit();
         }
     } else {
+        // Redirect to login if no UserID is found
         session_destroy();
         header('Location: index.php?page=LogReg');
         exit();
     }
+    
+
+    
+   
 }
 
 // Autoload components and pages
@@ -58,6 +71,7 @@ function loadPage($folder, $page)
 {
     $path = __DIR__ . "/{$folder}/{$page}.php";
 
+    // Load the page if it exists, otherwise load Home as default
     if (file_exists($path)) {
         include $path;
     } else {
@@ -65,22 +79,19 @@ function loadPage($folder, $page)
     }
 }
 
-// Get 'page', 'vetpage', 'lgupage', and 'adminpage' parameters if they exist
-$page = $_GET['page'] ?? 'LogReg';
-$vetpage = $_GET['vetpages'] ?? null;
-$lgupage = $_GET['lgupages'] ?? null;
-$adminpage = $_GET['adminpages'] ?? null;
+// Get 'page', 'vetpage', and 'lgupage' parameters if they exist
+$page = $_GET['page'] ?? 'LogReg';         // Default to 'home' if 'page' is not set
+$vetpage = $_GET['vetpages'] ?? null;     // Check if 'vetpage' is set
+$lgupage = $_GET['lgupages'] ?? null;     // Check if 'lgupage' is set
 $component = $_GET['components'] ?? null;
 
 // Include the appropriate Navbar component
 if ($vetpage) {
-    loadComponent('VetNavbar');
+    loadComponent('VetNavbar');          // Load VetNavbar for vet pages
 } elseif ($lgupage) {
-    loadComponent('LGUNavbar');
-} elseif ($adminpage) {
-    loadComponent('AdminNavbar');
+    loadComponent('LGUNavbar');          // Load LGUNavbar for LGU pages
 } elseif ($page !== 'LogReg') {
-    loadComponent('Navbar');
+    loadComponent('Navbar');             // Load default Navbar if it's not the login page
 }
 
 // Always load the Floating component unless it's the login page
@@ -88,22 +99,22 @@ if ($page !== 'LogReg') {
     loadComponent('Floating');
 }
 
-// Load navbar based on user role
-if (!empty($_GET['role'])) {
-    if ($_GET['role'] == 'pet_owner') {
-        loadComponent('Navbar');
-    } else if ($_GET['role'] == 'vet') {
-        loadComponent('VetNavbar');
-    } else if ($_GET['role'] == 'lgu') {
-        loadComponent('LGUNavbar');
-    } else if ($_GET['role'] == 'superAdmin') {
-        loadComponent('AdminNavbar');    
-    }
+
+
+if(!empty($_GET['role'])){
+    if($_GET['role']=='pet_owner'){
+        loadComponent('Navbar');      
+    }else if($_GET['role']=='vet'){
+        loadComponent('VetNavbar'); 
+    }else if($_GET['role']=='lgu'){
+        loadComponent('LGUNavbar');    
+    }  
 }
+
 
 // Determine which page to load
 if ($component) {
-    loadComponent(ucfirst($component));
+    loadComponent(ucfirst($component)); 
     loadComponent('Floating');
 } elseif ($vetpage) {
     loadComponent('Floating');
@@ -111,9 +122,7 @@ if ($component) {
 } elseif ($lgupage) {
     loadComponent('Floating');
     loadPage('lgupages', $lgupage);
-} elseif ($adminpage) {
-    loadComponent('Floating');
-    loadPage('adminpages', $adminpage);
 } else {
-    loadPage('pages', ucfirst($page));
+    loadPage('pages', ucfirst($page)); 
+    
 }
