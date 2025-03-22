@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'], $_POST['pa
         exit;
     } else {
         // Process login for other roles from the database
-        require 'database.php'; // Include your database connection file
+        require 'class.php'; // Include your database connection file
 
         $stmt = $conn->prepare("SELECT role FROM users WHERE username = ? AND password = ?");
         $stmt->bind_param("ss", $username, $password);
