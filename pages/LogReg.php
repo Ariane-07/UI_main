@@ -41,8 +41,8 @@ if (isset($_SESSION['Role'])) {
                 <label>
                     <input type="radio" name="role" value="vet" id="vet-radio">Vet
                 </label>
-                <label>
-                    <input type="radio" name="role" value="lgu">LGU
+                <label hidden>
+                    <input hidden type="radio" name="role" value="lgu">
                 </label>
             </div>
             <div class="input-field">
@@ -91,30 +91,7 @@ if (isset($_SESSION['Role'])) {
         </div>
     </div>
 
-    <!-- Secret Super Admin Icon (Commented Out) -->
-    <!--
-    <div id="super-admin-icon" class="super-admin-icon">
-        <i class="fas fa-shield-alt"></i>
-    </div>
-    -->
 
-    <!-- Hidden Super Admin Login Form (Commented Out) -->
-    <!--
-    <div id="super-admin-form" class="super-admin-form" style="display: none;">
-        <form id="frmSuperAdminLogin" class="sign-in-form">
-            <h2 class="title">Super Admin Login</h2>
-            <div class="input-field">
-                <i class="fas fa-user"></i>
-                <input type="text" placeholder="Super Admin Username" name="super-username">
-            </div>
-            <div class="input-field">
-                <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Super Admin Password" name="super-password">
-            </div>
-            <input type="submit" value="LOGIN" class="btn solid">
-        </form>
-    </div>
-    -->
 </div>
 <!-- Forgot Password Modal -->
 <div id="forgot-modal" class="logreg-modal">
@@ -347,35 +324,4 @@ $(document).ready(function () {
     
 });
 
-
-
-
-        // Super Admin Form Logic (Commented Out)
-        /*
-        const superAdminForm = document.getElementById('super-admin-form');
-
-        superAdminForm.addEventListener('click', function (event) {
-            event.stopPropagation(); // Stop the click event from propagating to the window
-        });
-
-        // Super Admin Icon Logic
-        const superAdminIcon = document.getElementById('super-admin-icon');
-
-        superAdminIcon.addEventListener('click', function (event) {
-            event.stopPropagation(); // Prevent the click from propagating to the window
-            if (superAdminForm.style.display === 'none') {
-                superAdminForm.style.display = 'block';
-            } else {
-                superAdminForm.style.display = 'none';
-            }
-        });
-
-        // Close Super Admin Modal when clicking outside
-        window.addEventListener('click', function (event) {
-            if (superAdminForm.style.display === 'block' && !superAdminForm.contains(event.target) && event.target !== superAdminIcon) {
-                superAdminForm.style.display = 'none';
-            }
-        });
-        */
-    // });
 </script>
