@@ -16,10 +16,14 @@ if (empty($_SESSION)) {
         $_GET = ['page' => 'LogReg'] + $_GET;
     }
 } else {
+
+
+
     $UserID = $_SESSION['UserID'] ?? null;
 
     if ($UserID) {
         $session_data = $db->check_account($UserID);
+
 
         if (!empty($session_data) && is_array($session_data) && isset($session_data[0])) {
             $_SESSION['name'] = $session_data[0]['Name'] ?? '';
@@ -69,7 +73,7 @@ function loadPage($folder, $page)
 $page = $_GET['page'] ?? 'LogReg';
 $vetpage = $_GET['vetpages'] ?? null;
 $lgupage = $_GET['lgupages'] ?? null;
-$adminpage = $_GET['adminpages'] ?? null;
+$adminpage = $_GET['adminPages'] ?? null;
 $component = $_GET['components'] ?? null;
 
 // Include the appropriate Navbar component
@@ -97,6 +101,8 @@ if (!empty($_GET['role'])) {
     } else if ($_GET['role'] == 'lgu') {
         loadComponent('LGUNavbar');
     } else if ($_GET['role'] == 'superAdmin') {
+
+      
         loadComponent('AdminNavbar');    
     }
 }
@@ -112,8 +118,11 @@ if ($component) {
     loadComponent('Floating');
     loadPage('lgupages', $lgupage);
 } elseif ($adminpage) {
+
+ 
     loadComponent('Floating');
-    loadPage('adminpages', $adminpage);
+    loadPage('adminPages', $adminpage);
 } else {
+    
     loadPage('pages', ucfirst($page));
 }

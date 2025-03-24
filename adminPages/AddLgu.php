@@ -1,45 +1,4 @@
-<?php
-// addLgu.php
-include 'global_class.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $db = new global_class();
-    $result = $db->add_lgu_account($username, $password);
-
-    if ($result) {
-        echo json_encode(['status' => 'success']);
-    } else {
-        echo json_encode(['status' => 'error']);
-    }
-}
-?>
-
-<?php
-// global_class.php
-class global_class {
-    private $conn;
-
-    public function __construct() {
-        $this->conn = new mysqli("localhost", "root", "", "your_database");
-        if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
-        }
-    }
-
-    public function fetch_all_lgu() {
-        $sql = "SELECT * FROM lgu_accounts";
-        return $this->conn->query($sql);
-    }
-
-    public function add_lgu_account($username, $password) {
-        $sql = "INSERT INTO lgu_accounts (username, password) VALUES ('$username', '$password')";
-        return $this->conn->query($sql);
-    }
-}
-?>
 
 <section>
     <h1 class="heading">LGU Accounts</h1>

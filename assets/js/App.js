@@ -494,6 +494,8 @@ $(document).ready(function () {
                             window.location.href = "index.php?lgupages=LGUHome";
                         }else if (data.data.Role === "admin") {
                             window.location.href = "index.php?page=home";
+                        }else if(data.data.Role==="superAdmin"){
+                            window.location.href = "index.php?adminPages=adminHome";
                         }
                     }, 2000);  
     

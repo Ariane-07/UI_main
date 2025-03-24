@@ -9,8 +9,8 @@
                 <i class="bx bx-x sidebarClose"></i>
             </div>
             <ul class="nav-links">
-                <li><a href="index.php?adminpages=adminHome">Home</a></li>
-                <li><a href="index.php?adminpages=adminLgu">LGU</a></li>
+                <li><a href="index.php?adminPages=adminHome">Home</a></li>
+                <li><a href="index.php?adminPages=adminLgu">LGU</a></li>
             </ul>
         </div>
         <div class="darkLight-searchBox">
