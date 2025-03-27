@@ -2,7 +2,7 @@
     
     <div class="navbar">
         <i class="bx bx-menu sidebarOpen"></i>
-        <span class="logo navLogo"><a href="index.php?lgupages=lguhome"><img src="assets/imgs/Logo.png" id="logo" alt="Logo"></a></span>
+        <span class="logo navLogo"><a href="index.php?adminPages=adminHome"><img src="assets/imgs/Logo.png" id="logo" alt="Logo"></a></span>
         <div class="menu">
             <div class="logo-toggle">
                 <span class="logo"><a href="#"><span>My</span>Pet</a></span>
@@ -10,7 +10,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="index.php?adminPages=adminHome">Home</a></li>
-                <li><a href="index.php?adminPages=adminLgu">LGU</a></li>
+                <li><a href="index.php?adminPages=addLgu">LGU</a></li>
             </ul>
         </div>
         <div class="darkLight-searchBox">
@@ -45,7 +45,7 @@
     overflow-y: auto;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     display: none;
-    top: 50px; /* Ibaba ang dropdown mula sa search input */
+    top: 50px; 
     left: 0;
     z-index: 1000;
 }
