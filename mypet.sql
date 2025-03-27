@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2025 at 03:23 PM
+-- Generation Time: Mar 27, 2025 at 08:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -188,7 +188,9 @@ INSERT INTO `post_content` (`post_id`, `post_date`, `post_user_id`, `post_conten
 (63, '2025-03-04 14:37:30', 15, 'test ', '{\"images\":[\"img_67c7102a44aa0.png\"],\"videos\":[]}', 1),
 (64, '2025-03-13 00:57:22', 18, 'testiung', '{\"images\":[\"img_67d22d7242bec.jpg\"]}', 1),
 (65, '2025-03-12 16:07:32', 15, '', '{\"images\":[\"img_67d1b12bca1a0.jpg\"],\"videos\":[]}', 0),
-(66, '2025-03-24 14:16:01', 34, 'test', NULL, 1);
+(66, '2025-03-24 14:16:01', 34, 'test', NULL, 1),
+(67, '2025-03-27 06:24:29', 34, 'test', '{\"images\":[\"img_67e4ef1da5219.jpg\"]}', 1),
+(68, '2025-03-27 06:25:44', 14, 'im lgu\r\n', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +214,11 @@ INSERT INTO `post_like` (`like_id`, `like_user_id`, `like_post_id`, `like_action
 (7, 16, 64, 'like'),
 (8, 15, 64, 'like'),
 (9, 34, 64, 'like'),
-(10, 34, 61, 'like');
+(10, 34, 61, 'like'),
+(11, 15, 68, 'like'),
+(12, 15, 67, 'like'),
+(13, 15, 66, 'like'),
+(14, 34, 68, 'like');
 
 -- --------------------------------------------------------
 
@@ -237,7 +243,7 @@ CREATE TABLE `users` (
   `license_proof` varchar(255) DEFAULT NULL,
   `otp_code` varchar(10) DEFAULT NULL,
   `otp_expiry` datetime DEFAULT NULL,
-  `status` int(11) NOT NULL COMMENT '0=unverified,1=verified'
+  `status` int(11) NOT NULL COMMENT '0=unverified,1=verified,2=deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -252,7 +258,7 @@ INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Pa
 (11, 'Joshua anderson padilla', '', 'andyanderson895', 'Male', 'andyanderson895@yahoo.com', 'eeb1ccc90a93645e43e6e0ccb1d260d87dd47d1d47e98c6d1cadaeeffe820c9d', 'Profile_67c59f058391c.jpg', '2000-03-04', '09454454744', 'sta.rosa marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741004817615!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner', NULL, NULL, NULL, 1),
 (12, NULL, '', 'angenise24', '', 'angenise24@gmail.com', '53d27f0c391424eec5910a67237d2bd6c9a55663d1ed9381c5560b9f9542c843', NULL, NULL, '', '', NULL, 'vet', NULL, NULL, NULL, 1),
 (13, NULL, '', 'juan', '', 'juan@gmail.com', 'ed08c290d7e22f7bb324b15cbadce35b0b348564fd2d5f95752388d86d71bcca', NULL, NULL, NULL, NULL, NULL, 'vet', NULL, NULL, NULL, 1),
-(14, '', '', 'andy', 'Male', 'andy@gmail.com', '6177321eac992341d1ad0823a07e76bfc4ee6909db120e377ea303fdc216756c', '', '0000-00-00', '', '', '', 'lgu', NULL, NULL, NULL, 1),
+(14, 'andy@gmail.com', '', 'andy', 'Male', 'andy@gmail.com', '6964894d3381c8babae9271306a6c8783c89a2fe580cbbb2bcff61db1d6bfc89', '', '0000-00-00', '', 'andy@gmail.com', '', 'lgu', NULL, NULL, NULL, 1),
 (15, 'dawd', '', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet', NULL, NULL, NULL, 1),
 (16, NULL, '', 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
 (17, NULL, '', 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
@@ -270,7 +276,8 @@ INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Pa
 (30, NULL, NULL, 'docwilly', '', 'Docwilly123@gmail.com', 'f65e5bef8f16a6d3ddcc06ccabdb19127edcff548684cbe8d8275b7d68c31c50', NULL, NULL, NULL, NULL, NULL, 'vet', 'vet_id_67dacf29690d4.jpeg', NULL, NULL, 1),
 (32, NULL, NULL, 'BongBong123@gmail.com', '', 'BongBong123@gmail.com', '792e96c9ffc5f3c412504bdffb87c77eb61b987cb8f80a273aa1bbb23e93aed2', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
 (33, NULL, NULL, 'KuyaDoc123@gmail.com', '', 'KuyaDoc123@gmail.com', 'd4df883bee6b0af3abae360cd36197001eb963e867ad217731c74f40f548f2d1', NULL, NULL, NULL, NULL, NULL, 'vet', 'vet_id_67dad03aa285c.webp', NULL, NULL, 2),
-(34, 'ako si super admin', NULL, 'super_admin', '', 'super_admin@gmail.com', '35b1e72c51ac17b1cfc8d79e2b24fd22bd5797e4c8461e7e8561818eec28715d', NULL, NULL, NULL, NULL, NULL, 'superAdmin', 'vet_id_67dad03aa285c.webp', NULL, NULL, 1);
+(34, 'ako si super admin', NULL, 'super_admin', '', 'super_admin@gmail.com', '35b1e72c51ac17b1cfc8d79e2b24fd22bd5797e4c8461e7e8561818eec28715d', NULL, NULL, NULL, NULL, NULL, 'superAdmin', 'vet_id_67dad03aa285c.webp', NULL, NULL, 1),
+(35, 'manok nok', NULL, 'manok', '', 'manok@gmail.com', '5e765d24dd5772cf59ec94d0abf80c4b8cd5e564e64f0eb5e67dad8eebe8948e', NULL, NULL, NULL, 'manok@gmail.com', NULL, 'lgu', NULL, NULL, NULL, 2);
 
 --
 -- Indexes for dumped tables
@@ -351,19 +358,19 @@ ALTER TABLE `post_comments`
 -- AUTO_INCREMENT for table `post_content`
 --
 ALTER TABLE `post_content`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `post_like`
 --
 ALTER TABLE `post_like`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

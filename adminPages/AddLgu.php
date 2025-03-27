@@ -14,48 +14,51 @@
     <!-- LGU Accounts Table -->
     <div class="table-container">
         <table id="lguAccountsTable">
-            <thead>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $db = new global_class();
+            $role = "lgu";
+
+            $fetch_user = $db->fetch_user($role);
+
+            if ($fetch_user && mysqli_num_rows($fetch_user) > 0): 
+                foreach ($fetch_user as $user): ?>
+                    <tr data-id="<?= htmlspecialchars($user['UserID']) ?>">
+                        <td><?= htmlspecialchars($user['Name']) ?></td>
+                        <td><?= htmlspecialchars($user['Username']) ?></td>
+                        <td><?= htmlspecialchars($user['Email']) ?></td>
+                        <td class="actions">
+                            <button class="lgu-edit-btn" 
+                                data-userid="<?= htmlspecialchars($user['UserID']) ?>"
+                                data-name="<?= htmlspecialchars($user['Name']) ?>"
+                                data-username="<?= htmlspecialchars($user['Username']) ?>"
+                                data-address="<?= htmlspecialchars($user['Address']) ?>"
+                                data-email="<?= htmlspecialchars($user['Email']) ?>">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="lgu-delete-btn" 
+                                data-userid="<?= htmlspecialchars($user['UserID']) ?>">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
                 <tr>
-                    <th>Full Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Sample data - in a real app this would come from a database -->
-                <tr data-id="1">
-                    <td>John Doe</td>
-                    <td>johndoe</td>
-                    <td>john@example.com</td>
-                    <td class="actions">
-                        <button class="lgu-edit-btn" data-id="1">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="lgu-delete-btn" data-id="1">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr data-id="2">
-                    <td>Jane Smith</td>
-                    <td>janesmith</td>
-                    <td>jane@example.com</td>
-                    <td class="actions">
-                        <button class="lgu-edit-btn" data-id="2">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="lgu-delete-btn" data-id="2">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Empty state -->
-                <tr class="no-data-row" style="display: none;">
                     <td colspan="4" class="no-data">No LGU accounts found</td>
                 </tr>
-            </tbody>
-        </table>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
     </div>
 </section>
 
@@ -67,8 +70,8 @@
             <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-            <form id="lguAccountForm">
-                <input type="hidden" id="lguId" name="lguId" value="">
+            <form id="AddlguAccountForm">
+                <div id="spinner" class="spinner" style="display:none;"></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -85,23 +88,77 @@
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="barangay">Barangay</label>
-                        <input type="text" id="barangay" name="barangay" required>
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" >
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" >
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="submit-btn">Save</button>
-                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="button" id="BtnCancelAddLguModal" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Add LGU Account Modal -->
+<div id="updateLguModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Update LGU Account</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="UpdatelguAccountForm">
+                <div id="spinner" class="spinner" style="display:none;"></div>
+                <input type="hidden" id="lguId" name="lguId" value="">
+                <div class="form-row">
+                
+                    
+                    <div class="form-group">
+                        <label for="update_username">Username</label>
+                        <input type="text" id="update_username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_fullName">Full Name</label>
+                        <input type="text" id="update_fullName" name="fullName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="update_email">Email</label>
+                        <input type="email" id="update_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_address">Address</label>
+                        <input type="text" id="update_address" name="address" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="update_password">Password</label>
+                        <input type="password" id="update_password" name="password" >
+                    </div>
+                    <div class="form-group">
+                        <label for="update_confirmPassword">Confirm Password</label>
+                        <input type="password" id="update_confirmPassword" name="confirmPassword" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Save</button>
+                    <button type="button" id="BtnCancelUpdateLguModal" class="cancel-btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -116,176 +173,93 @@
             <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-            <p>Are you sure you want to delete this?</p>
-            <div class="modal-footer">
-                <button id="confirmDeleteBtn" class="submit-btn">Delete</button>
-                <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
-            </div>
+            <form id="DeletelguAccountForm">
+                <input type="hidden" id="delete_lguId" name="lguId" value="">
+                <p>Are you sure you want to delete this?</p>
+                <div class="modal-footer">
+                    <button type="submit" id="confirmDeleteBtn" class="submit-btn">Delete</button>
+                    <button type="button" id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-// Sample data 
-let lguAccounts = [
-    { id: 1, fullName: "John Doe", username: "johndoe", email: "john@example.com", barangay: "Barangay 1", password: "password123" },
-    { id: 2, fullName: "Jane Smith", username: "janesmith", email: "jane@example.com", barangay: "Barangay 2", password: "password123" }
-];
-
-let accountToDelete = null;
 
 $(document).ready(function() {
-    // Render the initial table
-    renderTable();
-    
-    // Open Add LGU Modal
-    $('#addLguBtn').click(function() {
-        $('#lguAccountForm')[0].reset();
-        $('#lguId').val('');
-        $('#password').removeAttr('placeholder');
-        $('.modal-header h2').text('Add LGU Account');
-        $('#addLguModal').fadeIn();
-    });
-
-    // Close Modal
-    $('.close, .cancel-btn').click(function() {
-        $('#addLguModal').fadeOut();
-        $('#deleteConfirmModal').fadeOut();
-    });
-
-    // Handle form submission
-    $('#lguAccountForm').submit(function(e) {
+    $("#addLguBtn").click(function (e) { 
         e.preventDefault();
-        
-        // Validate password match
-        if ($('#password').val() !== $('#confirmPassword').val() && $('#confirmPassword').is(':visible')) {
-            alert('Passwords do not match');
-            return;
-        }
-        
-        const formData = {
-            id: $('#lguId').val(),
-            fullName: $('#fullName').val(),
-            username: $('#username').val(),
-            email: $('#email').val(),
-            barangay: $('#barangay').val(),
-            password: $('#password').val()
-        };
+        $("#addLguModal").fadeIn();
+    });
 
-        if (formData.id) {
-            // Update existing account
-            const index = lguAccounts.findIndex(account => account.id == formData.id);
-            if (index !== -1) {
-                // Only update password if it was changed
-                if (!formData.password) {
-                    formData.password = lguAccounts[index].password;
-                }
-                lguAccounts[index] = formData;
+     // Close modal when close button or cancel button is clicked
+     $("#BtnCancelAddLguModal").on("click", function() {
+        $("#addLguModal").fadeOut();
+    });
+
+  // Close Modal when clicking outside the modal content
+    $("#addLguModal").click(function(event) {
+            if ($(event.target).is("#addLguModal")) {
+                $("#addLguModal").fadeOut();
             }
-        } else {
-            // Add new account
-            formData.id = lguAccounts.length > 0 ? Math.max(...lguAccounts.map(a => a.id)) + 1 : 1;
-            lguAccounts.push(formData);
-        }
-
-        alert('LGU account saved successfully');
-        $('#addLguModal').fadeOut();
-        renderTable();
     });
 
-    // Edit button click
-    $(document).on('click', '.lgu-edit-btn', function() {
-        const id = $(this).data('id');
-        const account = lguAccounts.find(a => a.id == id);
-        
-        if (account) {
-            $('#lguId').val(account.id);
-            $('#fullName').val(account.fullName);
-            $('#username').val(account.username);
-            $('#email').val(account.email);
-            $('#barangay').val(account.barangay || ''); // Handle existing accounts that might not have barangay
-            $('#password').val('').attr('placeholder', 'Leave blank to keep current password');
-            $('#confirmPassword').val('').attr('placeholder', 'Leave blank to keep current password');
-            
-            $('.modal-header h2').text('Edit LGU Account');
-            $('#addLguModal').fadeIn();
-        }
+
+
+    $(".lgu-delete-btn").click(function (e) {
+    e.preventDefault(); 
+        let userID = $(this).data('userid'); 
+        $("#delete_lguId").val(userID);
+        $("#deleteConfirmModal").fadeIn();
     });
 
-    // Delete button click
-    $(document).on('click', '.lgu-delete-btn', function() {
-        accountToDelete = $(this).data('id');
-        $('#deleteConfirmModal').fadeIn();
+
+     $("#cancelDeleteBtn").on("click", function() {
+        $("#deleteConfirmModal").fadeOut();
     });
 
-    // Confirm delete button click
-    $('#confirmDeleteBtn').click(function() {
-        if (accountToDelete) {
-            lguAccounts = lguAccounts.filter(account => account.id != accountToDelete);
-            alert('LGU account deleted successfully');
-            renderTable();
-            $('#deleteConfirmModal').fadeOut();
-            accountToDelete = null;
-        }
+  // Close Modal when clicking outside the modal content
+    $("#deleteConfirmModal").click(function(event) {
+            if ($(event.target).is("#deleteConfirmModal")) {
+                $("#deleteConfirmModal").fadeOut();
+            }
     });
 
-    // Search functionality
-    $('#searchBox').on('input', function() {
-        const searchText = $(this).val().toLowerCase();
-        
-        if (searchText === '') {
-            $('#lguAccountsTable tbody tr').show();
-            updateNoDataRow();
-            return;
-        }
-        
-        let hasMatches = false;
-        $('#lguAccountsTable tbody tr[data-id]').each(function() {
-            const rowText = $(this).text().toLowerCase();
-            const isMatch = rowText.indexOf(searchText) > -1;
-            $(this).toggle(isMatch);
-            if (isMatch) hasMatches = true;
-        });
-        
-        $('.no-data-row').toggle(!hasMatches);
+
+
+    $(".lgu-edit-btn").click(function (e) {
+    e.preventDefault(); 
+        let userID = $(this).data('userid'); 
+        let name = $(this).data('name'); 
+        let email = $(this).data('email'); 
+        let username = $(this).data('username'); 
+        let address = $(this).data('address'); 
+
+
+        $("#lguId").val(userID);
+        $("#update_fullName").val(name);
+        $("#update_email").val(email);
+        $("#update_username").val(username);
+        $("#update_address").val(address);
+        $("#updateLguModal").fadeIn();
     });
 
-    // Function to render the table
-    function renderTable() {
-        const tbody = $('#lguAccountsTable tbody');
-        tbody.find('tr[data-id]').remove();
-        
-        if (lguAccounts.length === 0) {
-            $('.no-data-row').show();
-            return;
-        }
-        
-        lguAccounts.forEach(account => {
-            const row = `
-                <tr data-id="${account.id}">
-                    <td>${account.fullName}</td>
-                    <td>${account.username}</td>
-                    <td>${account.email}</td>
-                    <td class="actions">
-                        <button class="lgu-edit-btn" data-id="${account.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="lgu-delete-btn" data-id="${account.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-            tbody.append(row);
-        });
-        
-        updateNoDataRow();
-    }
-    
-    function updateNoDataRow() {
-        $('.no-data-row').toggle(lguAccounts.length === 0);
-    }
+
+     // Close modal when close button or cancel button is clicked
+     $("#BtnCancelUpdateLguModal").on("click", function() {
+        $("#updateLguModal").fadeOut();
+    });
+
+  // Close Modal when clicking outside the modal content
+    $("#updateLguModal").click(function(event) {
+            if ($(event.target).is("#updateLguModal")) {
+                $("#updateLguModal").fadeOut();
+            }
+    });
+
 });
+
 </script>
 
 <style>

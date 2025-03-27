@@ -10,7 +10,7 @@ $db = new global_class();
 // echo "</pre>";
 
 if (empty($_SESSION)) {
-    if (isset($_GET['components'])) {
+    if (isset($_GET['components'])||isset($_GET['adminPages'])) {
         header('Location: index.php?page=home');
     } else {
         $_GET = ['page' => 'LogReg'] + $_GET;

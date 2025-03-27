@@ -682,6 +682,17 @@ public function UpdatePassword($hashedPassword, $email) {
     }
 
 
+    public function fetch_user($role)
+    {
+        $query = $this->conn->prepare("SELECT * from users where `Role`='$role' AND `status`!='2'");
+
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+
 
     public function fetch_all_vet()
     {
@@ -957,6 +968,129 @@ public function UpdatePassword($hashedPassword, $email) {
         echo json_encode(array('status' => 'error', 'message' => 'Unable to register'));
     }
 }
+
+
+
+
+public function UpdatelguAccount($lguId, $username, $fullName, $email, $address, $password)
+{
+    // Initialize base query
+    $query = "UPDATE `users` SET `Name` = ?, `Username` = ?, `Email` = ?, `Address` = ? ";
+    $params = [$fullName, $username, $email, $address]; // Initial parameters
+
+    // Check if password is provided
+    if (!empty($password)) {
+        $hashedPassword = hash('sha256', $password);
+        $query .= ", `Password` = ? ";
+        $params[] = $hashedPassword;
+    }
+
+    $query .= "WHERE `UserID` = ?";
+    $params[] = $lguId;
+
+    // Prepare statement
+    $stmt = $this->conn->prepare($query);
+
+    if (!$stmt) {
+        die(json_encode(array('status' => 'error', 'message' => 'Database error: ' . $this->conn->error)));
+    }
+
+    // Bind parameters dynamically
+    $types = str_repeat("s", count($params) - 1) . "i"; // Generate types dynamically (last parameter is integer)
+    $stmt->bind_param($types, ...$params);
+
+    // Execute and check
+    if ($stmt->execute()) {
+        echo json_encode(array('status' => 'success', 'message' => 'Account updated successfully'));
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Unable to update account'));
+    }
+
+    $stmt->close();
+}
+
+
+
+
+public function DeletelguAccount($lguId)
+{
+    // Prepare the UPDATE query
+    $stmt = $this->conn->prepare("UPDATE `users` SET `status` = '2' WHERE `UserID` = ?");
+
+    $stmt->bind_param("i",$lguId);
+
+    if ($stmt->execute()) {
+        echo json_encode(array('status' => 'success', 'message' => 'Account updated successfully'));
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Unable to update account'));
+    }
+
+    $stmt->close();
+}
+
+
+
+
+
+public function AddlguAccount($username, $fullName, $email, $address, $password)
+{
+    // Check if the email already exists
+    $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Email` = ?");
+    if (!$stmt) {
+        die(json_encode(array('status' => 'error', 'message' => 'Database error: ' . $this->conn->error)));
+    }
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(array('status' => 'email_already', 'message' => 'Email already exists'));
+        $stmt->close();
+        return;
+    }
+    $stmt->close();
+
+    // Check if the username already exists
+    $stmt = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ?");
+    if (!$stmt) {
+        die(json_encode(array('status' => 'error', 'message' => 'Database error: ' . $this->conn->error)));
+    }
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(array('status' => 'username_already', 'message' => 'Username already exists'));
+        $stmt->close();
+        return;
+    }
+    $stmt->close();
+
+    // Hash the password using SHA-256
+    $hashedPassword = hash('sha256', $password);
+
+    // Insert the new user into the database
+    $stmt = $this->conn->prepare("INSERT INTO `users` (`Name`, `Username`, `Email`, `Address`, `Password`, `Role`, `status`) VALUES (?, ?, ?, ?, ?, ?, '1')");
+    
+    if (!$stmt) {
+        die(json_encode(array('status' => 'error', 'message' => 'Database error: ' . $this->conn->error)));
+    }
+
+    $role = "lgu"; // Define role separately
+    $stmt->bind_param("ssssss", $fullName, $username, $email, $address, $hashedPassword, $role);
+
+    if ($stmt->execute()) {
+        $userId = $this->conn->insert_id;
+        $stmt->close();
+
+
+        echo json_encode(array('status' => 'success', 'id' => $userId));
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Unable to create account'));
+        $stmt->close();
+    }
+}
+
 
     
 

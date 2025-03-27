@@ -45,5 +45,5 @@ if($_SESSION){?>
 }
 ?>
 
-<script src="assets/js/validation.js"></script>
+<!-- <script src="assets/js/validation.js"></script> -->
 </html>
