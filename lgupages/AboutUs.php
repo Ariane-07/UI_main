@@ -81,7 +81,7 @@
                                     <img
                                         class="contact-svg"
                                         src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET22.jpg" />
-                                    <p class="contact-text">myPet@gmail.com</p>
+                                    <p class="contact-text">mypet02025@gmail.com</p>
                                 </div>
                                 <div class="mail text-box">
                                     <img
