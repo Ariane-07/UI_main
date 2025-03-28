@@ -1102,7 +1102,7 @@ public function AddlguAccount($username, $fullName, $email, $address, $password)
     $hashedPassword = hash('sha256', $password);
     
     // Prepare the SQL query
-    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ? AND status = '1'");
+    $query = $this->conn->prepare("SELECT * FROM `users` WHERE `Username` = ? AND `Password` = ? AND `status` != '2'");
     
     // Bind the username and the hashed password
     $query->bind_param("ss", $username, $hashedPassword);
