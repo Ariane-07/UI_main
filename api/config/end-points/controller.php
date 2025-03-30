@@ -512,6 +512,15 @@ if ($response == "success") {
 
             echo $db->ClaimPet($imp_id,$UserID);
             
+        }else if ($_POST['requestType'] == 'updatePetInfo') {
+
+            $vaccine_due=$_POST['update_client-vaccine-due'];
+            $vaccine_given=$_POST['update_client-vaccine-given'];
+            $pet_id=$_POST['pet_id'];
+          
+
+            echo $db->updatePetInfo($pet_id,$vaccine_given,$vaccine_due);
+            
         }else if ($_POST['requestType'] == 'VerifiedVet') {
             session_start();
             

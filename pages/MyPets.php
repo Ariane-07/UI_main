@@ -78,6 +78,17 @@
             <p><?= $pets['pet_name'] ?></p>
         </div>
 
+          <!-- Pet Name -->
+          <div class="client-details">
+            <p><strong>Vaccination Given</strong></p>
+            <p><?= $pets['pet_antiRabies_vac_date'] ?></p>
+        </div>
+
+        <div class="client-details">
+            <p><strong>Vaccination Due</strong></p>
+            <p><?= $pets['pet_antiRabies_expi_date'] ?></p>
+        </div>
+
         <!-- Status -->
         <div class="client-details">
             <p><strong>Status</strong></p>
@@ -105,7 +116,8 @@
     <!-- Actions -->
     <div class="actions">
         <button class="view-details"
-            data-petOwner='<?= $pets['pet_owner_name'] ?>'
+            data-pet_id='<?= $pets['pet_id'] ?>'
+            data-petOwner='<?= $pets['pet_owner_name'] ?>'  
             data-pet_owner_telMobile='<?= $pets['pet_owner_telMobile'] ?>'
             data-pet_owner_email='<?= $pets['pet_owner_email'] ?>'
             data-pet_owner_home_address='<?= $pets['pet_owner_home_address'] ?>'
@@ -146,7 +158,9 @@
                 <span class="client-close close-clientModal">&times;</span>
             </div>
             <div class="client-modal-body">
+                <form id="FrmupdatePetInfo">
                 <label for="client-date-application">Date of Application</label>
+                <input hidden type="text" id="update_pet_id" name="pet_id">
                 <input type="text" id="client-date-application" readonly>
 
                 <label for="client-name">Name</label>
@@ -186,15 +200,16 @@
                 <input type="text" id="client-mark" readonly>
 
                 <label for="client-vaccine-due">Vaccination Due Date</label>
-                <input type="date" id="client-vaccine-due">
+                <input type="date" id="client-vaccine-due" name="update_client-vaccine-due">
 
                 <label for="client-vaccine-given">Vaccination Date Given</label>
-                <input type="date" id="client-vaccine-given">
+                <input type="date" id="client-vaccine-given" name="update_client-vaccine-given">
             </div>
             <div class="client-modal-footer">
-                <button id="client-saveBtn" class="view-details">Save</button>
-                <button id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
+                <button type="submit" >Save</button>
+                <button type="button" id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
             </div>
+            </form>
         </div>
     </div>
 
@@ -205,6 +220,7 @@
     $("#clientModal").fadeIn();
 
     // Get data attributes from the clicked button
+    let pet_id = $(this).attr('data-pet_id');
     let petOwner = $(this).attr('data-petOwner');
     let petOwnerTel = $(this).attr('data-pet_owner_telMobile');
     let petOwnerEmail = $(this).attr('data-pet_owner_email');
@@ -222,6 +238,7 @@
     let petDateApplication = $(this).attr('data-pet_date_application'); // Add this line
 
     // Set values to input fields
+    $("#update_pet_id").val(pet_id);
     $("#client-name").val(petOwner);
     $("#client-contact").val(petOwnerTel);
     $("#client-email").val(petOwnerEmail);

@@ -4,6 +4,36 @@ $(document).ready(function () {
     
 
 
+    $("#FrmupdatePetInfo").submit(function (e) {
+        e.preventDefault();
+    
+        var formData = new FormData(this);
+        formData.append('requestType', 'updatePetInfo');
+        
+        $.ajax({
+            type: "POST",
+            url: "api/config/end-points/controller.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+    
+                if (response.status == "success") {
+                    alertify.success('Update Saved');
+                    setTimeout(function () {
+                       location.reload();
+                    }, 1000);
+                } else {
+                    alertify.error('Sending failed, please try again.');
+                }
+            }
+        });
+    });
+
+
+    
     $("#frmClaim").submit(function (e) {
         e.preventDefault();
     

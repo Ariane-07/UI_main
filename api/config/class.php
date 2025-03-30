@@ -536,6 +536,24 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
+    public function updatePetInfo($pet_id,$vaccine_given,$vaccine_due)
+    {
+        
+            // Update query excluding post_images
+            $stmt = $this->conn->prepare("UPDATE `pets_info` SET `pet_antiRabies_expi_date` = ? , `pet_antiRabies_vac_date`=? WHERE `pet_id` = ?");
+            $stmt->bind_param("sss",$vaccine_due,$vaccine_given,$pet_id);
+        
+        if ($stmt->execute()) {
+            $response = array(
+                'status' => 'success'
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Unable to update'));
+        }
+    }
+
+
 
 
 
