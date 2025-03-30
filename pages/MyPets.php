@@ -85,7 +85,7 @@
                 <?php
                 if ($pets['pet_status'] === "accept_by_lgu") {
                     echo "Approved";
-                } elseif ($pets['pet_status'] === "pending") {
+                } elseif ($pets['pet_status'] === "pending" || $pets['pet_status'] === "accept_by_vet") {
                     echo "Pending";
                 } else {
                     echo "Declined";
