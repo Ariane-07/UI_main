@@ -1,0 +1,26 @@
+<?php
+include 'db_connection.php';
+
+$petId = $_POST['pet_id'];
+$vaccineDue = $_POST['vaccine_due'];
+$vaccineGiven = $_POST['vaccine_given'];
+
+// Update main pet record
+$updateQuery = "UPDATE pets_info SET 
+    pet_antiRabies_expi_date = ?,
+    pet_antiRabies_vac_date = ?
+    WHERE pet_id = ?";
+$stmt = $conn->prepare($updateQuery);
+$stmt->bind_param("ssi", $vaccineDue, $vaccineGiven, $petId);
+$stmt->execute();
+
+// Record in history
+$historyQuery = "INSERT INTO vaccination_history 
+    (pet_id, vaccine_due_date, vaccine_given_date) 
+    VALUES (?, ?, ?)";
+$stmt = $conn->prepare($historyQuery);
+$stmt->bind_param("iss", $petId, $vaccineDue, $vaccineGiven);
+$stmt->execute();
+
+echo "success";
+?>

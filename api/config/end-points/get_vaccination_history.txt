@@ -1,0 +1,25 @@
+<?php
+include 'db_connection.php';
+
+$petId = $_POST['pet_id'];
+$query = "SELECT * FROM vaccination_history WHERE pet_id = ? ORDER BY updated_at DESC";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $petId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$html = '';
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $html .= '<tr>';
+        $html .= '<td>' . date('M d, Y h:i A', strtotime($row['updated_at'])) . '</td>';
+        $html .= '<td>' . ($row['vaccine_due_date'] ? date('M d, Y', strtotime($row['vaccine_due_date'])) : 'Not set') . '</td>';
+        $html .= '<td>' . ($row['vaccine_given_date'] ? date('M d, Y', strtotime($row['vaccine_given_date'])) : 'Not given') . '</td>';
+        $html .= '</tr>';
+    }
+} else {
+    $html = '<tr><td colspan="3">No vaccination history found</td></tr>';
+}
+
+echo $html;
+?>
