@@ -173,7 +173,7 @@
 
 <!-- Vaccination Records Modal -->
 <div id="vaccinationModal" class="approval-modal">
-    <div class="client-modal-content" style="max-width: 800px;">
+    <div class="client-modal-content" style="max-width: 800px; margin: 25% auto;">
         <div class="client-modal-header">
             <h2>Vaccination Records - <span id="vaccination-pet-name"></span></h2>
             <span class="client-close close-vaccinationModal">&times;</span>
@@ -206,9 +206,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="client-modal-footer">
-            <button id="vaccination-closeBtn" class="close-vaccinationModal view-details">Close</button>
         </div>
     </div>
 </div>
@@ -380,10 +377,10 @@ $(document).ready(function () {
         $("#clientModal").fadeOut();
     });
 
-    $(".close-vaccinationModal, #vaccination-closeBtn").click(function (e) { 
-        e.preventDefault();
-        $("#vaccinationModal").fadeOut();
-    });
+    $(".close-vaccinationModal").click(function (e) { 
+    e.preventDefault();
+    $("#vaccinationModal").fadeOut();
+});
 
     // Search and Filter Functionality
     function filterPets() {
