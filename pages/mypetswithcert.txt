@@ -40,10 +40,19 @@
             </div>
             ";
             
-            $REGISTRATION_BUTTON = "";
+            $CERTIFICATE_BUTTONS = "";
             if (($pets['pet_status'] ?? '') === "accept_by_lgu") {
-                $REGISTRATION_BUTTON = '
-                <div class="certificate-container" style="margin-top: 10px;">
+                $CERTIFICATE_BUTTONS = '
+                <div class="certificate-buttons" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                    <button class="download-vaccination-certificate" 
+                        data-pet-id="'.$pets['pet_id'].'"
+                        data-owner-name="'.$pets['pet_owner_name'].'"
+                        data-pet-name="'.$pets['pet_name'].'"
+                        data-vaccine-date="'.$pets['pet_antiRabies_vac_date'].'"
+                        data-expiry-date="'.$pets['pet_antiRabies_expi_date'].'"
+                        style="padding: 10px 15px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px;">
+                        Download Vaccination Certificate
+                    </button>
                     <button class="download-registration-certificate" 
                         data-pet-id="'.$pets['pet_id'].'"
                         data-owner-name="'.$pets['pet_owner_name'].'"
@@ -92,13 +101,12 @@
             <p><?= $pets['pet_name'] ?></p>
         </div>
 
-        <!-- Vaccination Given -->
-        <div class="client-details">
+          <!-- Pet Name -->
+          <div class="client-details">
             <p><strong>Vaccination Given</strong></p>
             <p><?= $pets['pet_antiRabies_vac_date'] ?></p>
         </div>
 
-        <!-- Vaccination Due -->
         <div class="client-details">
             <p><strong>Vaccination Due</strong></p>
             <p><?= $pets['pet_antiRabies_expi_date'] ?></p>
@@ -120,11 +128,11 @@
             </p>
         </div>
 
-        <!-- QR Code and Registration Certificate (if approved) -->
+        <!-- QR Code and Certificate (if approved) -->
         <?php
         if (($pets['pet_status'] ?? '') === "accept_by_lgu") {
             echo $QRCODE;
-            echo $REGISTRATION_BUTTON;
+            echo $CERTIFICATE_BUTTONS;
         }
         ?>
     </div>
@@ -229,6 +237,44 @@
     </div>
 </div>
 
+<!-- Vaccination Certificate Modal -->
+<div id="vaccinationCertificateModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 800px;">
+        <span class="close-vacc-cert-modal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <h2>Pet Vaccination Certificate</h2>
+        <div id="vaccinationCertificateContent" style="border: 2px solid #000; padding: 20px; background-color: white; position: relative;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3 style="color: #28a745;">OFFICIAL PET VACCINATION CERTIFICATE</h3>
+                <p>This is to certify that the following pet has been vaccinated against rabies</p>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div>
+                    <p><strong>Owner's Name:</strong> <span id="vaccCertOwnerName"></span></p>
+                    <p><strong>Pet's Name:</strong> <span id="vaccCertPetName"></span></p>
+                    <p><strong>Pet ID:</strong> <span id="vaccCertPetId"></span></p>
+                </div>
+                <div>
+                    <p><strong>Vaccination Date:</strong> <span id="vaccCertVaccineDate"></span></p>
+                    <p><strong>Valid Until:</strong> <span id="vaccCertExpiryDate"></span></p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p>This certificate is valid for one year from the date of vaccination.</p>
+                <p style="margin-top: 50px;"><strong>Official Stamp/Signature</strong></p>
+            </div>
+            
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+                <img src="assets/imgs/logo.png" alt="Logo" style="height: 50px;">
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="downloadVaccCertBtn" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer;">Download Certificate</button>
+        </div>
+    </div>
+</div>
+
 <!-- Registration Certificate Modal -->
 <div id="registrationCertificateModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
     <div class="modal-content" style="background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 800px;">
@@ -326,6 +372,25 @@ $(document).ready(function() {
         $("#clientModal").fadeOut();
     });
     
+    // Vaccination Certificate Download Functionality
+    $(document).on('click', '.download-vaccination-certificate', function() {
+        const petId = $(this).data('pet-id');
+        const ownerName = $(this).data('owner-name');
+        const petName = $(this).data('pet-name');
+        const vaccineDate = $(this).data('vaccine-date');
+        const expiryDate = $(this).data('expiry-date');
+        
+        // Populate the certificate modal
+        $('#vaccCertOwnerName').text(ownerName);
+        $('#vaccCertPetName').text(petName);
+        $('#vaccCertPetId').text(petId);
+        $('#vaccCertVaccineDate').text(vaccineDate);
+        $('#vaccCertExpiryDate').text(expiryDate);
+        
+        // Show the modal
+        $('#vaccinationCertificateModal').fadeIn();
+    });
+    
     // Registration Certificate Download Functionality
     $(document).on('click', '.download-registration-certificate', function() {
         const petId = $(this).data('pet-id');
@@ -363,12 +428,25 @@ $(document).ready(function() {
         $('#registrationCertificateModal').fadeIn();
     });
     
-    // Close registration certificate modal
+    // Close modals
+    $('.close-vacc-cert-modal').click(function() {
+        $('#vaccinationCertificateModal').fadeOut();
+    });
+    
     $('.close-reg-cert-modal').click(function() {
         $('#registrationCertificateModal').fadeOut();
     });
     
-    // Handle registration certificate download
+    // Handle certificate downloads
+    $('#downloadVaccCertBtn').click(function() {
+        html2canvas(document.querySelector("#vaccinationCertificateContent")).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Pet_Vaccination_Certificate.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    });
+    
     $('#downloadRegCertBtn').click(function() {
         html2canvas(document.querySelector("#registrationCertificateContent")).then(canvas => {
             const link = document.createElement('a');
