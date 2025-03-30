@@ -40,8 +40,7 @@
               foreach ($fetch_pets as $pets):
           ?>
 
-        <div class="approval-card">
-          
+<div class="approval-card" data-date-application="<?=$pets['pet_date_application']?>">          
             <div class="approval-info">
                 <div class="approval-details">
                     <p><strong>Name</strong></p>
@@ -374,46 +373,65 @@ $(document).ready(function() {
         }
     });
 
-    // Sorting functionality
-    $("#sortByDate").on("change", function() {
-        const sortOrder = $(this).val(); // Get the selected sorting order (asc or desc)
-        if (sortOrder) {
-            sortApprovalCards(sortOrder);
-        }
-    });
+// Sorting functionality
+$("#sortByDate").on("change", function() {
+    const sortOrder = $(this).val();
+    if (sortOrder) {
+        sortApprovalCards(sortOrder);
+    } else {
+        // Optional: Reset to original order if "Sort by Date" is deselected
+        $(".approval-card").show();
+    }
+});
 
-    // Month filtering functionality
-    $("#sortByMonth").on("change", function() {
-        const selectedMonth = $(this).val(); // Get the selected month
-        filterApprovalCardsByMonth(selectedMonth);
-    });
+// Month filtering functionality
+$("#sortByMonth").on("change", function() {
+    const selectedMonth = $(this).val();
+    filterApprovalCardsByMonth(selectedMonth);
+});
 
     // Function to sort approval cards by date of application
-    function sortApprovalCards(order) {
-        const $approvalList = $(".approval-list");
-        const $cards = $(".approval-card");
+function sortApprovalCards(order) {
+    const $approvalList = $(".approval-list");
+    const $cards = $(".approval-card").detach(); // Detach all cards from DOM
+    
+    // Sort the cards array
+    $cards.sort((a, b) => {
+        const dateA = new Date($(a).data('date-application'));
+        const dateB = new Date($(b).data('date-application'));
+        
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+    
+    // Reattach sorted cards
+    $approvalList.append($cards);
+}
 
-        // Convert NodeList to Array for sorting
-        const cardsArray = Array.from($cards);
-
-        // Sort the cards based on the date of application
-        cardsArray.sort((a, b) => {
-            const dateA = new Date($(a).data("date-application"));
-            const dateB = new Date($(b).data("date-application"));
-
-            if (order === "asc") {
-                return dateA - dateB; // Oldest to Newest
-            } else {
-                return dateB - dateA; // Newest to Oldest
-            }
-        });
-
-        // Clear the approval list and append sorted cards
-        $approvalList.empty();
-        cardsArray.forEach(card => {
-            $approvalList.append(card);
-        });
+// Function to filter approval cards by month
+function filterApprovalCardsByMonth(month) {
+    if (!month) {
+        $(".approval-card").show();
+        return;
     }
+    
+    $(".approval-card").each(function() {
+        const dateStr = $(this).data('date-application');
+        if (!dateStr) {
+            $(this).hide();
+            return;
+        }
+        
+        const date = new Date(dateStr);
+        // Months are 0-indexed in JS, so we add 1 to match your select values
+        const cardMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+        
+        if (cardMonth === month) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+}
 
     // Function to filter approval cards by month
     function filterApprovalCardsByMonth(month) {
