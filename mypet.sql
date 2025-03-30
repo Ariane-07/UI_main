@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2025 at 08:49 AM
+-- Generation Time: Mar 30, 2025 at 10:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -118,11 +118,34 @@ CREATE TABLE `pets_info` (
 --
 
 INSERT INTO `pets_info` (`pet_id`, `pets_UserID`, `pet_photo_owner`, `pet_validIDName`, `pet_date_application`, `pet_owner_name`, `pet_owner_age`, `pet_owner_gender`, `pet_owner_birthday`, `pet_owner_telMobile`, `pet_owner_email`, `pet_owner_home_address`, `pet_owner_barangay`, `pet_name`, `pet_age`, `pet_gender`, `pet_species`, `pet_breed`, `pet_weight`, `pet_color`, `pet_marks`, `pet_birthday`, `pet_antiRabies_vac_date`, `pet_antiRabies_expi_date`, `pet_antiRabPic`, `pet_vet_clinic`, `pet_vet_name`, `pet_vet_clinic_address`, `pet_vet_contact_info`, `pet_owner_signature`, `pet_date_signed`, `pet_qr_code`, `pet_status`) VALUES
-(59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-02-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'accept_by_lgu'),
-(60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'juan', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-01-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'accept_by_lgu'),
-(61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'pedro', 2323, 'male', '2025-03-11', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-11', '2025-03-25', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'pending'),
-(63, 6, '67d109cfbef9d.jpg', '67d109cfbf5de.png', '2025-03-12', 'kokey', 12, 'male', '2025-03-12', '094944415454', 'kokey@gmail.com', 'marilao bulacan', 'sta.rosa 2', 'kiko', '12', 'male', 'dog', 'husky', '2', 'white', 'awd', '2025-03-12', '2025-03-13', '2025-03-12', '67d109cfc009f.jpeg', 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67d109cfbfcf0.jpeg', '2025-03-12', 'PET_63.png', 'accept_by_lgu'),
-(65, 18, NULL, '67dd4c8c941e6.jpg', '2025-03-21', 'wadawd', 123, 'male', '2025-03-21', '09454454744', 'andersonandy046@gmail.com', 'sta.rosa 2 marilao', 'tibagan', 'joshua', '12', 'male', 'turtle', 'pagong', '12', 'red', 'awdawdaw', '2025-03-21', '2025-03-19', '2025-03-24', '67dd4c8c94911.jpeg', 'awdawd', 'esfesf', 'tfhft', '094544454744', NULL, '2025-03-21', 'PET_65.png', 'pending');
+(59, 18, '67cb0a7f190ba.jpg', '67cb0a7f194e9.jpg', '2025-03-07', 'joshua', 18, 'male', '2025-03-14', '09454454744', 'anderson@gmail.com', 'marilao bulacan', 'sta.rosa 2 marilao', 'pikachu', '1', 'male', 'dog', 'chaw chaw', '3', 'orange', 'awdaw', '2025-03-07', '2025-03-07', '2025-02-22', '67cb0a7f1b5ee.jpeg', 'j clinic', 'andy anderson', 'marilao bulacan', '09454454744', '67cb0a7f1a221.png', '2025-03-07', 'PET_59.png', 'declined_by_lgu'),
+(60, 18, '67cb125748237.jpg', '67cb1257485df.jpg', '2025-03-07', 'juan', 234, 'male', '2025-02-26', '09770978151', 'DAwkjh@gmail.com', 'awkldjawkl', 'aswifuawiu', 'esfse', '43', 'male', 'awdawd', 'rgdrg', '23', 'zcascsdz', 'fcvdxzv', '2025-03-15', '2025-03-20', '2025-01-04', '67cb12574a6f2.jpeg', 'awdaw', 'sef', 'fth', '094544547889', '67cb12574a155.png', '2025-03-07', 'PET_60.png', 'pending'),
+(61, 18, '67cb134c6be7f.jpeg', '67cb134c6c395.jpeg', '2025-03-28', 'pedro', 2323, 'male', '2025-03-11', '3284723897', 'sefsefse@gmail.com', 'qdawd', 'ggrdg', 'awdaw', '12', 'male', 'dawda', 'sefse', '123', 'awd', 'awdaw', '2025-03-21', '2025-03-14', '2025-03-11', '67cb134c6e9ee.jpeg', 'sszc', 'czc', 'xdvse', '09454545777', '67cb134c6e4bf.jpg', '2025-03-07', 'PET_61.png', 'pending'),
+(63, 6, '67d109cfbef9d.jpg', '67d109cfbf5de.png', '2025-03-12', 'kokey', 12, 'male', '2025-03-12', '094944415454', 'kokey@gmail.com', 'marilao bulacan', 'sta.rosa 2', 'kiko', '12', 'male', 'dog', 'husky', '2', 'white', 'awd', '2025-03-12', '2025-03-13', '2025-03-12', '67d109cfc009f.jpeg', 'joshua clinic', 'joshua padilla', 'marilao bulacan', '09454454744', '67d109cfbfcf0.jpeg', '2025-03-12', 'PET_63.png', 'declined_by_vet'),
+(65, 18, NULL, '67dd4c8c941e6.jpg', '2025-03-21', 'wadawd', 123, 'male', '2025-03-21', '09454454744', 'andersonandy046@gmail.com', 'sta.rosa 2 marilao', 'tibagan', 'joshua', '12', 'male', 'turtle', 'pagong', '12', 'red', 'awdawdaw', '2025-03-21', '2025-04-30', '2025-02-28', '67dd4c8c94911.jpeg', 'awdawd', 'esfesf', 'tfhft', '094544454744', NULL, '2025-03-21', 'PET_65.png', 'declined_by_vet');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pets_info_history_update`
+--
+
+CREATE TABLE `pets_info_history_update` (
+  `ph_id` int(11) NOT NULL,
+  `ph_pet_id` int(11) NOT NULL,
+  `ph_pet_antiRabies_vac_date` date NOT NULL,
+  `ph_pet_antiRabies_expi_date` date NOT NULL,
+  `ph_update_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pets_info_history_update`
+--
+
+INSERT INTO `pets_info_history_update` (`ph_id`, `ph_pet_id`, `ph_pet_antiRabies_vac_date`, `ph_pet_antiRabies_expi_date`, `ph_update_at`) VALUES
+(2, 65, '2025-03-30', '2025-02-25', '2025-03-30 07:53:57'),
+(3, 65, '2025-04-05', '2025-02-25', '2025-03-30 07:54:53'),
+(4, 61, '2025-03-12', '2025-03-11', '2025-03-30 07:56:55');
 
 -- --------------------------------------------------------
 
@@ -258,7 +281,7 @@ INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Pa
 (11, 'Joshua anderson padilla', '', 'andyanderson895', 'Male', 'andyanderson895@yahoo.com', 'eeb1ccc90a93645e43e6e0ccb1d260d87dd47d1d47e98c6d1cadaeeffe820c9d', 'Profile_67c59f058391c.jpg', '2000-03-04', '09454454744', 'sta.rosa marilao bulacan', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15429.69694581816!2d121.02204164999999!3d14.80142965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397af84aa3b1a33%3A0x7ec8015e45998a7f!2sAPAWAN%20VILLAGE%20PHASE%203!5e0!3m2!1sfil!2sph!4v1741004817615!5m2!1sfil!2sph\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', 'pet_owner', NULL, NULL, NULL, 1),
 (12, NULL, '', 'angenise24', '', 'angenise24@gmail.com', '53d27f0c391424eec5910a67237d2bd6c9a55663d1ed9381c5560b9f9542c843', NULL, NULL, '', '', NULL, 'vet', NULL, NULL, NULL, 1),
 (13, NULL, '', 'juan', '', 'juan@gmail.com', 'ed08c290d7e22f7bb324b15cbadce35b0b348564fd2d5f95752388d86d71bcca', NULL, NULL, NULL, NULL, NULL, 'vet', NULL, NULL, NULL, 1),
-(14, 'andy@gmail.com', '', 'andy', 'Male', 'andy@gmail.com', '6964894d3381c8babae9271306a6c8783c89a2fe580cbbb2bcff61db1d6bfc89', '', '0000-00-00', '', 'andy@gmail.com', '', 'lgu', NULL, NULL, NULL, 1),
+(14, 'andy@gmail.com', '', 'andy', 'Male', 'andy@gmail.com', '6177321eac992341d1ad0823a07e76bfc4ee6909db120e377ea303fdc216756c', '', '0000-00-00', '', 'andy@gmail.com', '', 'lgu', NULL, NULL, NULL, 1),
 (15, 'dawd', '', 'alden', 'Female', 'alden@gmail.com', 'c928225c4ccc97126df308f85ec92b9e4dde097cee3b0ad2b65062d5b7b7f123', NULL, '0000-00-00', '', '', '', 'vet', NULL, NULL, NULL, 1),
 (16, NULL, '', 'padilla', '', 'padilla@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
 (17, NULL, '', 'padilla2', '', 'ssegse@gmail.com', '012d67fac892457c2e8f05290131868aa15983ab438a52293937f570b4c114d5', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
@@ -277,7 +300,10 @@ INSERT INTO `users` (`UserID`, `Name`, `Bio`, `Username`, `Gender`, `Email`, `Pa
 (32, NULL, NULL, 'BongBong123@gmail.com', '', 'BongBong123@gmail.com', '792e96c9ffc5f3c412504bdffb87c77eb61b987cb8f80a273aa1bbb23e93aed2', NULL, NULL, NULL, NULL, NULL, 'pet_owner', NULL, NULL, NULL, 1),
 (33, NULL, NULL, 'KuyaDoc123@gmail.com', '', 'KuyaDoc123@gmail.com', 'd4df883bee6b0af3abae360cd36197001eb963e867ad217731c74f40f548f2d1', NULL, NULL, NULL, NULL, NULL, 'vet', 'vet_id_67dad03aa285c.webp', NULL, NULL, 2),
 (34, 'ako si super admin', NULL, 'super_admin', '', 'super_admin@gmail.com', '35b1e72c51ac17b1cfc8d79e2b24fd22bd5797e4c8461e7e8561818eec28715d', NULL, NULL, NULL, NULL, NULL, 'superAdmin', 'vet_id_67dad03aa285c.webp', NULL, NULL, 1),
-(35, 'manok nok', NULL, 'manok', '', 'manok@gmail.com', '5e765d24dd5772cf59ec94d0abf80c4b8cd5e564e64f0eb5e67dad8eebe8948e', NULL, NULL, NULL, 'manok@gmail.com', NULL, 'lgu', NULL, NULL, NULL, 2);
+(35, 'manok nok', NULL, 'manok', '', 'manok@gmail.com', '5e765d24dd5772cf59ec94d0abf80c4b8cd5e564e64f0eb5e67dad8eebe8948e', NULL, NULL, NULL, 'manok@gmail.com', NULL, 'lgu', NULL, NULL, NULL, 2),
+(36, 'juan tamad', NULL, 'newlgu', '', 'newlgu@gmail.com', 'cb58aa6ef7d5d67c6114f83468eaba449e7af03e9884c74b3d0be724f714ef93', NULL, NULL, NULL, 'sta.rosa 2 marilao', NULL, 'lgu', NULL, NULL, NULL, 1),
+(37, 'mark', NULL, 'mark', '', 'mark@gmail.com', '92b6222b166d49960e9fdcc680fe96e71a573ae92cd676b4b9b3a06b373d54df', NULL, NULL, NULL, 'tibagan', NULL, 'lgu', NULL, NULL, NULL, 2),
+(38, NULL, NULL, 'jovet', '', 'Jovet123@gmail.com', 'ac6c22bab09885fb65f36dfd0e623dfa697792c41f15dc8ebf31639e7cd036d9', NULL, NULL, NULL, NULL, NULL, 'vet', 'vet_id_67e6259b16e84.png', NULL, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -300,6 +326,12 @@ ALTER TABLE `impounded_pets`
 --
 ALTER TABLE `pets_info`
   ADD PRIMARY KEY (`pet_id`);
+
+--
+-- Indexes for table `pets_info_history_update`
+--
+ALTER TABLE `pets_info_history_update`
+  ADD PRIMARY KEY (`ph_id`);
 
 --
 -- Indexes for table `post_comments`
@@ -349,6 +381,12 @@ ALTER TABLE `pets_info`
   MODIFY `pet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
+-- AUTO_INCREMENT for table `pets_info_history_update`
+--
+ALTER TABLE `pets_info_history_update`
+  MODIFY `ph_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `post_comments`
 --
 ALTER TABLE `post_comments`
@@ -370,7 +408,7 @@ ALTER TABLE `post_like`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

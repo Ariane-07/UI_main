@@ -9,6 +9,29 @@ class global_class extends db_connect
         $this->connect();
     }
 
+        // Check if email exists
+        public function get_vaccination_history($petId)
+        {
+            $query = "SELECT * FROM pets_info_history_update WHERE ph_pet_id = ? ORDER BY ph_update_at DESC";
+            $stmt = $this->conn->prepare($query);
+    
+            if (!$stmt) {
+                error_log("Prepare failed: " . $this->conn->error);
+                return false;
+            }
+    
+            $stmt->bind_param("i", $petId);
+            if (!$stmt->execute()) {
+                error_log("Execute failed: " . $stmt->error);
+                return false;
+            }
+    
+            $result = $stmt->get_result();
+            return $result;
+        }
+
+
+
     // Check if email exists
 public function checkEmailExists($email) {
     $query = "SELECT Email FROM users WHERE Email = ?";
@@ -536,22 +559,37 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
-    public function updatePetInfo($pet_id,$vaccine_given,$vaccine_due)
-    {
-        
-            // Update query excluding post_images
-            $stmt = $this->conn->prepare("UPDATE `pets_info` SET `pet_antiRabies_expi_date` = ? , `pet_antiRabies_vac_date`=? WHERE `pet_id` = ?");
-            $stmt->bind_param("sss",$vaccine_due,$vaccine_given,$pet_id);
-        
-        if ($stmt->execute()) {
-            $response = array(
-                'status' => 'success'
-            );
-            echo json_encode($response);
-        } else {
-            echo json_encode(array('status' => 'error', 'message' => 'Unable to update'));
-        }
+    public function updatePetInfo($pet_id, $vaccine_given, $vaccine_due)
+{
+    // Fetch the previous vaccination dates before updating
+    $query = $this->conn->prepare("SELECT pet_antiRabies_vac_date, pet_antiRabies_expi_date FROM pets_info WHERE pet_id = ?");
+    $query->bind_param("s", $pet_id);
+    $query->execute();
+    $result = $query->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $prev_vac_date = $row['pet_antiRabies_vac_date'];
+        $prev_expi_date = $row['pet_antiRabies_expi_date'];
+
+        // Insert into history table
+        $history_stmt = $this->conn->prepare("INSERT INTO pets_info_history_update (ph_pet_id, ph_pet_antiRabies_vac_date, ph_pet_antiRabies_expi_date, ph_update_at) VALUES (?, ?, ?, NOW())");
+        $history_stmt->bind_param("sss", $pet_id, $prev_vac_date, $prev_expi_date);
+        $history_stmt->execute();
     }
+
+    // Update pet's vaccine records
+    $stmt = $this->conn->prepare("UPDATE pets_info SET pet_antiRabies_expi_date = ?, pet_antiRabies_vac_date = ? WHERE pet_id = ?");
+    $stmt->bind_param("sss", $vaccine_due, $vaccine_given, $pet_id);
+
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        error_log("Update error: " . $stmt->error);
+        echo json_encode(['status' => 'error', 'message' => 'Unable to update']);
+    }
+}
+
 
 
 
@@ -906,6 +944,17 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
     public function fetch_all_pets_info()
+    {
+        $query = $this->conn->prepare("SELECT * from pets_info where pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu' OR pet_status ='declined_by_vet' OR pet_status ='accept_by_vet'");
+
+        if ($query->execute()) {
+            $result = $query->get_result();
+            return $result;
+        }
+    }
+
+
+    public function fetch_lgu_registered_pet()
     {
         $query = $this->conn->prepare("SELECT * from pets_info where pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu'");
 

@@ -14,7 +14,7 @@
     <div class="client-list">
         <?php 
         $db = new global_class();
-        $fetch_pets = $db->fetch_all_pets_info();
+        $fetch_pets = $db->fetch_lgu_registered_pet();
 
         if (mysqli_num_rows($fetch_pets) > 0): 
             $count = 1;
@@ -41,7 +41,14 @@
         <div class="client-details">
             <p><strong>Status</strong></p>
             <p>
-                <?= ($pets['pet_status'] === 'accept_by_lgu') ? 'Approved' : 'Declined' ?>
+            <?php
+                if ($pets['pet_status'] === 'accept_by_lgu') {
+                    echo 'Approved';
+                } else {
+                    echo 'Declined';
+                }
+                ?>
+
             </p>
         </div>
     </div>

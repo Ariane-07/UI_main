@@ -44,9 +44,9 @@
                         <?php
                         if ($pets['pet_status'] === "accept_by_lgu") {
                             echo "Approved";
-                        } elseif ($pets['pet_status'] === "pending") {
+                        } elseif ($pets['pet_status'] === "pending" || $pets['pet_status'] === "accept_by_vet") {
                             echo "Pending";
-                        } else {
+                        } elseif ($pets['pet_status'] === "declined_by_vet") {
                             echo "Declined";
                         }
                         ?>
@@ -118,7 +118,8 @@
             <span class="client-close close-clientModal">&times;</span>
         </div>
         <div class="client-modal-body">
-            <input type="hidden" id="client-pet-id">
+        <form id="FrmupdatePetInfo">
+            <input type="hidden" id="client-pet-id" name="pet_id">
             <label for="client-date-application">Date of Application</label>
             <input type="text" id="client-date-application" readonly>
 
@@ -159,15 +160,16 @@
             <input type="text" id="client-mark" readonly>
 
             <label for="client-vaccine-due">Vaccination Due Date</label>
-            <input type="date" id="client-vaccine-due">
+            <input type="date" id="client-vaccine-due" name="update_client-vaccine-due">
 
             <label for="client-vaccine-given">Vaccination Date Given</label>
-            <input type="date" id="client-vaccine-given">
+            <input type="date" id="client-vaccine-given" name="update_client-vaccine-given">
         </div>
         <div class="client-modal-footer">
-            <button id="client-saveBtn" class="view-details">Save</button>
-            <button id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
+            <button type="submit" >Save</button>
+            <button type="button"id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
         </div>
+        </form>
     </div>
 </div>
 
@@ -328,7 +330,7 @@ $(document).ready(function () {
 
         // Load vaccination history via AJAX
         $.ajax({
-            url: 'get_vaccination_history.php',
+            url: "api/config/end-points/get_vaccination_history.php",
             method: 'POST',
             data: { pet_id: petId },
             success: function(response) {
