@@ -9,11 +9,11 @@
                 <i class="bx bx-x sidebarClose"></i>
             </div>
             <ul class="nav-links">
-                <li><a href="index.php?lgupages=lguhome">Home</a></li>
+                <li><a href="index.php?lgupages=LGUHome">Home</a></li>
                 <li><a href="index.php?lgupages=vetId">Vets</a></li>
-                <li><a href="index.php?lgupages=registeredpets">Pets</a></li>
-                <li><a href="index.php?lgupages=impounded">Impounded</a></li>
-                <li><a href="index.php?lgupages=lguapprovals">Approvals</a></li>
+                <li><a href="index.php?lgupages=Registeredpets">Pets</a></li>
+                <li><a href="index.php?lgupages=Impounded">Impounded</a></li>
+                <li><a href="index.php?lgupages=LGUapprovals">Approvals</a></li>
                 <li><a href="index.php?lgupages=AboutUs">About Us</a></li>
 
             </ul>

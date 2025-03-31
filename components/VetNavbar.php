@@ -8,9 +8,9 @@
                 <i class="bx bx-x sidebarClose"></i>
             </div>
             <ul class="nav-links">
-                <li><a href="index.php?vetpages=vethome">Home</a></li>
-                <li><a href="index.php?vetpages=clients">Clients</a></li>
-                <li><a href="index.php?vetpages=approvals">Approvals</a></li>
+                <li><a href="index.php?vetpages=VetHome">Home</a></li>
+                <li><a href="index.php?vetpages=Clients">Clients</a></li>
+                <li><a href="index.php?vetpages=Approvals">Approvals</a></li>
                 <li><a href="index.php?vetpages=AboutUs">About Us</a></li>
 
             </ul>
