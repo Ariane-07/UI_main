@@ -15,7 +15,7 @@
                 <li><a href="index.php?page=MyPets">Pets</a></li>
                 <li><a href="index.php?page=ImpoundedPets">Impounded</a></li>
                 <li><a href="index.php?page=info">Info</a></li>
-                <li><a href="index.php?page=Aboutus">About Us</a></li>
+                <li><a href="index.php?page=AboutUs">About Us</a></li>
             </ul>
         </div>
         <div class="darkLight-searchBox">
