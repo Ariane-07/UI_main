@@ -12,7 +12,6 @@
                 <li><a href="index.php?vetpages=Clients">Clients</a></li>
                 <li><a href="index.php?vetpages=Approvals">Approvals</a></li>
                 <li><a href="index.php?vetpages=AboutUs">About Us</a></li>
-
             </ul>
         </div>
         <div class="darkLight-searchBox">

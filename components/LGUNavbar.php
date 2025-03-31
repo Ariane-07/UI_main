@@ -15,7 +15,6 @@
                 <li><a href="index.php?lgupages=Impounded">Impounded</a></li>
                 <li><a href="index.php?lgupages=LGUapprovals">Approvals</a></li>
                 <li><a href="index.php?lgupages=AboutUs">About Us</a></li>
-
             </ul>
         </div>
         <div class="darkLight-searchBox">
