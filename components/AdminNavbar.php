@@ -10,7 +10,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="index.php?adminPages=adminHome">Home</a></li>
-                <li><a href="index.php?adminPages=addLgu">LGU</a></li>
+                <li><a href="index.php?adminPages=AddLgu">LGU</a></li>
             </ul>
         </div>
         <div class="darkLight-searchBox">
