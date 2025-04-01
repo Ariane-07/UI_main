@@ -135,20 +135,16 @@
                 <input type="text" id="client-mark" readonly>
 
                 <label for="client-vaccine-due">Vaccination Due Date</label>
-                <input type="date" id="client-vaccine-due">
+                <input type="date" id="client-vaccine-due" readonly>
 
                 <label for="client-vaccine-given">Vaccination Date Given</label>
-                <input type="date" id="client-vaccine-given">
+                <input type="date" id="client-vaccine-given" readonly>
             </div>
             <div class="client-modal-footer">
-                <button id="client-saveBtn" class="view-details">Save</button>
-                <button id="client-cancelBtn" class="close-clientModal view-details">Cancel</button>
+                <button id="client-cancelBtn" class="close-clientModal view-details">Close</button>
             </div>
         </div>
     </div>
-
-
-
 
 <script>
  document.addEventListener('DOMContentLoaded', function () {
