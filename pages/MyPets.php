@@ -149,7 +149,7 @@
             data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
             data-pet_date_application='<?= $pets['pet_date_application'] ?>'>
         VIEW DETAILS</button>
-        <button class="close-btn">&times;</button>
+        <!-- <button class="close-btn">&times;</button> -->
     </div>
 </div>
 
@@ -177,49 +177,49 @@
             <form id="FrmupdatePetInfo">
             <label for="client-date-application">Date of Applications</label>
             <input hidden type="text" id="update_pet_id" name="pet_id">
-            <input type="text" id="client-date-application" name="date_application">
+            <input type="text" id="client-date-application" readonly>
 
             <label for="client-name">Name</label>
-            <input type="text" id="client-name" readonly>
+            <input type="text" id="client-name" name="client_name" required>
 
             <label for="client-contact">Contact Number</label>
-            <input type="text" id="client-contact" readonly>
+            <input type="tel" id="client-contact" name="client_contact" required>
 
             <label for="client-email">Email</label>
-            <input type="email" id="client-email" readonly>
+            <input type="email" id="client-email" name="client_email" required>
 
             <label for="client-address">Address</label>
-            <input type="text" id="client-address" readonly>
+            <input type="text" id="client-address" name="client_address" required>
 
             <label for="client-barangay">Barangay</label>
-            <input type="text" id="client-barangay" readonly>
+            <input type="text" id="client-barangay" name="client_barangay"required>
 
             <label for="client-pet-name">Pet Name</label>
-            <input type="text" id="client-pet-name" readonly>
+            <input type="text" id="client-pet-name" name="pet_petname" required>
 
             <label for="client-birthdate">Pet Birthdate</label>
-            <input type="date" id="client-birthdate" readonly>
+            <input type="date" id="client-birthdate" name="pet_birthdate" required>
 
             <label for="client-breed">Breed</label>
-            <input type="text" id="client-breed" readonly>
+            <input type="text" id="client-breed" name="pet_breed" required>
 
             <label for="client-gender">Gender of Pet</label>
-            <input type="text" id="client-gender" readonly>
+            <input type="text" id="client-gender" name="pet_gender" required>
 
             <label for="client-species">Species</label>
-            <input type="text" id="client-species" readonly>
+            <input type="text" id="client-species" name="pet_species" required>
 
             <label for="client-color">Color of Pet</label>
-            <input type="text" id="client-color" readonly>
+            <input type="text" id="client-color" name="pet_color" required>
 
             <label for="client-mark">Distinguishing Marks of Pet</label>
-            <input type="text" id="client-mark" readonly>
+            <input type="text" id="client-mark" name="pet_marks" required>
 
             <label for="client-vaccine-due">Vaccination Due Date</label>
-            <input type="date" id="client-vaccine-due" name="update_client-vaccine-due">
+            <input type="date" id="client-vaccine-due" name="update_client-vaccine-due" required>
 
             <label for="client-vaccine-given">Vaccination Date Given</label>
-            <input type="date" id="client-vaccine-given" name="update_client-vaccine-given">
+            <input type="date" id="client-vaccine-given" name="update_client-vaccine-given" required>
         </div>
         <div class="client-modal-footer">
             <button type="submit" >Save</button>
