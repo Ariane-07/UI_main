@@ -93,7 +93,7 @@
                         "
                     >VIEW RECORDS</button>
                 </div>
-                <button class="close-btn">&times;</button>
+                <!-- <button class="close-btn">&times;</button> -->
             </div>
         </div>
 
