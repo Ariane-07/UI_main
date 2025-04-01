@@ -149,7 +149,7 @@
             data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
             data-pet_date_application='<?= $pets['pet_date_application'] ?>'>
         VIEW DETAILS</button>
-        <button class="close-btn">&times;</button>
+        <!-- <button class="close-btn">&times;</button> -->
     </div>
 </div>
 
