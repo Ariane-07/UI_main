@@ -2,6 +2,42 @@
 <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
 <input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
+<style>
+    @media print {
+        body * {
+            display: none !important;
+        }
+        .qr-print-image {
+            display: block !important;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        
+        /* Hide all modals explicitly */
+        .approval-modal,
+        .modal {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    }
+
+    .no-results-message {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        font-size: 18px;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>
+
 <section>
     <h1 class="heading">My <span>Pets</span></h1>
 
@@ -32,11 +68,12 @@
                     style='width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;'>
                     <img id='qr-image' src='qrcodes/{$pets['pet_qr_code']}' alt='QR Code' style='max-width: 100%; height: auto;'>
                 </div>
-        
-                <a id='download-qr' href='qrcodes/{$pets['pet_qr_code']}' download='{$pets['pet_qr_code']}' target='_blank'
-                    style='padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; text-align: center;'>
-                    Download QR Code
-                </a>
+
+                <button class='print-qr-btn' 
+                    data-qr-src='qrcodes/{$pets['pet_qr_code']}'
+                    style='padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;'>
+                    Print QR Code for Dog Tag
+                </button>
             </div>
             ";
             
@@ -149,7 +186,6 @@
             data-pet_antiRabies_vac_date='<?= $pets['pet_antiRabies_vac_date'] ?>'
             data-pet_date_application='<?= $pets['pet_date_application'] ?>'>
         VIEW DETAILS</button>
-        <!-- <button class="close-btn">&times;</button> -->
     </div>
 </div>
 
@@ -159,11 +195,10 @@
         ?>
         
       <?php else: ?>
-          <tr>
-              <td colspan="5" class="p-2">No record found.</td>
-          </tr>
+          <div class="no-results-message" style="display: block;">No pets registered yet.</div>
       <?php endif; ?>
     </div>
+    <div class="no-results-message">No results found matching your search criteria.</div>
 </section>
 
 <!-- Client Details Modal -->
@@ -279,6 +314,9 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
 $(document).ready(function() {
+    // Initialize no results message
+    $(".no-results-message").hide();
+
     // View Details Modal
     $(".view-details").click(function (e) {
         e.preventDefault();
@@ -378,10 +416,50 @@ $(document).ready(function() {
         });
     });
 
+    // QR code printing
+    $(document).on('click', '.print-qr-btn', function() {
+        const qrSrc = $(this).data('qr-src');
+        
+        // Close any open modals first
+        $('.approval-modal, .modal').fadeOut();
+        
+        // Create a temporary image element for printing
+        const printImage = new Image();
+        printImage.src = qrSrc;
+        printImage.className = 'qr-print-image';
+        printImage.alt = 'QR Code';
+        printImage.style.cssText = `
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            z-index: 999999;
+        `;
+        
+        // Add to body
+        document.body.appendChild(printImage);
+        
+        // Small delay to ensure image is loaded
+        setTimeout(() => {
+            window.print();
+        }, 100);
+        
+        // Clean up
+        const cleanUp = () => {
+            if (printImage.parentNode) {
+                document.body.removeChild(printImage);
+            }
+            window.removeEventListener('afterprint', cleanUp);
+        };
+        window.addEventListener('afterprint', cleanUp);
+    });
+
     // Search and Filter Functionality
     function filterPets() {
         let selectedStatus = $("#statusFilter").val().toLowerCase();
         let searchQuery = $("#searchBox").val().toLowerCase();
+        let hasVisibleCards = false;
 
         $(".client-card").each(function() {
             let petStatus = $(this).find(".client-details p:contains('Status')").next().text().trim().toLowerCase();
@@ -393,10 +471,18 @@ $(document).ready(function() {
 
             if (statusMatch && searchMatch) {
                 $(this).show();
+                hasVisibleCards = true;
             } else {
                 $(this).hide();
             }
         });
+
+        // Show/hide no results message
+        if (hasVisibleCards || ($(".client-card").length === 0 && searchQuery === "" && selectedStatus === "all")) {
+            $(".no-results-message").hide();
+        } else {
+            $(".no-results-message").show();
+        }
     }
 
     // Apply filtering when status changes
@@ -404,5 +490,8 @@ $(document).ready(function() {
 
     // Apply filtering when typing in the search box
     $("#searchBox").on("input", filterPets);
+
+    // Initial filter to hide message if pets exist
+    filterPets();
 });
 </script>

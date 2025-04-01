@@ -188,7 +188,7 @@
     <div class="certificate-container">
         <div class="certificate-header">
             <h2 class="text">PET REGISTRATION CERTIFICATE</h2>
-            <p class="textp">City Agriculture Office - Veterinary Unit</p>
+            <p class="textp">City Veterinarian Office - Veterinary Unit</p>
         </div>
 
         <div class="photo-preview" id="photoPreview">
