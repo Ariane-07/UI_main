@@ -175,7 +175,7 @@
         </div>
         <div class="client-modal-body">
             <form id="FrmupdatePetInfo">
-            <label for="client-date-application">Date of Application</label>
+            <label for="client-date-application">Date of Applications</label>
             <input hidden type="text" id="update_pet_id" name="pet_id">
             <input type="text" id="client-date-application" name="date_application">
 
