@@ -253,6 +253,8 @@ public function UpdatePassword($hashedPassword, $email) {
             $stmt->close();
             return [
                 'PET ID' => $insertedId,
+                'vaccination_date' => $vaccinationDate,
+                'vaccination_expiry' => $vaccinationExpiry,
                 'date application' => $dateApplication,
                 'name applicant' => $nameApplicant,
                 'age' => $age,
@@ -270,8 +272,6 @@ public function UpdatePassword($hashedPassword, $email) {
                 'pet color' => $petColor,
                 'distinguishing_marks' => $distinguishingMarks,
                 'pet birthday' => $petBirthday,
-                'vaccination_date' => $vaccinationDate,
-                'vaccination_expiry' => $vaccinationExpiry,
                 'vet clinic' => $vetClinic,
                 'vet name' => $vetName,
                 'vet address' => $vetAddress,

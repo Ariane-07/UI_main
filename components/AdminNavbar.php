@@ -1,8 +1,12 @@
 <nav>
-    
     <div class="navbar">
         <i class="bx bx-menu sidebarOpen"></i>
-        <span class="logo navLogo"><a href="index.php?adminPages=adminHome"><img src="assets/imgs/Logo.png" id="logo" alt="Logo"></a></span>
+        <span class="logo navLogo">
+            <a href="index.php?adminPages=adminHome" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="assets/imgs/Logo.png" id="logo" alt="Logo">
+                <span style="margin-left: 10px; font-weight: bold; font-size: 1.2rem;">ADMIN</span>
+            </a>
+        </span>
         <div class="menu">
             <div class="logo-toggle">
                 <span class="logo"><a href="#"><span>My</span>Pet</a></span>
