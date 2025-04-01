@@ -177,7 +177,7 @@
             <form id="FrmupdatePetInfo">
             <label for="client-date-application">Date of Application</label>
             <input hidden type="text" id="update_pet_id" name="pet_id">
-            <input type="text" id="client-date-application" readonly>
+            <input type="text" id="client-date-application" name="date_application">
 
             <label for="client-name">Name</label>
             <input type="text" id="client-name" readonly>

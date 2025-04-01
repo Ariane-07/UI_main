@@ -559,7 +559,7 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
-    public function updatePetInfo($pet_id, $vaccine_given, $vaccine_due)
+    public function updatePetInfo($pet_id, $vaccine_given, $vaccine_due,$date_application)
 {
     // Fetch the previous vaccination dates before updating
     $query = $this->conn->prepare("SELECT pet_antiRabies_vac_date, pet_antiRabies_expi_date FROM pets_info WHERE pet_id = ?");
@@ -579,8 +579,8 @@ public function UpdatePassword($hashedPassword, $email) {
     }
 
     // Update pet's vaccine records
-    $stmt = $this->conn->prepare("UPDATE pets_info SET pet_antiRabies_expi_date = ?, pet_antiRabies_vac_date = ? WHERE pet_id = ?");
-    $stmt->bind_param("sss", $vaccine_due, $vaccine_given, $pet_id);
+    $stmt = $this->conn->prepare("UPDATE pets_info SET pet_antiRabies_expi_date = ?, pet_antiRabies_vac_date = ?, pet_date_application = ? WHERE pet_id = ?");
+    $stmt->bind_param("ssss", $vaccine_due, $vaccine_given, $date_application, $pet_id);
 
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success']);

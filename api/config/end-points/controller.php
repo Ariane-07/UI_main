@@ -517,9 +517,11 @@ if ($response == "success") {
             $vaccine_due=$_POST['update_client-vaccine-due'];
             $vaccine_given=$_POST['update_client-vaccine-given'];
             $pet_id=$_POST['pet_id'];
+            
+            $date_application=$_POST['date_application'];
           
 
-            echo $db->updatePetInfo($pet_id,$vaccine_given,$vaccine_due);
+            echo $db->updatePetInfo($pet_id,$vaccine_given,$vaccine_due,$date_application);
             
         }else if ($_POST['requestType'] == 'VerifiedVet') {
             session_start();
