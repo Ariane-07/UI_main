@@ -79,13 +79,16 @@
           endforeach;
         ?>
         
-      <?php else: ?>
-          <tr>
-              <td colspan="5" class="p-2">No record found.</td>
-          </tr>
-      <?php endif; ?>
-
-      </div>
+        <div id="noResults" class="no-results" style="display: none;">
+            <p>No results match your search.</p>
+        </div>
+        
+        <?php else: ?>
+            <tr>
+                <td colspan="5" class="p-2">No record found.</td>
+            </tr>
+        <?php endif; ?>
+    </div>
 </section>
 
 <div id="clientModal" class="approval-modal">
@@ -151,11 +154,13 @@
     const searchBox = document.getElementById('searchBox');
     const statusFilter = document.getElementById('statusFilter');
     const clientCards = document.querySelectorAll('.client-card');
+    const noResultsMessage = document.getElementById('noResults');
 
     // Function to filter and sort cards
     function filterAndSortCards() {
         const searchText = searchBox.value.toLowerCase();
         const selectedStatus = statusFilter.value;
+        let hasVisibleCards = false;
 
         clientCards.forEach(card => {
             const cardText = card.textContent.toLowerCase();
@@ -167,17 +172,28 @@
 
             if (matchesSearch && matchesStatus) {
                 card.style.display = 'flex'; // Show the card
+                hasVisibleCards = true;
             } else {
                 card.style.display = 'none'; // Hide the card
             }
         });
+
+        // Show or hide the no results message
+        if (hasVisibleCards) {
+            noResultsMessage.style.display = 'none';
+        } else {
+            noResultsMessage.style.display = 'block';
+        }
     }
 
     // Attach event listeners for real-time filtering
     searchBox.addEventListener('input', filterAndSortCards);
     statusFilter.addEventListener('change', filterAndSortCards);
 
-    // Attach event listeners to "View Details" buttons
+    // Initialize the filter on page load
+    filterAndSortCards();
+
+    // Your existing modal and button click handlers
     document.querySelectorAll('.view-details').forEach(button => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
@@ -228,3 +244,14 @@
     });
 });
 </script>
+
+<style>
+    .no-results{
+        display: none;
+        text-align: center;
+        padding: 20px;
+        font-size: 18px;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>

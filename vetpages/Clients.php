@@ -102,6 +102,10 @@
               endforeach;
             ?>
             
+            <div id="noResults" class="no-results" style="display: none;">
+            <p>No results match your search.</p>
+        </div>
+        
         <?php else: ?>
             <tr>
                 <td colspan="5" class="p-2">No record found.</td>
@@ -384,10 +388,11 @@ $(document).ready(function () {
     $("#vaccinationModal").fadeOut();
 });
 
-    // Search and Filter Functionality
-    function filterPets() {
+   // Search and Filter Functionality
+   function filterPets() {
         let selectedStatus = $("#statusFilter").val().toLowerCase();
         let searchQuery = $("#searchBox").val().toLowerCase();
+        let hasVisibleCards = false;
 
         $(".client-card").each(function () {
             let petStatus = $(this).find(".client-details p:contains('Status')").next().text().trim().toLowerCase();
@@ -399,19 +404,35 @@ $(document).ready(function () {
 
             if (statusMatch && searchMatch) {
                 $(this).show();
+                hasVisibleCards = true;
             } else {
                 $(this).hide();
             }
         });
+
+        // Show or hide the no results message
+        if (hasVisibleCards) {
+            $("#noResults").hide();
+        } else {
+            $("#noResults").show();
+        }
     }
 
     // Apply filtering when status changes
     $("#statusFilter").change(filterPets);
 
-    // Apply filtering when search button is clicked
-    $("#goButton").click(filterPets);
-
-    // Apply filtering when typing in the search box (optional)
+    // Apply filtering when typing in the search box
     $("#searchBox").on("input", filterPets);
 });
 </script>
+
+<style>
+    .no-results{
+        display: none;
+        text-align: center;
+        padding: 20px;
+        font-size: 18px;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>

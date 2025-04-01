@@ -198,7 +198,7 @@
           <div class="no-results-message" style="display: block;">No pets registered yet.</div>
       <?php endif; ?>
     </div>
-    <div class="no-results-message">No results found matching your search criteria.</div>
+    <div class="no-results-message">No results match your search.</div>
 </section>
 
 <!-- Client Details Modal -->
