@@ -518,10 +518,21 @@ if ($response == "success") {
             $vaccine_given=$_POST['update_client-vaccine-given'];
             $pet_id=$_POST['pet_id'];
             
-            $date_application=$_POST['date_application'];
+            $client_name=$_POST['client_name'];
+            $client_contact=$_POST['client_contact'];
+            $client_email=$_POST['client_email'];
+            $client_address=$_POST['client_address'];
+            $client_barangay=$_POST['client_barangay'];
+            $pet_petname=$_POST['pet_petname'];
+            $pet_birthdate=$_POST['pet_birthdate'];
+            $pet_breed=$_POST['pet_breed'];
+            $pet_gender = $_POST['pet_gender'];
+            $pet_species = $_POST['pet_species'];
+            $pet_color= $_POST['pet_color'];
+            $pet_marks= $_POST['pet_marks'];
           
 
-            echo $db->updatePetInfo($pet_id,$vaccine_given,$vaccine_due,$date_application);
+            echo $db->updatePetInfo($pet_id,$vaccine_given,$vaccine_due,$client_name,$client_contact,$client_email,$client_address, $client_barangay, $pet_petname,$pet_birthdate,$pet_breed,$pet_gender, $pet_species,$pet_color,$pet_marks);
             
         }else if ($_POST['requestType'] == 'VerifiedVet') {
             session_start();

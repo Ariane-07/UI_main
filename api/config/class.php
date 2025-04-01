@@ -559,7 +559,7 @@ public function UpdatePassword($hashedPassword, $email) {
 
 
 
-    public function updatePetInfo($pet_id, $vaccine_given, $vaccine_due,$date_application)
+    public function updatePetInfo($pet_id, $vaccine_given, $vaccine_due, $client_name, $client_contact, $client_email,$client_address,$client_barangay,$pet_petname,$pet_birthdate,$pet_breed,$pet_gender, $pet_species,$pet_color,$pet_marks)
 {
     // Fetch the previous vaccination dates before updating
     $query = $this->conn->prepare("SELECT pet_antiRabies_vac_date, pet_antiRabies_expi_date FROM pets_info WHERE pet_id = ?");
@@ -578,9 +578,16 @@ public function UpdatePassword($hashedPassword, $email) {
         $history_stmt->execute();
     }
 
-    // Update pet's vaccine records
-    $stmt = $this->conn->prepare("UPDATE pets_info SET pet_antiRabies_expi_date = ?, pet_antiRabies_vac_date = ?, pet_date_application = ? WHERE pet_id = ?");
-    $stmt->bind_param("ssss", $vaccine_due, $vaccine_given, $date_application, $pet_id);
+    // Before binding, ensure phone is 11 digits
+$client_contact = preg_replace('/\D/', '', $client_contact); // Remove non-digits
+if (strlen($client_contact) !== 11 || !ctype_digit($client_contact)) {
+    echo json_encode(['status' => 'error', 'message' => 'Phone must be 11 digits']);
+    exit;
+}
+
+    // Update pet's records
+    $stmt = $this->conn->prepare("UPDATE pets_info SET pet_antiRabies_expi_date = ?, pet_antiRabies_vac_date = ?, pet_owner_name = ?, pet_owner_telMobile =?, pet_owner_email =?, pet_owner_home_address=?, pet_owner_barangay=?, pet_name=?, pet_birthday=?, pet_breed=?, pet_gender=?, pet_species=?, pet_color=?, pet_marks=?  WHERE pet_id = ?");
+    $stmt->bind_param("sssssssssssssss", $vaccine_due, $vaccine_given, $client_name, $client_contact,$client_email, $client_address, $client_barangay, $pet_petname, $pet_birthdate, $pet_breed, $pet_gender, $pet_species,$pet_color, $pet_marks, $pet_id);
 
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success']);
