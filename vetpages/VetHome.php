@@ -94,7 +94,7 @@
                             <input type="file" id="editVideoUpload" accept="video/*" style="display: none;" name="videos[]">
                             <i class="fas fa-video"></i>
                         </label>
-                        <button type="submit" id="btnUpdatePost" class="save-btn">Save Changes</button>
+                        <button type="submit" id="btnUpdatePost" class="save-btn view-details">Save Changes</button>
                 </div>
             </div>
         </div>
