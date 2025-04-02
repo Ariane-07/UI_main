@@ -50,7 +50,7 @@ if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
                 <input type="text" id="role" class="editable-input" value="<?= $Role ?>" disabled>
             </div>
             <a href="logout.php" class="logout-link">LOG OUT</a>
-        </form>
+        
     </div>
 
     <div class="profile-details">
@@ -104,9 +104,11 @@ if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
         }
         ?>
     </div>
+    </form>
 </div>
 
 <script>
+    
     const loadFile = function (event) {
         const profilePic = document.getElementById("profile-pic");
         const reader = new FileReader();
