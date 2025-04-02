@@ -128,40 +128,40 @@
             <input type="text" id="client-date-application" readonly>
 
             <label for="client-name">Name</label>
-            <input type="text" id="client-name" readonly>
+            <input type="text" id="client-name" name="client_name"  readonly>
 
             <label for="client-contact">Contact Number</label>
-            <input type="text" id="client-contact" readonly>
+            <input type="text" id="client-contact" name="client_contact"  readonly>
 
             <label for="client-email">Email</label>
-            <input type="email" id="client-email" readonly>
+            <input type="email" id="client-email" name="client_email" readonly>
 
             <label for="client-address">Address</label>
-            <input type="text" id="client-address" readonly>
+            <input type="text" id="client-address" name="client_address" readonly>
 
             <label for="client-barangay">Barangay</label>
-            <input type="text" id="client-barangay" readonly>
+            <input type="text" id="client-barangay" name="client_barangay" readonly>
 
             <label for="client-pet-name">Pet Name</label>
-            <input type="text" id="client-pet-name" readonly>
+            <input type="text" id="client-pet-name" name="pet_petname" readonly>
 
             <label for="client-birthdate">Pet Birthdate</label>
-            <input type="date" id="client-birthdate" readonly>
+            <input type="date" id="client-birthdate" name="pet_birthdate" readonly>
 
             <label for="client-breed">Breed</label>
-            <input type="text" id="client-breed" readonly>
+            <input type="text" id="client-breed" name="pet_breed" readonly>
 
             <label for="client-gender">Gender of Pet</label>
-            <input type="text" id="client-gender" readonly>
+            <input type="text" id="client-gender" name="pet_gender" readonly>
 
             <label for="client-species">Species</label>
-            <input type="text" id="client-species" readonly>
+            <input type="text" id="client-species" name="pet_species" readonly>
 
             <label for="client-color">Color of Pet</label>
-            <input type="text" id="client-color" readonly>
+            <input type="text" id="client-color" name="pet_color" readonly>
 
             <label for="client-mark">Distinguishing Marks of Pet</label>
-            <input type="text" id="client-mark" readonly>
+            <input type="text" id="client-mark" name="pet_marks" readonly>
 
             <label for="client-vaccine-due">Vaccination Due Date</label>
             <input type="date" id="client-vaccine-due" name="update_client-vaccine-due">
