@@ -9,9 +9,24 @@ class global_class extends db_connect
         $this->connect();
     }
 
-        // Check if email exists
-        public function get_vaccination_history($petId)
-        {
+public function DeletePet($pet_id) {
+        $status = 0; 
+        
+        $query = $this->conn->prepare(
+            "UPDATE `pets_info` SET `pet_display_status` = ? WHERE `pet_id` = ?"
+        );
+        $query->bind_param("is", $status, $pet_id);
+        
+        if ($query->execute()) {
+            return 'success';
+        } else {
+            return 'Error: ' . $query->error;
+        }
+}
+
+
+public function get_vaccination_history($petId)
+{
             $query = "SELECT * FROM pets_info_history_update WHERE ph_pet_id = ? ORDER BY ph_update_at DESC";
             $stmt = $this->conn->prepare($query);
     
@@ -28,7 +43,7 @@ class global_class extends db_connect
     
             $result = $stmt->get_result();
             return $result;
-        }
+}
 
 
 
@@ -940,7 +955,7 @@ if (strlen($client_contact) !== 11 || !ctype_digit($client_contact)) {
 
     public function fetch_pets_info($UserID)
     {
-        $query = $this->conn->prepare("SELECT * from pets_info where pets_UserID='$UserID' ORDER BY `pet_id` DESC");
+        $query = $this->conn->prepare("SELECT * from pets_info where pets_UserID='$UserID' AND pet_display_status=1 ORDER BY `pet_id` DESC");
 
         if ($query->execute()) {
             $result = $query->get_result();
@@ -952,7 +967,7 @@ if (strlen($client_contact) !== 11 || !ctype_digit($client_contact)) {
 
     public function fetch_all_pets_info()
     {
-        $query = $this->conn->prepare("SELECT * from pets_info where pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu' OR pet_status ='declined_by_vet' OR pet_status ='accept_by_vet'");
+        $query = $this->conn->prepare("SELECT * from pets_info where (pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu' OR pet_status ='declined_by_vet' OR pet_status ='accept_by_vet')AND pet_display_status=1");
 
         if ($query->execute()) {
             $result = $query->get_result();
@@ -963,7 +978,7 @@ if (strlen($client_contact) !== 11 || !ctype_digit($client_contact)) {
 
     public function fetch_lgu_registered_pet()
     {
-        $query = $this->conn->prepare("SELECT * from pets_info where pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu'");
+        $query = $this->conn->prepare("SELECT * from pets_info where (pet_status ='accept_by_lgu' OR pet_status ='declined_by_lgu') AND pet_display_status=1");
 
         if ($query->execute()) {
             $result = $query->get_result();

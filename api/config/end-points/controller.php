@@ -26,6 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo $db->UpdatePetStatus($pet_id,$status);
            
             
+        }else if($_POST['requestType'] =='DeletePet'){
+
+            $pet_id = $_POST['pet_id'];
+          
+    
+            $result = $db->DeletePet($pet_id);
+    
+            if ($result == "success") {
+                echo json_encode(["status" => 200, "message" => "Delete Successfully"]);
+            } else {
+                echo json_encode(["status" => 400, "message" => $result]);
+            }
+            
         }else if ($_POST['requestType'] == 'PostContent') {
 
             $post_user_id = $_POST['UserID'] ?? null;

@@ -1,6 +1,53 @@
 $(document).ready(function () {
 
-    
+
+    // $('.togglerDeletePet').click(function (e) { 
+        $(document).on('click', '.togglerDeletePet', function(e) {
+            e.preventDefault();
+            var pet_id = $(this).data('pet_id');
+            console.log(pet_id);
+        
+            Swal.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "api/config/end-points/controller.php",
+                        type: 'POST',
+                        data: { pet_id: pet_id, requestType: 'DeletePet' },
+                        dataType: 'json',  // Expect a JSON response
+                        success: function(response) {
+                            if (response.status === 200) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.message,  // Show the success message from the response
+                                    'success'
+                                ).then(() => {
+                                    location.reload(); 
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    response.message,  // Show the error message from the response
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function() {
+                            Swal.fire(
+                                'Error!',
+                                'There was a problem with the request.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
     
 
 
