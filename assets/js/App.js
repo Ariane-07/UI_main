@@ -328,6 +328,8 @@ $(document).ready(function () {
     $("#frmUpdateProfile").submit(function (e) {
         e.preventDefault();
     
+        console.log("click");
+
         $('.spinner').show();
         $('#btnUpdateProfile').prop('disabled', true);
     
