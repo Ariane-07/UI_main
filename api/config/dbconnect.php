@@ -1,16 +1,16 @@
 <?php
 // connection in local
-define("db_host", "localhost");
-define("db_user", "root");
-define("db_pass", "");
-define("db_name", "mypet");
+// define("db_host", "localhost");
+// define("db_user", "root");
+// define("db_pass", "");
+// define("db_name", "mypet");
 
 
 // connection in hosting
-// define("db_host", "localhost");
-// define("db_user", "u491760130_mypet");
-// define("db_pass", "U491760130_mypet");
-// define("db_name", "u491760130_mypet");
+define("db_host", "localhost");
+define("db_user", "u491760130_mypet");
+define("db_pass", "U491760130_mypet");
+define("db_name", "u491760130_mypet");
 
 
 class db_connect
