@@ -142,7 +142,7 @@
                 </div>
                 <div class="imp-modal-body">
                     <div class="imp-modal-image-container">
-                        <img hidden src="" alt="Pet" class="imp-modal-image" id="preview_images">
+                        <img src="" alt="Pet" class="imp-modal-image" id="preview_images">
                         <label class="imp-image-upload-label">
                             UPLOAD IMAGE
                             <input type="file" name="add-image-upload" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)" required>
@@ -174,34 +174,92 @@
     </div>
 </form>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteConfirmationModal" class="edit-modal" style="display:none;">
+    <div class="imp-modal-content" style="max-width: 400px;">
+        <div class="imp-modal-header">
+            <h2>Confirm Deletion</h2>
+            <button type="button" class="imp-modal-close delete-modal-close">×</button>
+        </div>
+        <div class="imp-modal-body">
+            <p>Are you sure you want to delete this pet?</p>
+        </div>
+        <div class="imp-modal-footer" style="justify-content: center;">
+            <button type="button" class="imp-button imp-cancel-button">Cancel</button>
+            <button type="button" class="imp-button imp-confirm-delete">Delete</button>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function () {
-    // Handle DELETE action
-    $(".imp-delete-button").click(function (e) {
+    // Initialize delete confirmation modal
+    $("#deleteConfirmationModal").hide();
+    
+    // Handle delete button click in pet details
+    $(document).on('click', '.imp-delete-button', function(e) {
         e.preventDefault();
-        var petId = $("#imp_id").val();  // Get the pet ID from the form input
-        if (petId) {
-            if (confirm("Are you sure you want to delete this pet?")) {
-                $.ajax({
-                    url: "api/config/end-points/controller.php",
-                    method: 'POST',
-                    data: { id: petId, requestType: "deleteImpound" }, 
-                    success: function (response) {
-                        console.log(response);
-                        alert('Pet deleted successfully!');
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function () {
-                        alert('Error deleting pet!');
-                    }
-                });
+        console.log("Delete button clicked");
+        $("#deleteConfirmationModal").fadeIn();
+    });
+
+    // Handle confirm delete
+    $(document).on('click', '.imp-confirm-delete', function() {
+        var petId = $("#imp_id").val();
+        console.log("Confirming delete for pet ID:", petId);
+        
+        if (!petId) {
+            alertify.error('No pet selected for deletion');
+            return;
+        }
+
+        $.ajax({
+            url: "api/config/end-points/controller.php",
+            method: 'POST',
+            data: { 
+                id: petId, 
+                requestType: "deleteImpound" 
+            },
+            success: function(response) {
+                console.log("Delete successful:", response);
+                alertify.success('Pet deleted successfully!');
+                $("#deleteConfirmationModal").fadeOut();
+                $("#petDetailsModal").fadeOut();
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            },
+            error: function(xhr, status, error) {
+                console.error("Delete failed:", status, error);
+                alertify.error('Error deleting pet. Please try again.');
             }
-        } else {
-            alert("No pet selected for deletion.");
+        });
+    });
+
+    // Close delete confirmation modal
+    $(".delete-modal-close, .imp-cancel-button").click(function() {
+        $("#deleteConfirmationModal").fadeOut();
+    });
+
+    // Close modal when clicking outside
+    $("#deleteConfirmationModal").click(function(e) {
+        if ($(e.target).is("#deleteConfirmationModal")) {
+            $(this).fadeOut();
         }
     });
+});
+
+    // Add this to your document.ready function
+$('input[name="add-image-upload"]').on('change', function(event) {
+    var file = event.target.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#preview_images').attr('src', e.target.result).show();
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
     // Handle SAVE (UPDATE) action
     $(".imp-save-button").click(function (e) {
@@ -283,7 +341,8 @@ $(document).ready(function () {
     });
 
     // Open Pet Details Modal
-    $('.showpetDetailsModal').on('click', function() {
+    $(document).on('click', '.showpetDetailsModal', function() {
+        console.log("Details button clicked");
         var petId = $(this).data('imp_id');
         var petDateCaught = $(this).data('imp_date_caught');
         var petLocationFound = $(this).data('imp_location_found');
@@ -356,5 +415,4 @@ $(document).ready(function () {
     $('#sortOrder').on('change', function() {
         $('#sortCriteria').trigger('change'); // Trigger the sort criteria change to re-sort
     });
-});
 </script>

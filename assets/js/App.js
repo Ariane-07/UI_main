@@ -212,23 +212,28 @@ $(document).ready(function () {
    
 
     
-    $("#frmSentMessagge").submit(function (e) {
+   
+    $("#frmSentMessagge").submit(function(e) {
         e.preventDefault();
-
+        e.stopPropagation();
         
+        if ($(this).data('submitting')) return;
+        $(this).data('submitting', true);
+    
         if ($("#reciever_id").val().trim() === "") {
             alertify.error('Select Receiver First');
+            $(this).data('submitting', false);
             return;
         }
-
+    
         if ($("#message-input").val().trim() === "" && $("#file-upload")[0].files.length === 0) {
+            $(this).data('submitting', false);
             return;
         }
-        
-
+    
         $('.spinner').show();
         $('#send-message').prop('disabled', true);
-    
+        
         var formData = new FormData(this);
         formData.append('requestType', 'SentMessagge');
         
@@ -239,19 +244,36 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             dataType: 'json',
-            success: function (response) {
-                console.log(response);
+            success: (response) => {
+                console.log('Full response:', response);
+                
+                // Always clear inputs and preview
+                $("#file-upload").val("");
+                $("#message-input").val("");
+                $('.image-preview-container').html('').hide().show();
+                
                 $('.spinner').hide();
                 $('#send-message').prop('disabled', false);
+                $(this).data('submitting', false);
     
-                if (response.status == "success") {
-                    // alertify.success('Sent Successfully');
-
-                    $("#file-upload").val("");
-                    $("#message-input").val("");
+                if (response?.status == "success") {
+                    addMessageToChat(response.message, response.isImage || false);
                 } else {
-                    alertify.error('Error');
+                    alertify.error(response?.message || 'Message sending failed');
                 }
+            },
+            error: (xhr, status, error) => {
+                console.error('AJAX Error:', {xhr, status, error, response: xhr.responseText});
+                
+                // Still clear inputs on error
+                $("#file-upload").val("");
+                $("#message-input").val("");
+                $('.image-preview-container').html('').hide().show();
+                
+                $('.spinner').hide();
+                $('#send-message').prop('disabled', false);
+                $(this).data('submitting', false);
+                alertify.error('Error sending message. Please try again.');
             }
         });
     });
@@ -328,6 +350,8 @@ $(document).ready(function () {
     $("#frmUpdateProfile").submit(function (e) {
         e.preventDefault();
     
+        console.log("click");
+
         $('.spinner').show();
         $('#btnUpdateProfile').prop('disabled', true);
     

@@ -1,41 +1,75 @@
 <input type="hidden" id="UserID" name="UserID" value="<?= $_SESSION['UserID']?>">
 <input type="hidden" id="username" name="username" value="<?= $_SESSION['username']?>">
-<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+<input type="hidden" id="ProfilePic" name="ProfilePic" value="<?= isset($_SESSION['ProfilePic']) && $_SESSION['ProfilePic'] ? "uploads/images/" . $_SESSION['ProfilePic'] : "../assets/imgs/User-Profile.png" ?>" alt="Profile Image">
 
 <style>
-    @media print {
-        body * {
-            display: none !important;
-        }
-        .qr-print-image {
-            display: block !important;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 50px;
-            height: 50px;
-            margin: 0;
-            padding: 0;
-            border: none;
-            background: none;
-        }
-        
-        /* Hide all modals explicitly */
-        .approval-modal,
-        .modal {
-            display: none !important;
-            visibility: hidden !important;
-        }
+   @media print {
+    body * {
+        display: none !important;
     }
+    .qr-print-image {
+        display: block !important;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+    
+    /* Hide all modals explicitly */
+    .approval-modal,
+    .modal {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
 
-    .no-results-message {
-        display: none;
-        text-align: center;
-        padding: 20px;
-        font-size: 18px;
-        color: #666;
-        margin-top: 20px;
-    }
+.custom-size-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.custom-size-modal h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.custom-size-modal input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.custom-size-modal button {
+    padding: 8px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-size-modal .cancel-custom-size {
+    background-color: #dc3545;
+    color: white;
+}
+
+.custom-size-modal .confirm-custom-size {
+    background-color: #28a745;
+    color: white;
+}
 </style>
 
 <section>
@@ -63,19 +97,36 @@
           foreach ($fetch_pets as $pets):
 
             $QRCODE = "
-            <div class='qr-code-container' style='display: flex; flex-direction: column; align-items: center; gap: 10px;'>
-                <div id='qr-code-1' class='qr-placeholder' 
-                    style='width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;'>
-                    <img id='qr-image' src='qrcodes/{$pets['pet_qr_code']}' alt='QR Code' style='max-width: 100%; height: auto;'>
-                </div>
+<div class='qr-code-container' style='display: flex; flex-direction: column; align-items: center; gap: 10px;'>
+    <div id='qr-code-1' class='qr-placeholder' 
+        style='width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; background-color: #f9f9f9;'>
+        <img id='qr-image' src='qrcodes/{$pets['pet_qr_code']}' alt='QR Code' style='max-width: 100%; height: auto;'>
+    </div>
 
-                <button class='print-qr-btn' 
-                    data-qr-src='qrcodes/{$pets['pet_qr_code']}'
-                    style='padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;'>
-                    Print QR Code for Dog Tag
-                </button>
-            </div>
-            ";
+    <button class='print-qr-btn custom-size-btn'
+        data-qr-src='qrcodes/{$pets['pet_qr_code']}'
+        style='padding: 8px 12px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;'>
+        Print QR Code
+    </button>
+</div>
+
+<!-- Custom Size Modal -->
+<div class='custom-size-modal' style='display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; z-index: 1000; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3);'>
+    <h3>Enter Custom Size</h3>
+    <div style='margin: 15px 0;'>
+        <label style='display: block; margin-bottom: 5px;'>Width (px):</label>
+        <input type='number' class='custom-width' value='100' min='10' max='500' style='width: 100%; padding: 5px;'>
+    </div>
+    <div style='margin: 15px 0;'>
+        <label style='display: block; margin-bottom: 5px;'>Height (px):</label>
+        <input type='number' class='custom-height' value='100' min='10' max='500' style='width: 100%; padding: 5px;'>
+    </div>
+    <div style='display: flex; justify-content: space-between;'>
+        <button class='cancel-custom-size' style='padding: 5px 10px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer;'>Cancel</button>
+        <button class='confirm-custom-size' style='padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;'>Print</button>
+    </div>
+</div>
+";
             
             $REGISTRATION_BUTTON = "";
             if (($pets['pet_status'] ?? '') === "accept_by_lgu") {
@@ -416,44 +467,57 @@ $(document).ready(function() {
         });
     });
 
-    // QR code printing
-    $(document).on('click', '.print-qr-btn', function() {
-        const qrSrc = $(this).data('qr-src');
-        
-        // Close any open modals first
-        $('.approval-modal, .modal').fadeOut();
-        
-        // Create a temporary image element for printing
-        const printImage = new Image();
-        printImage.src = qrSrc;
-        printImage.className = 'qr-print-image';
-        printImage.alt = 'QR Code';
-        printImage.style.cssText = `
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 100px;
-            height: 100px;
-            z-index: 999999;
-        `;
-        
-        // Add to body
-        document.body.appendChild(printImage);
-        
-        // Small delay to ensure image is loaded
-        setTimeout(() => {
-            window.print();
-        }, 100);
-        
-        // Clean up
-        const cleanUp = () => {
-            if (printImage.parentNode) {
-                document.body.removeChild(printImage);
-            }
-            window.removeEventListener('afterprint', cleanUp);
-        };
-        window.addEventListener('afterprint', cleanUp);
-    });
+    // QR code printing - custom size button handler
+$(document).on('click', '.custom-size-btn', function() {
+    const qrSrc = $(this).data('qr-src');
+    $('.custom-size-modal').data('qr-src', qrSrc).fadeIn();
+});
+
+// Confirm custom size
+$(document).on('click', '.confirm-custom-size', function() {
+    const qrSrc = $('.custom-size-modal').data('qr-src');
+    const width = $('.custom-width').val();
+    const height = $('.custom-height').val();
+    
+    printQRCode(qrSrc, width, height);
+    $('.custom-size-modal').fadeOut();
+});
+
+// Cancel custom size
+$(document).on('click', '.cancel-custom-size', function() {
+    $('.custom-size-modal').fadeOut();
+});
+
+// Main print function
+function printQRCode(qrSrc, width, height) {
+    // Close any open modals first
+    $('.approval-modal, .modal').fadeOut();
+    
+    // Create a temporary image element for printing
+    const printImage = new Image();
+    printImage.src = qrSrc;
+    printImage.className = 'qr-print-image';
+    printImage.alt = 'QR Code';
+    printImage.style.width = width + 'px';
+    printImage.style.height = height + 'px';
+    
+    // Add to body
+    document.body.appendChild(printImage);
+    
+    // Small delay to ensure image is loaded
+    setTimeout(() => {
+        window.print();
+    }, 100);
+    
+    // Clean up
+    const cleanUp = () => {
+        if (printImage.parentNode) {
+            document.body.removeChild(printImage);
+        }
+        window.removeEventListener('afterprint', cleanUp);
+    };
+    window.addEventListener('afterprint', cleanUp);
+}
 
     // Search and Filter Functionality
     function filterPets() {
