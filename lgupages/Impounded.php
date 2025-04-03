@@ -142,7 +142,7 @@
                 </div>
                 <div class="imp-modal-body">
                     <div class="imp-modal-image-container">
-                        <img src="" alt="Pet" class="imp-modal-image" id="preview_images">
+                        <img hidden src="" alt="Pet" class="imp-modal-image" id="preview_images">
                         <label class="imp-image-upload-label">
                             UPLOAD IMAGE
                             <input type="file" name="add-image-upload" class="imp-image-upload" accept="image/*" onchange="handleAddPetImageUpload(event)" required>
