@@ -353,7 +353,7 @@
             </div>
             
             <div style="position: absolute; bottom: 10px; right: 10px;">
-                <img src="assets/imgs/logo.png" alt="Logo" style="height: 50px;">
+                <img src="../assets/imgs/logo.png" alt="Logo" style="height: 50px;">
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
