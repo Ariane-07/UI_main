@@ -352,9 +352,9 @@
                 <p style="margin-top: 50px;"><strong>Official Stamp/Signature</strong></p>
             </div>
             
-            <div style="position: absolute; bottom: 10px; right: 10px;">
+            <!-- <div style="position: absolute; bottom: 10px; right: 10px;">
                 <img src="../assets/imgs/logo.png" alt="Logo" style="height: 50px;">
-            </div>
+            </div> -->
         </div>
         <div style="text-align: center; margin-top: 20px;">
             <button id="downloadRegCertBtn" style="padding: 10px 20px; background-color: #17a2b8; color: white; border: none; cursor: pointer;">Download Certificate</button>
