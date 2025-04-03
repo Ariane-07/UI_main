@@ -424,7 +424,18 @@ $(document).ready(function () {
 
     $("#frmPOST_CONTENT").submit(function (e) {
         e.preventDefault();
-    
+        
+        // Get form values
+        const postText = $('#postInput').val().trim();
+        const imageFiles = $('#imageUpload')[0].files;
+        const videoFiles = $('#videoUpload')[0].files;
+        
+        // Validate that there's either text or files
+        if (!postText && (!imageFiles || imageFiles.length === 0) && (!videoFiles || videoFiles.length === 0)) {
+            alertify.error('Please enter some text or attach media to post');
+            return false;
+        }
+        
         $('.spinner').show();
         $('#btnPOSTCONTENT').prop('disabled', true);
     
@@ -449,7 +460,7 @@ $(document).ready(function () {
                         location.reload();
                     }, 2000);
                 } else {
-                    alertify.error('Sending failed, please try again.');
+                    alertify.error(response.message || 'Sending failed, please try again.');
                 }
             }
         });

@@ -39,11 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(["status" => 400, "message" => $result]);
             }
             
-        }else if ($_POST['requestType'] == 'PostContent') {
-
+        } else if ($_POST['requestType'] == 'PostContent') {
             $post_user_id = $_POST['UserID'] ?? null;
-            $postInput = $_POST['postInput'] ?? null;
-
+            $postInput = trim($_POST['postInput'] ?? '');
+        
+            // Check if there's either text content or files
+            $hasImages = !empty($_FILES['imageUpload']['name'][0]);
+            $hasVideos = !empty($_FILES['videoUpload']['name'][0]);
+            
+            if (empty($postInput) && !$hasImages && !$hasVideos) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Please enter some text or attach media to post'
+                ]);
+                exit;
+            }
+        
             $postFiles = [
                 "images" => [],
                 "videos" => []
