@@ -93,7 +93,7 @@
                 data-pet_owner_signature='<?=$pets['pet_owner_signature']?>'
                 data-pet_date_signed='<?=$pets['pet_date_signed']?>'
                 >VIEW DETAILS</button>
-                <button class="close-btn">&times;</button>
+                <!-- <button class="close-btn">&times;</button> -->
             </div>
         </div>
 
