@@ -82,7 +82,7 @@
             <div class="owner-modal-footer">
                 <form id="frmClaim">
                     <input hidden type="text" id="imp_id" name="imp_id">
-                    <button type="submit" id="BtnClaim" class="owner-button owner-claim-button">Action</button>
+                    <!-- <button type="submit" id="BtnClaim" class="owner-button owner-claim-button">Action</button> -->
                 </form>
                 
             </div>
