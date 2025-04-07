@@ -93,7 +93,7 @@
             </div>
             <div class="approval-modal-footer">
                 <input hidden type="text" id="vet_id" name="vet_id">
-                <button type="button" id="verified_vet" name="status" value="1">Verified</button>
+                <button type="button" id="verified_vet" name="status" value="1">Verify</button>
                 <button type="button" id="declined_vet" name="status" value="2">Decline</button>
             </div>
         </div>
