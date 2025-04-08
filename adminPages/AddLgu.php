@@ -206,6 +206,22 @@ $(document).ready(function() {
     });
 
 
+    // Search functionality
+    $("#searchBox").on("keyup", function() {
+        const value = $(this).val().toLowerCase();
+        $("#lguAccountsTable tbody tr").filter(function() {
+            // Show row if it matches the search text in name, username or email
+            const name = $(this).find("td:eq(0)").text().toLowerCase();
+            const username = $(this).find("td:eq(1)").text().toLowerCase();
+            const email = $(this).find("td:eq(2)").text().toLowerCase();
+            
+            const match = name.includes(value) || 
+                         username.includes(value) || 
+                         email.includes(value);
+            
+            $(this).toggle(match);
+        });
+    });
 
     $(".lgu-delete-btn").click(function (e) {
     e.preventDefault(); 
