@@ -98,20 +98,6 @@ $(document).ready(function() {
         reader.readAsDataURL(file);
     });
 
-    // Helper function to add messages to the chat
-    function addMessageToChat(message, isImage = false) {
-        const chatMessages = $('.chat-messages');
-        const messageElement = $('<div class="message"></div>');
-        
-        if (isImage) {
-            // If it's an image message
-            messageElement.append($(`<img src="${message}" class="chat-image">`));
-        } else {
-            // If it's a text message
-            messageElement.text(message);
-        }
-        
-        chatMessages.append(messageElement);
-    }
+   
 });
 </script>

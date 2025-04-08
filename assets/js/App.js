@@ -210,7 +210,20 @@ $(document).ready(function () {
     
 
    
-
+    function addMessageToChat(message, isImage = false) {
+        const chatMessages = $('.chat-messages');
+        const messageElement = $('<div class="message"></div>');
+        
+        if (isImage) {
+            // If it's an image message
+            messageElement.append($(`<img src="${message}" class="chat-image">`));
+        } else {
+            // If it's a text message
+            messageElement.text(message);
+        }
+        
+        chatMessages.append(messageElement);
+    }
     
    
     $("#frmSentMessagge").submit(function(e) {
@@ -245,7 +258,7 @@ $(document).ready(function () {
             contentType: false,
             dataType: 'json',
             success: (response) => {
-                console.log('Full response:', response);
+                console.log('sent response:', response);
                 
                 // Always clear inputs and preview
                 $("#file-upload").val("");
