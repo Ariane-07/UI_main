@@ -668,7 +668,11 @@ body.dark .search-field i {
 
 .custom-file-upload {
   cursor: pointer;
+<<<<<<< Updated upstream
   width: 36px;
+=======
+  /* width: 36px; */ 
+>>>>>>> Stashed changes
   height: 36px;
   display: flex;
   align-items: center;
