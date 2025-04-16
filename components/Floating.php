@@ -98,6 +98,23 @@ $(document).ready(function() {
         reader.readAsDataURL(file);
     });
 
-   
+    // Helper function to add messages to the chat
+    function addMessageToChat(message, isImage = false) {
+    const chatMessages = $('.chat-messages');
+    const messageElement = $('<div class="message"></div>');
+
+    if (isImage) {
+        // Wrap image in link to view full size
+        const imageLink = $(`<a href="${message}" target="_blank"></a>`);
+        const image = $(`<img src="${message}" class="chat-image">`);
+        imageLink.append(image);
+        messageElement.append(imageLink);
+    } else {
+        messageElement.text(message);
+    }
+
+    chatMessages.append(messageElement);
+}
+
 });
 </script>
