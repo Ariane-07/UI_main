@@ -100,21 +100,18 @@ $(document).ready(function() {
 
     // Helper function to add messages to the chat
     function addMessageToChat(message, isImage = false) {
-    const chatMessages = $('.chat-messages');
-    const messageElement = $('<div class="message"></div>');
-
-    if (isImage) {
-        // Wrap image in link to view full size
-        const imageLink = $(`<a href="${message}" target="_blank"></a>`);
-        const image = $(`<img src="${message}" class="chat-image">`);
-        imageLink.append(image);
-        messageElement.append(imageLink);
-    } else {
-        messageElement.text(message);
+        const chatMessages = $('.chat-messages');
+        const messageElement = $('<div class="message"></div>');
+        
+        if (isImage) {
+            // If it's an image message
+            messageElement.append($(`<img src="${message}" class="chat-image">`));
+        } else {
+            // If it's a text message
+            messageElement.text(message);
+        }
+        
+        chatMessages.append(messageElement);
     }
-
-    chatMessages.append(messageElement);
-}
-
 });
 </script>
