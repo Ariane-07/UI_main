@@ -155,13 +155,20 @@ $(document).ready(function() {
         chatMessages.append(messageElement);
     }
 
-    // Close modal when "X" is clicked
-    $('.modal-close').click(function() {
+    // Delegate click event so it works even for dynamically added images
+    $(document).on('click', '.chat-image', function () {
+        const src = $(this).attr('src');
+        $('#modalImage').attr('src', src).show();
+        $('#imageModal').fadeIn();
+    });
+
+    // Close modal on "X" click
+    $('.modal-close').click(function () {
         $('#imageModal').fadeOut();
     });
 
-    // Close modal when clicking outside the image
-    $('#imageModal').click(function(e) {
+    // Close modal on background click
+    $('#imageModal').click(function (e) {
         if (e.target.id === 'imageModal') {
             $('#imageModal').fadeOut();
         }
