@@ -27,17 +27,19 @@ if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
 <div class="profile-container">
     <div class="profile-sidebar">
         <form class="profileForm" id="frmUpdateProfile">
-            <div class="profile-image">
-                <div class="profile-pic-container">
-                    <img id="profile-pic" src="<?= isset($Profile[0]['ProfilePic']) && $Profile[0]['ProfilePic'] ? "uploads/images/" . $Profile[0]['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
-                    <?php if ($Profile[0]['status']=="1" && $Profile[0]['Role']=="vet") { ?>
-                        <span class="verified-icon"><i class="fas fa-check-circle"></i></span>
-                    <?php } ?>
-                </div>
-                <label for="profile-pic-input" class="file-input-label">CHOOSE A PHOTO</label>
-                <input type="file" id="profile-pic-input" name="profile-pic-input" class="file-input" accept="image/*" onchange="loadFile(event)">
+        <div class="profile-image">
+            <div class="profile-pic-container">
+                <img id="profile-pic" src="<?= isset($Profile[0]['ProfilePic']) && $Profile[0]['ProfilePic'] ? "uploads/images/" . $Profile[0]['ProfilePic'] : "assets/imgs/User-Profile.png" ?>" alt="Profile Image">
+                <?php if ($Profile[0]['status'] == "1" && $Profile[0]['Role'] == "vet") { ?>
+                    <span class="verified-icon"><i class="fas fa-check-circle"></i></span>
+                <?php } ?>
             </div>
 
+            <?php if ($Profile[0]['UserID'] == $_SESSION['UserID']) { ?>
+                <label for="profile-pic-input" class="file-input-label">CHOOSE A PHOTO</label>
+                <input type="file" id="profile-pic-input" name="profile-pic-input" class="file-input" accept="image/*" onchange="loadFile(event)">
+            <?php } ?>
+        </div>
             <!-- Add Bio Section Here -->
             <div class="profile-info">
                 <p>Bio</p>
