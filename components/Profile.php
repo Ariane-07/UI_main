@@ -43,8 +43,8 @@ if ($Profile[0]['UserID'] != $_SESSION['UserID']) {
             <!-- Add Bio Section Here -->
             <div class="profile-info">
                 <p>Bio</p>
-                <textarea <?= $authorization ?> id="bio" name="bio" class="editable-input" placeholder="Tell us about yourself..."><?= $Profile[0]['Bio'] ?? '' ?></textarea>
-            </div>
+                <textarea <?= $authorization ?> id="bio" name="bio" class="bio-input" placeholder="Tell us about yourself..." style="height: 150px;"><?= $Profile[0]['Bio'] ?? '' ?></textarea>
+                </div>
             <div class="profile-info">
                 <p>Email</p>
                 <input type="email" id="email" name="email" class="editable-input" value="<?= $Profile[0]['Email'] ?>" <?= $authorization ?>>
