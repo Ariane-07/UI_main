@@ -1,8 +1,9 @@
+<!-- Floating Button Container -->
 <div class="floating-container">
     <div class="floating-button">+</div>
     <div class="element-container">
         <span class="float-element">
-            <a href="index.php?components=profile&&role=<?=$_SESSION['Role']?>&&UserID=<?=$_SESSION['UserID']?>">
+            <a href="index.php?components=profile&&role=<?= $_SESSION['Role'] ?>&&UserID=<?= $_SESSION['UserID'] ?>">
                 <i class='bx bxs-user'></i>
             </a>
         </span>
@@ -17,7 +18,7 @@
     </div>
 </div>
 
-<!-- Modal HTML Structure -->
+<!-- Notification Modal -->
 <div id="notification-modal" class="noti-modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -28,6 +29,7 @@
     </div>
 </div>
 
+<!-- Chat Form Modal -->
 <form id="frmSentMessagge">
     <div id="chat-modal" class="chat-modal">
         <div class="chat-modal-content">
@@ -71,6 +73,40 @@
     <img id="modalImage" style="display: none; max-width: 90%; max-height: 90%; border-radius: 10px;">
 </div>
 
+<!-- Styles -->
+<style>
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.image-modal .modal-close {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chat-image {
+    max-width: 150px;
+    margin: 5px;
+    cursor: pointer;
+}
+</style>
+
+<!-- Scripts -->
 <script>
 $(document).ready(function() {
     // Image Preview Handler
@@ -78,7 +114,6 @@ $(document).ready(function() {
         const file = event.target.files[0];
         if (!file) return;
 
-        // Check if the file is an image
         if (!file.type.match('image.*')) {
             alertify.error('Please select an image file (JPEG, PNG, etc.)');
             return;
@@ -86,13 +121,10 @@ $(document).ready(function() {
 
         const reader = new FileReader();
         reader.onload = function(e) {
-            $('.image-preview-container').html(''); // Clear previous preview
+            $('.image-preview-container').html('');
 
-            // Create preview container
             const previewWrapper = $('<div class="preview-wrapper"></div>');
             const preview = $(`<img src="${e.target.result}" class="image-preview">`);
-            
-            // Add remove button
             const removeBtn = $('<div class="remove-preview-btn">×</div>').click(function() {
                 $('.image-preview-container').html('');
                 $('#file-upload').val('');
@@ -104,24 +136,27 @@ $(document).ready(function() {
         reader.readAsDataURL(file);
     });
 
-    // Helper function to add messages to the chat
+    // Function to add a message to chat (image or text)
     function addMessageToChat(message, isImage = false) {
         const chatMessages = $('.chat-messages');
         const messageElement = $('<div class="message"></div>');
-        
+
         if (isImage) {
-            // If it's an image message
-            messageElement.append($(`<img src="${message}" class="chat-image">`));
+            const img = $(`<img src="${message}" class="chat-image">`);
+            img.click(function() {
+                $('#modalImage').attr('src', message).show();
+                $('#imageModal').fadeIn();
+            });
+            messageElement.append(img);
         } else {
-            // If it's a text message
             messageElement.text(message);
         }
-        
+
         chatMessages.append(messageElement);
     }
 
-     // Close modal when "X" is clicked
-     $('.modal-close').click(function() {
+    // Close modal when "X" is clicked
+    $('.modal-close').click(function() {
         $('#imageModal').fadeOut();
     });
 
@@ -131,6 +166,8 @@ $(document).ready(function() {
             $('#imageModal').fadeOut();
         }
     });
-    
+
+    // Optional: expose function globally
+    window.addMessageToChat = addMessageToChat;
 });
 </script>
