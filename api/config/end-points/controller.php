@@ -514,21 +514,16 @@ if ($response == "success") {
                     $uploadPath = $uploadDir . $uniqueFileName;
             
                     if (move_uploaded_file($imageUpload['tmp_name'], $uploadPath)) {
-                        // Only return the status, not the message content
                         echo json_encode(array('status' => 'success', 'message' => 'Message sent and image uploaded.'));
                     } else {
-                        // Only return the status, not the message content
                         echo json_encode(array('status' => 'error', 'message' => 'Message sent but image upload failed.'));
                     }
                 } else {
-                    // Only return the status, not the message content
                     echo json_encode(array('status' => 'success', 'message' => 'Message sent without an image.'));
                 }
             } else {
-                // Only return the status, not the message content
                 echo json_encode(array('status' => 'error', 'message' => 'Message sending failed.'));
             }
-        }
             
             
             
