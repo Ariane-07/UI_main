@@ -166,8 +166,5 @@ $(document).ready(function() {
             $('#imageModal').fadeOut();
         }
     });
-
-    // Optional: expose function globally
-    window.addMessageToChat = addMessageToChat;
 });
 </script>
