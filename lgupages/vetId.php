@@ -100,6 +100,12 @@
     </div>
 </div>
 
+<!-- Lightbox Modal -->
+<div id="imageLightbox" class="lightbox-modal" style="display:none;">
+    <span class="lightbox-close" style="position: absolute; top: 10px; right: 20px; font-size: 30px; color: white; cursor: pointer;">&times;</span>
+    <img id="lightboxImage" src="" alt="Vet ID Enlarged" style="display:block; margin:auto; max-width:90%; max-height:90vh;">
+</div>
+
 <script>
 $(document).ready(function() {
     // Search and Sort Functionality
@@ -243,4 +249,18 @@ $(document).ready(function() {
     width: 100%;
     grid-column: 1 / -1;
 }
+
+.lightbox-modal {
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
 </style>
