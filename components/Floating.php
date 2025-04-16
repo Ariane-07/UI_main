@@ -65,6 +65,12 @@
     </div>
 </form>
 
+<!-- Image Modal for Zoom -->
+<div class="image-modal" id="imageModal">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" style="display: none; max-width: 90%; max-height: 90%; border-radius: 10px;">
+</div>
+
 <script>
 $(document).ready(function() {
     // Image Preview Handler
@@ -113,5 +119,18 @@ $(document).ready(function() {
         
         chatMessages.append(messageElement);
     }
+
+     // Close modal when "X" is clicked
+     $('.modal-close').click(function() {
+        $('#imageModal').fadeOut();
+    });
+
+    // Close modal when clicking outside the image
+    $('#imageModal').click(function(e) {
+        if (e.target.id === 'imageModal') {
+            $('#imageModal').fadeOut();
+        }
+    });
+    
 });
 </script>
