@@ -508,22 +508,22 @@ if ($response == "success") {
             $response = json_decode($db->SentMessagge($sender_id, $reciever_id, $message, $uniqueFileName), true);
             
             // Check if the message was successfully inserted before uploading the image
-            // if ($response && isset($response['status']) && $response['status'] === 'success') {
-            //     if ($uniqueFileName) {
-            //         $uploadDir = "../../../uploads/images/"; // Directory to save images
-            //         $uploadPath = $uploadDir . $uniqueFileName;
+            if ($response && isset($response['status']) && $response['status'] === 'success') {
+                if ($uniqueFileName) {
+                    $uploadDir = "../../../uploads/images/"; // Directory to save images
+                    $uploadPath = $uploadDir . $uniqueFileName;
             
-            //         if (move_uploaded_file($imageUpload['tmp_name'], $uploadPath)) {
-            //             echo json_encode(array('status' => 'success', 'message' => 'Message sent and image uploaded.'));
-            //         } else {
-            //             echo json_encode(array('status' => 'error', 'message' => 'Message sent but image upload failed.'));
-            //         }
-            //     } else {
-            //         echo json_encode(array('status' => 'success', 'message' => 'Message sent without an image.'));
-            //     }
-            // } else {
-            //     echo json_encode(array('status' => 'error', 'message' => 'Message sending failed.'));
-            // }
+                    if (move_uploaded_file($imageUpload['tmp_name'], $uploadPath)) {
+                        echo json_encode(array('status' => 'success', 'message' => 'Message sent and image uploaded.'));
+                    } else {
+                        echo json_encode(array('status' => 'error', 'message' => 'Message sent but image upload failed.'));
+                    }
+                } else {
+                    echo json_encode(array('status' => 'success', 'message' => 'Message sent without an image.'));
+                }
+            } else {
+                echo json_encode(array('status' => 'error', 'message' => 'Message sending failed.'));
+            }
             
             
             
