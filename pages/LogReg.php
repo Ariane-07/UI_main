@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'], $_POST['pa
 ?>
 
 <div class="logreg-container">
+    <div style="position: absolute; top: 20px; left: 20px; z-index: 100;">
+        <img src="assets/imgs/gentri.png" alt="Gentri Logo" style="height: 50px;">
+    </div>
     <div class="forms-container">
         <div class="signin-signup">
             <!-- Sign In Form -->
